@@ -15,3 +15,4 @@ Training: computer-database
 ####	- 4.2.1 Start:
 	- Organization of the packages.
 	- Models for Companies and Computers, documented.
+	- Singleton Connection to DB with JDBC, documented.
