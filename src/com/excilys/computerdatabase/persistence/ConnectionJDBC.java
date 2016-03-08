@@ -22,8 +22,11 @@ public class ConnectionJDBC {
 	public static Connection getInstance(){
 		if (conn == null){
 			try{
+				Class.forName("com.mysql.jdbc.Driver");
 				conn = DriverManager.getConnection(url, user, pwd);
 			}catch(SQLException e){
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
 		}

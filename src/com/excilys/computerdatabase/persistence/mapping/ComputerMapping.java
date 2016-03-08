@@ -33,5 +33,26 @@ public class ComputerMapping implements Mapping<Computer>{
 		}
 		return liste;
 	}
+	
+	public Computer mapComputer(ResultSet rs) {
+		Computer cpu = null;
+		try {
+			if (rs.next()){
+				String name = rs.getString(1);
+				Date introduced = rs.getDate(2);
+				Date discontinued = rs.getDate(3);
+				// We create a DAO to find the company in the DB
+				DAO<Company> companyDao = new CompanyDAO();
+				// We need to create a new company from the given company_id
+				Company manufacturer = ((CompanyDAO) companyDao).find(rs.getInt(4));
+				
+				cpu = new Computer(name,introduced,discontinued,manufacturer);
+			}
+		} catch (SQLException e) {
+			// Database access error / closed ResultSet
+			e.printStackTrace();
+		}
+		return cpu;
+	}
 
 }

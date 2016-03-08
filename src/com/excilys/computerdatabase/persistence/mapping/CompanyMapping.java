@@ -7,9 +7,19 @@ import java.util.Set;
 
 import com.excilys.computerdatabase.model.Company;
 
+/**
+ * Class to map a result set with either a Set<Company> or a Company.
+ * @author lcoatanlem
+ *
+ */
 public class CompanyMapping implements Mapping<Company>{
 
 	@Override
+	/**
+	 * Method to map all a result set to a Set<Company>
+	 * @param rs
+	 * @return Set<Company>
+	 */
 	public Set<Company> mapAll(ResultSet rs) {
 		Set<Company> liste = new HashSet<Company>();
 		try {
@@ -24,6 +34,11 @@ public class CompanyMapping implements Mapping<Company>{
 		return liste;
 	}
 	
+	/**
+	 * Method to map a result set with a Company
+	 * @param rs
+	 * @return Company
+	 */
 	public Company mapCompany(ResultSet rs){
 		String name = null;
 		try {

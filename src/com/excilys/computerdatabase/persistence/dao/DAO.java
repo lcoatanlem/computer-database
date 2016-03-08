@@ -3,6 +3,7 @@ package com.excilys.computerdatabase.persistence.dao;
 import java.sql.Connection;
 import java.util.Set;
 
+import com.excilys.computerdatabase.exception.NotSuchCompanyException;
 import com.excilys.computerdatabase.exception.UnavailableException;
 import com.excilys.computerdatabase.persistence.ConnectionJDBC;
 
@@ -18,7 +19,7 @@ public interface DAO<T> {
 	default Set<T> findAll() throws UnavailableException {
 		throw new UnavailableException("findAll not implemented");
 	}
-	default void create(T t) throws UnavailableException {
+	default void create(T t) throws UnavailableException, NotSuchCompanyException {
 		throw new UnavailableException("create not implemented");
 	}
 	default T read(T t) throws UnavailableException {

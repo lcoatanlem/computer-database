@@ -9,9 +9,18 @@ import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.persistence.mapping.CompanyMapping;
 import com.excilys.computerdatabase.persistence.mapping.Mapping;
 
-public class CompanyDAO implements DAO<Company> {
 
+/**
+ * Class DAO for Companies, methods findAll() and find(int id) are defined, all others methods from
+ * interface DAO (CRUD) will raise UnavailableException(message).
+ * @author lcoatanlem
+ */
+public class CompanyDAO implements DAO<Company> {
+	
 	@Override
+	/**
+	 * findAll returns a mapped Set<Company>
+	 */
 	public Set<Company> findAll() {
 		Statement stmt;
 		ResultSet rs = null;
@@ -26,7 +35,12 @@ public class CompanyDAO implements DAO<Company> {
 		Mapping<Company> mapping = new CompanyMapping();
 		return mapping.mapAll(rs);
 	}
-	
+
+	/**
+	 * Method to find a Company in DB from an id. Will return a mapped Company.
+	 * @param id
+	 * @return Company
+	 */
 	public Company find(int id){
 		Statement stmt;
 		ResultSet rs = null;
@@ -41,5 +55,4 @@ public class CompanyDAO implements DAO<Company> {
 		Mapping<Company> mapping = new CompanyMapping();
 		return ((CompanyMapping) mapping).mapCompany(rs);
 	}
-
 }
