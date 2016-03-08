@@ -5,10 +5,11 @@ import java.sql.Date;
 /**
  * This class is the model of the computers. Attributes are the name of the computer, the date it was introduced,
  * the date it was discontinued, and the manufacturer (using Company class). We can construct an instance of this
- * object with the name, or with all the elements.
+ * object with the name.
  * @author lcoatanlem
  */
 public class Computer {
+	private Long id;
 	private String name;
 	private Date introduced;
 	private Date discontinued;
@@ -21,14 +22,13 @@ public class Computer {
 	public Computer(String name){
 		this.name = name;
 	}
-	
-	public Computer(String name, Date introduced, Date discontinued, Company company) {
-		this.name = name;
-		this.introduced = introduced;
-		this.discontinued = discontinued;
-		this.manufacturer = company;
-	}
 
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getName() {
 		return name;
 	}
@@ -53,5 +53,4 @@ public class Computer {
 	public void setManufacturer(Company manufacturer) {
 		this.manufacturer = manufacturer;
 	}
-
 }

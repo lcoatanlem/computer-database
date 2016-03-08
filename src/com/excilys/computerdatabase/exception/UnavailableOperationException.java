@@ -5,26 +5,26 @@ package com.excilys.computerdatabase.exception;
  * @author lcoatanlem
  *
  */
-public class UnavailableException extends Exception {
+public class UnavailableOperationException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	public UnavailableException() {
+	public UnavailableOperationException() {
 	}
 
-	public UnavailableException(String message) {
+	public UnavailableOperationException(String message) {
 		super(message);
 	}
 
-	public UnavailableException(Throwable cause) {
+	public UnavailableOperationException(Throwable cause) {
 		super(cause);
 	}
 
-	public UnavailableException(String message, Throwable cause) {
+	public UnavailableOperationException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public UnavailableException(String message, Throwable cause, boolean enableSuppression,
+	public UnavailableOperationException(String message, Throwable cause, boolean enableSuppression,
 			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}

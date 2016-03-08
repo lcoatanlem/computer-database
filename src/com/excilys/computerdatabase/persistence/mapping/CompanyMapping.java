@@ -24,8 +24,12 @@ public class CompanyMapping implements Mapping<Company>{
 		Set<Company> liste = new HashSet<Company>();
 		try {
 			while (rs.next()){
-				String name = rs.getString(1);
-				liste.add(new Company(name));
+				Long id = rs.getLong("id");
+				String name = rs.getString("name");
+				Company comp = new Company();
+				comp.setId(id);
+				comp.setName(name);
+				liste.add(comp);
 			}
 		} catch (SQLException e) {
 			// Database access error / closed ResultSet
@@ -40,16 +44,21 @@ public class CompanyMapping implements Mapping<Company>{
 	 * @return Company
 	 */
 	public Company mapCompany(ResultSet rs){
+		Long id = null;
 		String name = null;
+		Company comp = new Company();
 		try {
 			if (rs.next()){
-				name = rs.getString(1);
+				id = rs.getLong("id");
+				name = rs.getString("name");
+				comp.setId(id);
+				comp.setName(name);
 			}
 		} catch (SQLException e) {
 			// Database access error / closed ResultSet
 			e.printStackTrace();
 		}
-		return (new Company(name));
+		return (comp);
 	}
 
 }
