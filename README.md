@@ -16,3 +16,5 @@ Training: computer-database
 	- Organization of the packages.
 	- Models for Companies and Computers, documented.
 	- Singleton Connection to DB with JDBC, documented.
+	- DAOs (interface, computer and company), documented.
+	- Mapping (interface, computer and company), documented.
