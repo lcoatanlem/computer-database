@@ -18,7 +18,7 @@ import com.excilys.computerdatabase.persistence.mapping.Mapping;
  * @author lcoatanlem
  */
 public class CompanyDAO implements DAO<Company> {
-	
+
 	@Override
 	public List<Company> findAll() {
 		List<Company> liste = new ArrayList<Company>();
@@ -29,6 +29,8 @@ public class CompanyDAO implements DAO<Company> {
 			while (rs.next()){
 				liste.add(((CompanyMapping) mapper).map(rs));
 			}
+			rs.close();
+			stmt.close();
 		} catch (SQLException e) {
 			// Database acces error / closed connection / closed statement
 			// returning something else than a ResultSet / timeout have been reached
@@ -37,12 +39,7 @@ public class CompanyDAO implements DAO<Company> {
 		return liste;
 	}
 
-/**
- * Method to find a Company in DB from an id. Will return a mapped Company.
- * @param id
- * @return Company
- * @throws NotSuchCompanyException when we try to find with an invalid ID
- */
+	@Override
 	public Company find(Long id) throws NotSuchCompanyException{
 		Company comp = null;
 		try {
@@ -51,9 +48,11 @@ public class CompanyDAO implements DAO<Company> {
 			Mapping<Company> mapping = new CompanyMapping();
 			if (rs.next()){
 				comp = ((CompanyMapping) mapping).map(rs);
-			}else{
+			} else {
 				throw new NotSuchCompanyException("No company for this ID...");
 			}
+			rs.close();
+			stmt.close();
 		} catch (SQLException e) {
 			// Database acces error / closed connection / closed statement
 			// returning something else than a ResultSet / timeout have been reached
@@ -61,10 +60,4 @@ public class CompanyDAO implements DAO<Company> {
 		}
 		return comp;
 	}
-	
-	/*public static void main(String[] args){
-		CompanyDAO cdao = new CompanyDAO();
-		cdao.findAll();
-	}*/
-	
 }

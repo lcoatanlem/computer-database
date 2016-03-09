@@ -21,14 +21,19 @@ public interface DAO<T> {
 	 * @return List<Company> || List<Computer
 	 */
 	public List<T> findAll();
+	/**
+	 * Method to find a specific T in the DB from an id. Will return a mapped T.
+	 * @param id
+	 * @return Company || Computer
+	 * @throws NotSuchCompanyException when we try to find with an invalid ID
+	 * @throws NotSuchComputerException when we try to find with an invalid ID
+	 */
+	public T find(Long id) throws NotSuchCompanyException, NotSuchComputerException;
 	
 	default void create(T t) throws UnavailableOperationException, NotSuchCompanyException {
 		throw new UnavailableOperationException("Create not implemented");
 	}
-	default T read(Long id) throws UnavailableOperationException, NotSuchComputerException {
-		throw new UnavailableOperationException("Read not implemented");
-	}
-	default void update(T t) throws UnavailableOperationException, NotSuchComputerException {
+	default void update(T t) throws UnavailableOperationException, NotSuchComputerException, NotSuchCompanyException {
 		throw new UnavailableOperationException("Update not implemented");
 	}
 	default void delete(T t) throws UnavailableOperationException, NotSuchComputerException {

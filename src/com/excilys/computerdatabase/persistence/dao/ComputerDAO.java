@@ -18,18 +18,17 @@ import com.excilys.computerdatabase.persistence.mapping.Mapping;
 public class ComputerDAO implements DAO<Computer>{
 
 	@Override
-	/**
-	 * findAll returns a mapped Set<Computer>.
-	 */
 	public List<Computer> findAll() {
-		Statement stmt;
-		ResultSet rs = null;
 		List<Computer> liste = new ArrayList<Computer>();
 		try {
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery("SELECT * FROM computer;");
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM computer;");
 			Mapping<Computer> mapping = new ComputerMapping();
-			liste.add(((ComputerMapping) mapping).map(rs));
+			while(rs.next()){
+				liste.add(((ComputerMapping) mapping).map(rs));
+			}
+			rs.close();
+			stmt.close();
 		} catch (SQLException e) {
 			// Database acces error / closed connection / closed statement
 			// returning something else than a ResultSet / timeout have been reached
@@ -39,45 +38,53 @@ public class ComputerDAO implements DAO<Computer>{
 	}
 
 	@Override
-	/**
-	 * Creates a new line in the DB for the Computer t.
-	 */
-	public void create(Computer t) throws NotSuchCompanyException {
-		Statement stmt;
-		ResultSet rs = null;
+	public Computer find(Long id) throws NotSuchComputerException {
+		Computer comp = null;
 		try {
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery("SELECT id FROM company WHERE name = " + t.getManufacturer().getName() + ";");
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM computer WHERE id=" + id + ";");
+			Mapping<Computer> mapping = new ComputerMapping();
 			if (rs.next()){
-				Statement stmt2 = conn.createStatement();
-				stmt2.executeUpdate("INSERT INTO computer(name,introduced,discontinued,company_id) "
-						+ "VALUES (" + t.getName() + ", " + t.getIntroduced() + ", "
-						+ t.getDiscontinued() + ", " + rs.getLong("id"));
+				comp = ((ComputerMapping) mapping).map(rs);
 			} else {
-				throw new NotSuchCompanyException();
+				throw new NotSuchComputerException("No computer for this ID...");
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	/**
-	 * Reads, and gives full information about a specific Computer (using id).
-	 */
-	public Computer read(Long id) throws NotSuchComputerException {
-		Statement stmt;
-		ResultSet rs = null;
-		try {
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery("SELECT * FROM computer WHERE id=" + id + ";");
+			rs.close();
+			stmt.close();
 		} catch (SQLException e) {
 			// Database acces error / closed connection / closed statement
 			// returning something else than a ResultSet / timeout have been reached
 			e.printStackTrace();
 		}
-		Mapping<Computer> mapping = new ComputerMapping();
-		return ((ComputerMapping) mapping).map(rs);		
+		return comp;	
+	}
+
+	@Override
+	/**
+	 * Creates a new line in the DB for the Computer t, checking company id given.
+	 */
+	public void create(Computer t) throws NotSuchCompanyException {
+		try {
+			if (t.getManufacturer().getId() != null){
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT id FROM company WHERE id = "
+						+ t.getManufacturer().getId() + ";");
+				rs.close();
+				stmt.close();
+				if (!rs.next()){
+					throw new NotSuchCompanyException();
+				}
+			}
+			Statement stmt2 = conn.createStatement();
+			stmt2.executeUpdate("INSERT INTO computer(name,introduced,discontinued,company_id) "
+					+ "VALUES (" + t.getName() + ", " + t.getIntroduced() + ", "
+					+ t.getDiscontinued() + ", " + t.getManufacturer().getId());
+			stmt2.close();
+		} catch (SQLException e) {
+			// Database acces error / closed connection / closed statement
+			// returning something else than a ResultSet / timeout have been reached
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -85,24 +92,37 @@ public class ComputerDAO implements DAO<Computer>{
 	 * Update a computer in the DB. If the id of the given Computer doesn't exists, raises
 	 * a NotSuchComputerException.
 	 */
-	public void update(Computer t) throws NotSuchComputerException {
-		Statement stmt;
-		ResultSet rs = null;
+	public void update(Computer t) throws NotSuchComputerException, NotSuchCompanyException{
 		try {
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery("SELECT * FROM computer WHERE id = " + t.getId() + ";");
-			if (rs.next()){
-				Statement stmt2 = conn.createStatement();
-				stmt2.executeUpdate("UPDATE computer "
-						+ "SET name=" + t.getName() + ", "
-						+ "introduced=" + t.getIntroduced() + ", "
-						+ "discontinued=" + t.getDiscontinued() + ", "
-						+ "company_id= " + t.getManufacturer().getId()
-						+ ", WHERE id=" + t.getId() + ";");
-			} else {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM computer WHERE id = " + t.getId() + ";");
+			if (!rs.next()){
 				throw new NotSuchComputerException();
+			} else {
+				if (t.getManufacturer().getId() != null){
+					Statement stmt2 = conn.createStatement();
+					ResultSet rs2 = stmt2.executeQuery("SELECT id FROM company WHERE id = "
+							+ t.getManufacturer().getId() + ";");
+					if (!rs2.next()){
+						throw new NotSuchCompanyException();
+					}
+					rs2.close();
+					stmt2.close();
+				}
 			}
+			rs.close();
+			stmt.close();
+			Statement stmt3 = conn.createStatement();
+			stmt3.executeUpdate("UPDATE computer "
+					+ "SET name=" + t.getName() + ", "
+					+ "introduced=" + t.getIntroduced() + ", "
+					+ "discontinued=" + t.getDiscontinued() + ", "
+					+ "company_id= " + t.getManufacturer().getId()
+					+ ", WHERE id=" + t.getId() + ";");
+			stmt3.close();
 		} catch (SQLException e) {
+			// Database acces error / closed connection / closed statement
+			// returning something else than a ResultSet / timeout have been reached
 			e.printStackTrace();
 		}
 	}
@@ -113,22 +133,25 @@ public class ComputerDAO implements DAO<Computer>{
 	 * a NotSuchComputerException.
 	 */
 	public void delete(Computer t) throws NotSuchComputerException {
-		Statement stmt;
-		ResultSet rs = null;
 		try {
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery("SELECT * FROM computer WHERE id = " + t.getId() + ";");
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM computer WHERE id = " + t.getId() + ";");
 			if (rs.next()){
 				Statement stmt2 = conn.createStatement();
 				stmt2.executeUpdate("DELETE FROM computer WHERE id = " + t.getId() + ";");
+				stmt2.close();
 			} else {
 				throw new NotSuchComputerException();
 			}
+			rs.close();
+			stmt.close();
 		} catch (SQLException e) {
+			// Database acces error / closed connection / closed statement
+			// returning something else than a ResultSet / timeout have been reached
 			e.printStackTrace();
 		}
 	}
-	
-	
+
+
 
 }

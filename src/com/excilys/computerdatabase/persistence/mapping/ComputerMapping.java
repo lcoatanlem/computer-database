@@ -3,9 +3,6 @@ package com.excilys.computerdatabase.persistence.mapping;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Set;
-
 import com.excilys.computerdatabase.exception.NotSuchCompanyException;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
@@ -18,7 +15,7 @@ import com.excilys.computerdatabase.persistence.dao.DAO;
  *
  */
 public class ComputerMapping implements Mapping<Computer>{
-	
+
 	/**
 	 * Method to map a result set with a Computer
 	 * @param rs
@@ -27,22 +24,20 @@ public class ComputerMapping implements Mapping<Computer>{
 	public Computer map(ResultSet rs) {
 		Computer cpu = null;
 		try {
-			if (rs.next()){
-				Long id = rs.getLong("id");
-				String name = rs.getString("name");
-				Date introduced = rs.getDate("introduced");
-				Date discontinued = rs.getDate("discontinued");
-				// We create a DAO to find the company in the DB
-				DAO<Company> companyDao = new CompanyDAO();
-				// We need to create a new company from the given company_id
-				Company manufacturer = ((CompanyDAO) companyDao).find(rs.getLong("company_id"));
-				
-				cpu = new Computer(name);
-				cpu.setId(id);
-				cpu.setIntroduced(introduced);
-				cpu.setDiscontinued(discontinued);
-				cpu.setManufacturer(manufacturer);
-			}
+			Long id = rs.getLong("id");
+			String name = rs.getString("name");
+			Date introduced = rs.getDate("introduced");
+			Date discontinued = rs.getDate("discontinued");
+			// We create a DAO to find the company in the DB
+			DAO<Company> companyDao = new CompanyDAO();
+			// We need to create a new company from the given company_id
+			Company manufacturer = ((CompanyDAO) companyDao).find(rs.getLong("company_id"));
+
+			cpu = new Computer(name);
+			cpu.setId(id);
+			cpu.setIntroduced(introduced);
+			cpu.setDiscontinued(discontinued);
+			cpu.setManufacturer(manufacturer);
 		} catch (SQLException | NotSuchCompanyException e) {
 			// Database access error / closed ResultSet / DB not consistant
 			e.printStackTrace();
