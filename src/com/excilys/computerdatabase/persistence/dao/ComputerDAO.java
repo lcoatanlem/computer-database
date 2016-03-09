@@ -3,9 +3,8 @@ package com.excilys.computerdatabase.persistence.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashSet;
-import java.util.Set;
-
+import java.util.ArrayList;
+import java.util.List;
 import com.excilys.computerdatabase.exception.NotSuchCompanyException;
 import com.excilys.computerdatabase.exception.NotSuchComputerException;
 import com.excilys.computerdatabase.model.Computer;
@@ -22,10 +21,10 @@ public class ComputerDAO implements DAO<Computer>{
 	/**
 	 * findAll returns a mapped Set<Computer>.
 	 */
-	public Set<Computer> findAll() {
+	public List<Computer> findAll() {
 		Statement stmt;
 		ResultSet rs = null;
-		Set<Computer> liste = new HashSet<Computer>();
+		List<Computer> liste = new ArrayList<Computer>();
 		try {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("SELECT * FROM computer;");

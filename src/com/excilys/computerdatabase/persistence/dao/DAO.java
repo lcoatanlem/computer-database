@@ -1,8 +1,7 @@
 package com.excilys.computerdatabase.persistence.dao;
 
 import java.sql.Connection;
-import java.util.Set;
-
+import java.util.List;
 import com.excilys.computerdatabase.exception.NotSuchCompanyException;
 import com.excilys.computerdatabase.exception.NotSuchComputerException;
 import com.excilys.computerdatabase.exception.UnavailableOperationException;
@@ -17,7 +16,7 @@ import com.excilys.computerdatabase.persistence.ConnectionJDBC;
 public interface DAO<T> {
 	public Connection conn = ConnectionJDBC.getInstance();
 	
-	public Set<T> findAll();
+	public List<T> findAll();
 	
 	default void create(T t) throws UnavailableOperationException, NotSuchCompanyException {
 		throw new UnavailableOperationException("Create not implemented");

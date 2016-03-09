@@ -3,9 +3,8 @@ package com.excilys.computerdatabase.persistence.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashSet;
-import java.util.Set;
-
+import java.util.ArrayList;
+import java.util.List;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.persistence.mapping.CompanyMapping;
 import com.excilys.computerdatabase.persistence.mapping.Mapping;
@@ -22,10 +21,10 @@ public class CompanyDAO implements DAO<Company> {
 	/**
 	 * findAll returns a mapped Set<Company>
 	 */
-	public Set<Company> findAll() {
+	public List<Company> findAll() {
 		Statement stmt;
 		ResultSet rs = null;
-		Set<Company> liste = new HashSet<Company>();
+		List<Company> liste = new ArrayList<Company>();
 		try {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("SELECT * FROM company;");
