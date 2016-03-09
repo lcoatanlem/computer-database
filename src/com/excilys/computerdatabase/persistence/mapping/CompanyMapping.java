@@ -12,21 +12,15 @@ import com.excilys.computerdatabase.model.Company;
 public class CompanyMapping implements Mapping<Company>{
 	
 	/**
-	 * Method to map a result set with a Company
+	 * Method to map a result set with a Company.
 	 * @param rs
 	 * @return Company
 	 */
 	public Company map(ResultSet rs){
-		Long id = null;
-		String name = null;
 		Company comp = new Company();
-		try {
-			if (rs.next()){
-				id = rs.getLong("id");
-				name = rs.getString("name");
-				comp.setId(id);
-				comp.setName(name);
-			}
+		try{
+			comp.setId(rs.getLong("id"));
+			comp.setName(rs.getString("name"));
 		} catch (SQLException e) {
 			// Database access error / closed ResultSet
 			e.printStackTrace();

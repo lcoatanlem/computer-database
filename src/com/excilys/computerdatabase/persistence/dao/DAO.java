@@ -16,6 +16,10 @@ import com.excilys.computerdatabase.persistence.ConnectionJDBC;
 public interface DAO<T> {
 	public Connection conn = ConnectionJDBC.getInstance();
 	
+	/**
+	 * Method to return every element in the DB.
+	 * @return List<Company> || List<Computer
+	 */
 	public List<T> findAll();
 	
 	default void create(T t) throws UnavailableOperationException, NotSuchCompanyException {

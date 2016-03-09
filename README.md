@@ -18,3 +18,5 @@ Training: computer-database
 	- Singleton Connection to DB with JDBC, documented.
 	- DAOs (interface, computer and company), documented.
 	- Mapping (interface, computer and company), documented.
+	- Exceptions, documented.
+	- Testing (for DAOs).

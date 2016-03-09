@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.excilys.computerdatabase.exception.NotSuchCompanyException;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.persistence.dao.CompanyDAO;
@@ -34,7 +35,7 @@ public class ComputerMapping implements Mapping<Computer>{
 				// We create a DAO to find the company in the DB
 				DAO<Company> companyDao = new CompanyDAO();
 				// We need to create a new company from the given company_id
-				Company manufacturer = ((CompanyDAO) companyDao).find(rs.getInt(4));
+				Company manufacturer = ((CompanyDAO) companyDao).find(rs.getLong("company_id"));
 				
 				cpu = new Computer(name);
 				cpu.setId(id);
@@ -42,8 +43,8 @@ public class ComputerMapping implements Mapping<Computer>{
 				cpu.setDiscontinued(discontinued);
 				cpu.setManufacturer(manufacturer);
 			}
-		} catch (SQLException e) {
-			// Database access error / closed ResultSet
+		} catch (SQLException | NotSuchCompanyException e) {
+			// Database access error / closed ResultSet / DB not consistant
 			e.printStackTrace();
 		}
 		return cpu;

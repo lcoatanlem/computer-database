@@ -10,7 +10,7 @@ import java.sql.SQLException;
  * @author lcoatanlem
  */
 public class ConnectionJDBC {
-	private static String url = "jdbc:mysql://localhost:3306/computer-database-db";
+	private static String url = "jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull";
 	private static String user = "admincdb";
 	private static String pwd = "qwerty1234";
 	private static Connection conn;
