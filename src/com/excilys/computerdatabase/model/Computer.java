@@ -1,6 +1,6 @@
 package com.excilys.computerdatabase.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 /**
  * This class is the model of the computers. Attributes are the name of the computer, the date it was introduced,
@@ -11,16 +11,11 @@ import java.sql.Date;
 public class Computer {
 	private Long id;
 	private String name;
-	private Date introduced;
-	private Date discontinued;
+	private LocalDate introduced;
+	private LocalDate discontinued;
 	private Company manufacturer;
 	
-	/**
-	 * This is the only constructor we will do, as soon as name is the only param which remain mandatory.
-	 * @param name
-	 */
-	public Computer(String name){
-		this.name = name;
+	public Computer(){
 	}
 
 	public Long getId() {
@@ -32,19 +27,27 @@ public class Computer {
 	public String getName() {
 		return name;
 	}
+	/**
+	 * Setter for name, NullPointerException if name is null
+	 * @param name
+	 */
 	public void setName(String name) {
-		this.name = name;
+		if (name == null){
+			throw new NullPointerException();
+		} else {
+			this.name = name;
+		}
 	}
-	public Date getIntroduced() {
+	public LocalDate getIntroduced() {
 		return introduced;
 	}
-	public void setIntroduced(Date introduced) {
-		this.introduced = introduced;
+	public void setIntroduced(LocalDate localDate) {
+		this.introduced = localDate;
 	}
-	public Date getDiscontinued() {
+	public LocalDate getDiscontinued() {
 		return discontinued;
 	}
-	public void setDiscontinued(Date discontinued) {
+	public void setDiscontinued(LocalDate discontinued) {
 		this.discontinued = discontinued;
 	}
 	public Company getManufacturer() {

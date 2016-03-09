@@ -36,7 +36,7 @@ public interface DAO<T> {
 	default void update(T t) throws UnavailableOperationException, NotSuchComputerException, NotSuchCompanyException {
 		throw new UnavailableOperationException("Update not implemented");
 	}
-	default void delete(T t) throws UnavailableOperationException, NotSuchComputerException {
+	default void delete(Long id) throws UnavailableOperationException, NotSuchComputerException {
 		throw new UnavailableOperationException("Delete not implemented");
 	}
 }

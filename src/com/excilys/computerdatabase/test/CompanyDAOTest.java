@@ -27,6 +27,18 @@ public class CompanyDAOTest {
 	
 	@Test
 	/**
+	 * Tests findAll(), only normal use available.
+	 */
+	public void testFindAll(){
+		List<Company> liste = cDAO.findAll();
+		for (Company comp : liste){
+			assertNotNull(comp.getId());
+		}
+		assertEquals(42,liste.size());
+	}
+	
+	@Test
+	/**
 	 * Tests find(Long id) in a normal use.
 	 */
 	public void testFind(){
@@ -55,19 +67,6 @@ public class CompanyDAOTest {
 		} catch (NotSuchCompanyException e) {
 			assertEquals(comp,comptmp);
 		}
-	}
-	
-	@Test
-	/**
-	 * Tests findAll(), only normal use available.
-	 */
-	public void testFindAll(){
-		List<Company> liste = cDAO.findAll();
-		for (Company comp : liste){
-			assertNotNull(comp.getId());
-			assertNotNull(comp.getName());
-		}
-		assertEquals(42,liste.size());
 	}
 
 }

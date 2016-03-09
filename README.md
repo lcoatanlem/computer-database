@@ -19,4 +19,4 @@ Training: computer-database
 	- DAOs (interface, computer and company), documented.
 	- Mapping (interface, computer and company), documented.
 	- Exceptions, documented.
-	- Testing (for DAOs).
+	- Testing (for DAOs), documented.

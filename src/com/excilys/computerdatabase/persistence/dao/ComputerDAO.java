@@ -1,5 +1,6 @@
 package com.excilys.computerdatabase.persistence.dao;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -69,16 +70,16 @@ public class ComputerDAO implements DAO<Computer>{
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery("SELECT id FROM company WHERE id = "
 						+ t.getManufacturer().getId() + ";");
-				rs.close();
-				stmt.close();
 				if (!rs.next()){
 					throw new NotSuchCompanyException();
 				}
+				stmt.close();
+				rs.close();
 			}
 			Statement stmt2 = conn.createStatement();
-			stmt2.executeUpdate("INSERT INTO computer(name,introduced,discontinued,company_id) "
-					+ "VALUES (" + t.getName() + ", " + t.getIntroduced() + ", "
-					+ t.getDiscontinued() + ", " + t.getManufacturer().getId());
+			stmt2.executeUpdate("INSERT INTO computer (name,introduced,discontinued,company_id) "
+					+ "VALUES ('" + t.getName() + "', '" + Date.valueOf(t.getIntroduced()) + "', '"
+					+ Date.valueOf(t.getDiscontinued()) + "', " + t.getManufacturer().getId() + ");");
 			stmt2.close();
 		} catch (SQLException e) {
 			// Database acces error / closed connection / closed statement
@@ -114,11 +115,11 @@ public class ComputerDAO implements DAO<Computer>{
 			stmt.close();
 			Statement stmt3 = conn.createStatement();
 			stmt3.executeUpdate("UPDATE computer "
-					+ "SET name=" + t.getName() + ", "
-					+ "introduced=" + t.getIntroduced() + ", "
-					+ "discontinued=" + t.getDiscontinued() + ", "
-					+ "company_id= " + t.getManufacturer().getId()
-					+ ", WHERE id=" + t.getId() + ";");
+					+ "SET name='" + t.getName() + "', "
+					+ "introduced='" + Date.valueOf(t.getIntroduced()) + "', "
+					+ "discontinued='" + Date.valueOf(t.getDiscontinued()) + "', "
+					+ "company_id=" + t.getManufacturer().getId()
+					+ " WHERE id=" + t.getId() + ";");
 			stmt3.close();
 		} catch (SQLException e) {
 			// Database acces error / closed connection / closed statement
@@ -132,13 +133,13 @@ public class ComputerDAO implements DAO<Computer>{
 	 * Delete a computer in the DB. If the id of the given Computer doesn't exists, raises
 	 * a NotSuchComputerException.
 	 */
-	public void delete(Computer t) throws NotSuchComputerException {
+	public void delete(Long id) throws NotSuchComputerException {
 		try {
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM computer WHERE id = " + t.getId() + ";");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM computer WHERE id = " + id + ";");
 			if (rs.next()){
 				Statement stmt2 = conn.createStatement();
-				stmt2.executeUpdate("DELETE FROM computer WHERE id = " + t.getId() + ";");
+				stmt2.executeUpdate("DELETE FROM computer WHERE id = " + id + ";");
 				stmt2.close();
 			} else {
 				throw new NotSuchComputerException();

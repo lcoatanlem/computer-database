@@ -1,8 +1,9 @@
 package com.excilys.computerdatabase.persistence.mapping;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+
 import com.excilys.computerdatabase.exception.NotSuchCompanyException;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
@@ -26,14 +27,28 @@ public class ComputerMapping implements Mapping<Computer>{
 		try {
 			Long id = rs.getLong("id");
 			String name = rs.getString("name");
-			Date introduced = rs.getDate("introduced");
-			Date discontinued = rs.getDate("discontinued");
-			// We create a DAO to find the company in the DB
-			DAO<Company> companyDao = new CompanyDAO();
-			// We need to create a new company from the given company_id
-			Company manufacturer = ((CompanyDAO) companyDao).find(rs.getLong("company_id"));
-
-			cpu = new Computer(name);
+			LocalDate introduced;
+			if (rs.getDate("introduced") == null){
+				introduced = null;
+			} else {
+				introduced = rs.getDate("introduced").toLocalDate();
+			}
+			LocalDate discontinued;
+			if (rs.getDate("discontinued") == null){
+				discontinued = null;
+			} else {
+				discontinued = rs.getDate("discontinued").toLocalDate();
+			}
+			Long company_id = rs.getLong("company_id");
+			Company manufacturer = new Company();
+			if (company_id != 0L){
+				// We create a DAO to find the company in the DB
+				DAO<Company> companyDao = new CompanyDAO();
+				// We need to create a new company from the given company_id if it is not null
+				manufacturer = ((CompanyDAO) companyDao).find(company_id);
+			}
+			cpu = new Computer();
+			cpu.setName(name);
 			cpu.setId(id);
 			cpu.setIntroduced(introduced);
 			cpu.setDiscontinued(discontinued);
