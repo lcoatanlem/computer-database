@@ -28,12 +28,12 @@ public class Computer {
 		return name;
 	}
 	/**
-	 * Setter for name, NullPointerException if name is null
+	 * Setter for name, IllegalArgumentException if name is null
 	 * @param name
 	 */
 	public void setName(String name) {
 		if (name == null){
-			throw new NullPointerException();
+			throw new IllegalArgumentException();
 		} else {
 			this.name = name;
 		}
@@ -41,8 +41,8 @@ public class Computer {
 	public LocalDate getIntroduced() {
 		return introduced;
 	}
-	public void setIntroduced(LocalDate localDate) {
-		this.introduced = localDate;
+	public void setIntroduced(LocalDate introduced) {
+		this.introduced = introduced;
 	}
 	public LocalDate getDiscontinued() {
 		return discontinued;

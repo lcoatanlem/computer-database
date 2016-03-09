@@ -20,3 +20,6 @@ Training: computer-database
 	- Mapping (interface, computer and company), documented.
 	- Exceptions, documented.
 	- Testing (for DAOs), documented.
+	- Controllers for computer and company, documented.
+	- UI : TODO.
+	- Logs : TODO.
