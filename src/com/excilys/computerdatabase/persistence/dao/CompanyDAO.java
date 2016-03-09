@@ -3,6 +3,7 @@ package com.excilys.computerdatabase.persistence.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.excilys.computerdatabase.model.Company;
@@ -24,16 +25,18 @@ public class CompanyDAO implements DAO<Company> {
 	public Set<Company> findAll() {
 		Statement stmt;
 		ResultSet rs = null;
+		Set<Company> liste = new HashSet<Company>();
 		try {
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery("SELECT name FROM company;");
+			rs = stmt.executeQuery("SELECT * FROM company;");
+			Mapping<Company> mapper = new CompanyMapping();
+			liste.add(((CompanyMapping) mapper).map(rs));
 		} catch (SQLException e) {
 			// Database acces error / closed connection / closed statement
 			// returning something else than a ResultSet / timeout have been reached
 			e.printStackTrace();
 		}
-		Mapping<Company> mapping = new CompanyMapping();
-		return mapping.mapAll(rs);
+		return liste;
 	}
 
 	/**
@@ -46,13 +49,13 @@ public class CompanyDAO implements DAO<Company> {
 		ResultSet rs = null;
 		try {
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery("SELECT name FROM company where id = " + id + ";");
+			rs = stmt.executeQuery("SELECT * FROM company where id = " + id + ";");
 		} catch (SQLException e) {
 			// Database acces error / closed connection / closed statement
 			// returning something else than a ResultSet / timeout have been reached
 			e.printStackTrace();
 		}
 		Mapping<Company> mapping = new CompanyMapping();
-		return ((CompanyMapping) mapping).mapCompany(rs);
+		return ((CompanyMapping) mapping).map(rs);
 	}
 }

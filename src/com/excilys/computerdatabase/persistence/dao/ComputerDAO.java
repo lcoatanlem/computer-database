@@ -3,6 +3,7 @@ package com.excilys.computerdatabase.persistence.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.excilys.computerdatabase.exception.NotSuchCompanyException;
@@ -24,16 +25,18 @@ public class ComputerDAO implements DAO<Computer>{
 	public Set<Computer> findAll() {
 		Statement stmt;
 		ResultSet rs = null;
+		Set<Computer> liste = new HashSet<Computer>();
 		try {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("SELECT * FROM computer;");
+			Mapping<Computer> mapping = new ComputerMapping();
+			liste.add(((ComputerMapping) mapping).map(rs));
 		} catch (SQLException e) {
 			// Database acces error / closed connection / closed statement
 			// returning something else than a ResultSet / timeout have been reached
 			e.printStackTrace();
 		}
-		Mapping<Computer> mapping = new ComputerMapping();
-		return mapping.mapAll(rs);
+		return liste;
 	}
 
 	@Override
@@ -75,7 +78,7 @@ public class ComputerDAO implements DAO<Computer>{
 			e.printStackTrace();
 		}
 		Mapping<Computer> mapping = new ComputerMapping();
-		return ((ComputerMapping) mapping).mapComputer(rs);		
+		return ((ComputerMapping) mapping).map(rs);		
 	}
 
 	@Override
