@@ -8,18 +8,18 @@ import main.java.com.excilys.computerdatabase.exception.NotSuchCompanyException;
 import main.java.com.excilys.computerdatabase.exception.NotSuchComputerException;
 import main.java.com.excilys.computerdatabase.model.Company;
 import main.java.com.excilys.computerdatabase.model.Computer;
-import main.java.com.excilys.computerdatabase.persistence.dao.CompanyDAO;
-import main.java.com.excilys.computerdatabase.persistence.dao.ComputerDAO;
+import main.java.com.excilys.computerdatabase.persistence.dao.impl.CompanyDAOImpl;
+import main.java.com.excilys.computerdatabase.persistence.dao.impl.ComputerDAOImpl;
 
 public class ComputerController {
-	private ComputerDAO cDAO ;
+	private ComputerDAOImpl cDAO ;
 	private List<Computer> liste;
 
 	/**
 	 * Instantiates the DAO and the list of computers.
 	 */
 	public ComputerController(){
-		cDAO = new ComputerDAO();
+		cDAO = new ComputerDAOImpl();
 		liste = new ArrayList<Computer>();
 	}
 
@@ -85,7 +85,7 @@ public class ComputerController {
 	public void createComputer(String name, LocalDate introduced, LocalDate discontinued, Long id) throws NotSuchCompanyException{
 		Company manufacturer = null;
 		if (id != null){
-			CompanyDAO cpnDAO = new CompanyDAO();
+			CompanyDAOImpl cpnDAO = new CompanyDAOImpl();
 			manufacturer = cpnDAO.find(id);
 		}
 		Computer cpu = new Computer();
@@ -109,7 +109,7 @@ public class ComputerController {
 	public void updateComputer(Long idcpu, String name, LocalDate introduced, LocalDate discontinued, Long idcpn) throws NotSuchCompanyException, NotSuchComputerException{
 		Company manufacturer = null;
 		if (idcpn != null){
-			CompanyDAO cpnDAO = new CompanyDAO();
+			CompanyDAOImpl cpnDAO = new CompanyDAOImpl();
 			manufacturer = cpnDAO.find(idcpn);
 		}
 		Computer cpu = new Computer();

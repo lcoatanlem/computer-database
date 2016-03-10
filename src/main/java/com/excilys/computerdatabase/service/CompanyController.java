@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.com.excilys.computerdatabase.model.Company;
-import main.java.com.excilys.computerdatabase.persistence.dao.CompanyDAO;
+import main.java.com.excilys.computerdatabase.persistence.dao.impl.CompanyDAOImpl;
 
 public class CompanyController {
-	private CompanyDAO cDAO ;
+	private CompanyDAOImpl cDAO ;
 	private List<Company> liste;
 	
 	/**
 	 * Instantiates the DAO and the List containing all companies.
 	 */
 	public CompanyController(){
-		cDAO = new CompanyDAO();
+		cDAO = new CompanyDAOImpl();
 		liste = new ArrayList<Company>();
 	}
 	

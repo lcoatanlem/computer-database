@@ -2,6 +2,7 @@ package test.java.com.excilys.computerdatabase.test;
 
 import static org.junit.Assert.*;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import main.java.com.excilys.computerdatabase.exception.NotSuchCompanyException;
 import main.java.com.excilys.computerdatabase.exception.NotSuchComputerException;
 import main.java.com.excilys.computerdatabase.model.Company;
 import main.java.com.excilys.computerdatabase.model.Computer;
-import main.java.com.excilys.computerdatabase.persistence.dao.ComputerDAO;
+import main.java.com.excilys.computerdatabase.persistence.dao.impl.ComputerDAOImpl;
 
 /**
  * ComputerDAO testing.
@@ -21,11 +22,11 @@ import main.java.com.excilys.computerdatabase.persistence.dao.ComputerDAO;
  */
 public class ComputerDAOTest {
 
-	private static ComputerDAO cDAO;
+	private static ComputerDAOImpl cDAO;
 
 	@BeforeClass
 	public static void initDAO(){
-		cDAO = new ComputerDAO();
+		cDAO = new ComputerDAOImpl();
 	}
 
 	@Test
@@ -33,7 +34,7 @@ public class ComputerDAOTest {
 	 * Tests findAll(), only normal use available.
 	 */
 	public void testFindAll(){
-		List<Computer> liste = cDAO.findAll();
+		List<Computer> liste = cDAO.findAll(0,10);
 		for (Computer comp : liste){
 			assertNotNull(comp.getId());
 			assertNotNull(comp.getName());
@@ -46,9 +47,9 @@ public class ComputerDAOTest {
 	 * Tests find(Long id) in a normal use.
 	 */
 	public void testFind(){
-		Computer comp = new Computer();
+		Computer comp = new Computer("Test");
 		assertNull(comp.getId());
-		assertNull(comp.getName());
+		assertNotNull(comp.getName());
 		assertNull(comp.getIntroduced());
 		assertNull(comp.getDiscontinued());
 		assertNull(comp.getManufacturer());
@@ -70,7 +71,7 @@ public class ComputerDAOTest {
 	 * Tests find(Long id) in an abnormal use (id not in db).
 	 */
 	public void testFindExc(){
-		Computer comp = new Computer();
+		Computer comp = new Computer("Test");
 		Computer comptmp = comp;
 		try {
 			comptmp = cDAO.find(600L);
@@ -85,12 +86,7 @@ public class ComputerDAOTest {
 	 * Tests create(Computer t) in a normal use, with a computer.
 	 */
 	public void testCreate(){
-		Computer comp = new Computer();
-		try{
-			comp.setName("Create");
-		} catch (NullPointerException e){
-			
-		}
+		Computer comp = new Computer("Test");
 		comp.setIntroduced(LocalDate.parse("1990-11-10"));
 		comp.setDiscontinued(LocalDate.parse("2016-03-09"));
 		Company cpn = new Company();
@@ -108,8 +104,7 @@ public class ComputerDAOTest {
 	 * Tests create(Computer t) in an abnormal, with a wrong company id.
 	 */
 	public void testCreateNSCExc(){
-		Computer comp = new Computer();
-		comp.setName("Mine");
+		Computer comp = new Computer("Mine");
 		comp.setIntroduced(LocalDate.parse("1990-11-10"));
 		comp.setDiscontinued(LocalDate.parse("2016-03-09"));
 		Company cpn = new Company();
@@ -126,7 +121,7 @@ public class ComputerDAOTest {
 	 * Tests create(Computer t) in an abnormal use, with a null name.
 	 */
 	public void testCreateIAExc(){
-		Computer comp = new Computer();
+		Computer comp = new Computer("Test");
 		try{
 			comp.setName(null);
 		} catch (IllegalArgumentException e){
@@ -148,13 +143,8 @@ public class ComputerDAOTest {
 	 * Tests update(Computer t) in a normal use, with a null name.
 	 */
 	public void testUpdate(){
-		Computer comp = new Computer();
+		Computer comp = new Computer("Update");
 		comp.setId(577L);
-		try{
-			comp.setName("Update");
-		} catch (NullPointerException e){
-			
-		}
 		comp.setIntroduced(LocalDate.parse("1995-11-10"));
 		comp.setDiscontinued(LocalDate.parse("2020-03-09"));
 		Company cpn = new Company();
@@ -162,7 +152,7 @@ public class ComputerDAOTest {
 		comp.setManufacturer(cpn);
 		try {
 			cDAO.update(comp);
-		} catch (NotSuchComputerException | NotSuchCompanyException e) {
+		} catch (NotSuchComputerException | NotSuchCompanyException | SQLException e) {
 			fail();
 		}
 	}
@@ -172,13 +162,8 @@ public class ComputerDAOTest {
 	 * Tests update(Computer t) in an abnormal use, with a null name.
 	 */
 	public void testUpdateNPExc(){
-		Computer comp = new Computer();
+		Computer comp = new Computer("Test");
 		comp.setId(576L);
-		try{
-			comp.setName(null);
-		} catch (IllegalArgumentException e){
-			
-		}
 		comp.setIntroduced(LocalDate.parse("1995-11-10"));
 		comp.setDiscontinued(LocalDate.parse("2020-03-09"));
 		Company cpn = new Company();
@@ -187,7 +172,7 @@ public class ComputerDAOTest {
 		try {
 			cDAO.update(comp);
 			fail();
-		} catch (NotSuchComputerException | NotSuchCompanyException e) {
+		} catch (NotSuchComputerException | NotSuchCompanyException | SQLException e) {
 		}
 	}
 	

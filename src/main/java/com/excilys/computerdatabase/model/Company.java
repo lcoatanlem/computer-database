@@ -2,12 +2,13 @@ package main.java.com.excilys.computerdatabase.model;
 
 /**
  * This class is the model of the companies. Attributes are id and name, with getters and setters.
- * No constructor have been implemented.
  * @author lcoatanlem
  */
 public class Company {
 	private Long id;
 	private String name;
+	
+	public Company(){}
 	
 	public Long getId() {
 		return id;

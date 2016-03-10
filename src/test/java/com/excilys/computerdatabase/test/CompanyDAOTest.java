@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import main.java.com.excilys.computerdatabase.exception.NotSuchCompanyException;
 import main.java.com.excilys.computerdatabase.model.Company;
-import main.java.com.excilys.computerdatabase.persistence.dao.CompanyDAO;
+import main.java.com.excilys.computerdatabase.persistence.dao.impl.CompanyDAOImpl;
 
 /**
  * CompanyDAO testing.
@@ -18,11 +18,11 @@ import main.java.com.excilys.computerdatabase.persistence.dao.CompanyDAO;
  */
 public class CompanyDAOTest {
 	
-	private static CompanyDAO cDAO;
+	private static CompanyDAOImpl cDAO;
 	
 	@BeforeClass
 	public static void initDAO(){
-		cDAO = new CompanyDAO();
+		cDAO = new CompanyDAOImpl();
 	}
 	
 	@Test
@@ -30,7 +30,7 @@ public class CompanyDAOTest {
 	 * Tests findAll(), only normal use available.
 	 */
 	public void testFindAll(){
-		List<Company> liste = cDAO.findAll();
+		List<Company> liste = cDAO.findAll(0,10);
 		for (Company comp : liste){
 			assertNotNull(comp.getId());
 		}
@@ -56,7 +56,7 @@ public class CompanyDAOTest {
 	
 	@Test
 	/**
-	 * Tests find(Long id) in an anormal use (id not in db).
+	 * Tests find(Long id) in an abnormal use (id not in DB).
 	 */
 	public void testFindExc(){
 		Company comp = new Company();

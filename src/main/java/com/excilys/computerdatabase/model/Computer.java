@@ -3,9 +3,9 @@ package main.java.com.excilys.computerdatabase.model;
 import java.time.LocalDate;
 
 /**
- * This class is the model of the computers. Attributes are the name of the computer, the date it was introduced,
- * the date it was discontinued, and the manufacturer (using Company class). We can construct an instance of this
- * object with the name.
+ * This class is the model for the computers. Attributes are the id(even if it is auto-incremented in the DB), the name of the computer, 
+ * the date it was introduced, the date it was discontinued, and the manufacturer (using class Company as soon as there is a foreign key in the DB).
+ * The only constructor we do is the one with the name, as soon as a Computer with a null name can't exist.
  * @author lcoatanlem
  */
 public class Computer {
@@ -15,7 +15,16 @@ public class Computer {
 	private LocalDate discontinued;
 	private Company manufacturer;
 	
-	public Computer(){
+	/**
+	 * @param name
+	 * @throws IllegalArgumentException if name is null
+	 */
+	public Computer(String name) throws IllegalArgumentException {
+		if (name == null){
+			throw new IllegalArgumentException();
+		} else {
+			this.name = name;
+		}
 	}
 
 	public Long getId() {
@@ -27,11 +36,11 @@ public class Computer {
 	public String getName() {
 		return name;
 	}
-	/**
-	 * Setter for name, IllegalArgumentException if name is null
-	 * @param name
-	 */
-	public void setName(String name) {
+/**
+ * @param name
+ * @throws IllegalArgumentException if name is null
+ */
+	public void setName(String name) throws IllegalArgumentException {
 		if (name == null){
 			throw new IllegalArgumentException();
 		} else {

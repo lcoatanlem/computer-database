@@ -9,22 +9,17 @@ import main.java.com.excilys.computerdatabase.model.Company;
  * @author lcoatanlem
  *
  */
-public class CompanyMapping implements Mapping<Company>{
-	
+public class CompanyMapping {
 	/**
-	 * Method to map a result set with a Company.
-	 * @param rs
+	 * 
+	 * @param rs the iteration of the ResultSet we want to map
 	 * @return Company
+	 * @throws SQLException columnLabel invalid, database access error, called on a closed ResultSet
 	 */
-	public Company map(ResultSet rs){
+	public static Company map(ResultSet rs) throws SQLException{
 		Company comp = new Company();
-		try{
-			comp.setId(rs.getLong("id"));
-			comp.setName(rs.getString("name"));
-		} catch (SQLException e) {
-			// Database access error / closed ResultSet
-			e.printStackTrace();
-		}
+		comp.setId(rs.getLong("id"));
+		comp.setName(rs.getString("name"));
 		return (comp);
 	}
 
