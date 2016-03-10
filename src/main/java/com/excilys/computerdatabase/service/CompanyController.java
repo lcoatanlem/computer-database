@@ -1,10 +1,10 @@
-package com.excilys.computerdatabase.service;
+package main.java.com.excilys.computerdatabase.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.excilys.computerdatabase.model.Company;
-import com.excilys.computerdatabase.persistence.dao.CompanyDAO;
+import main.java.com.excilys.computerdatabase.model.Company;
+import main.java.com.excilys.computerdatabase.persistence.dao.CompanyDAO;
 
 public class CompanyController {
 	private CompanyDAO cDAO ;

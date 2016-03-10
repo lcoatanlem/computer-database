@@ -1,4 +1,4 @@
-package com.excilys.computerdatabase.persistence.dao;
+package main.java.com.excilys.computerdatabase.persistence.dao;
 
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -6,11 +6,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import com.excilys.computerdatabase.exception.NotSuchCompanyException;
-import com.excilys.computerdatabase.exception.NotSuchComputerException;
-import com.excilys.computerdatabase.model.Computer;
-import com.excilys.computerdatabase.persistence.mapping.ComputerMapping;
-import com.excilys.computerdatabase.persistence.mapping.Mapping;
+import main.java.com.excilys.computerdatabase.exception.NotSuchCompanyException;
+import main.java.com.excilys.computerdatabase.exception.NotSuchComputerException;
+import main.java.com.excilys.computerdatabase.model.Computer;
+import main.java.com.excilys.computerdatabase.persistence.mapping.ComputerMapping;
+import main.java.com.excilys.computerdatabase.persistence.mapping.Mapping;
 
 /**
  * Class DAO for Computers, every method from interface DAO is implemented.

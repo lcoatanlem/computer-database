@@ -1,4 +1,4 @@
-package com.excilys.computerdatabase.persistence.mapping;
+package main.java.com.excilys.computerdatabase.persistence.mapping;
 
 import java.sql.ResultSet;
 

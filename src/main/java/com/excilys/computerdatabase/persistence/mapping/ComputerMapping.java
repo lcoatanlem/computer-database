@@ -1,14 +1,14 @@
-package com.excilys.computerdatabase.persistence.mapping;
+package main.java.com.excilys.computerdatabase.persistence.mapping;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-import com.excilys.computerdatabase.exception.NotSuchCompanyException;
-import com.excilys.computerdatabase.model.Company;
-import com.excilys.computerdatabase.model.Computer;
-import com.excilys.computerdatabase.persistence.dao.CompanyDAO;
-import com.excilys.computerdatabase.persistence.dao.DAO;
+import main.java.com.excilys.computerdatabase.exception.NotSuchCompanyException;
+import main.java.com.excilys.computerdatabase.model.Company;
+import main.java.com.excilys.computerdatabase.model.Computer;
+import main.java.com.excilys.computerdatabase.persistence.dao.CompanyDAO;
+import main.java.com.excilys.computerdatabase.persistence.dao.DAO;
 
 /**
  * Class to map a result set with a Computer.

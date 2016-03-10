@@ -1,11 +1,11 @@
-package com.excilys.computerdatabase.persistence.dao;
+package main.java.com.excilys.computerdatabase.persistence.dao;
 
 import java.sql.Connection;
 import java.util.List;
-import com.excilys.computerdatabase.exception.NotSuchCompanyException;
-import com.excilys.computerdatabase.exception.NotSuchComputerException;
-import com.excilys.computerdatabase.exception.UnavailableOperationException;
-import com.excilys.computerdatabase.persistence.ConnectionJDBC;
+import main.java.com.excilys.computerdatabase.exception.NotSuchCompanyException;
+import main.java.com.excilys.computerdatabase.exception.NotSuchComputerException;
+import main.java.com.excilys.computerdatabase.exception.UnavailableOperationException;
+import main.java.com.excilys.computerdatabase.persistence.ConnectionJDBC;
 
 /**
  * This interface permits to abstract the functions findAll and CRUD for every DAO.

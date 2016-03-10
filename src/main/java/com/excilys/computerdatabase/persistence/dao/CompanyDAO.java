@@ -1,4 +1,4 @@
-package com.excilys.computerdatabase.persistence.dao;
+package main.java.com.excilys.computerdatabase.persistence.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -6,10 +6,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.excilys.computerdatabase.exception.NotSuchCompanyException;
-import com.excilys.computerdatabase.model.Company;
-import com.excilys.computerdatabase.persistence.mapping.CompanyMapping;
-import com.excilys.computerdatabase.persistence.mapping.Mapping;
+import main.java.com.excilys.computerdatabase.exception.NotSuchCompanyException;
+import main.java.com.excilys.computerdatabase.model.Company;
+import main.java.com.excilys.computerdatabase.persistence.mapping.CompanyMapping;
+import main.java.com.excilys.computerdatabase.persistence.mapping.Mapping;
 
 
 /**

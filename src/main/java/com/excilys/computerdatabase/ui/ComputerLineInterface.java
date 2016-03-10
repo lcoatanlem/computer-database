@@ -1,13 +1,13 @@
-package com.excilys.computerdatabase.ui;
+package main.java.com.excilys.computerdatabase.ui;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
-import com.excilys.computerdatabase.exception.NotSuchCompanyException;
-import com.excilys.computerdatabase.exception.NotSuchComputerException;
-import com.excilys.computerdatabase.service.CompanyController;
-import com.excilys.computerdatabase.service.ComputerController;
+import main.java.com.excilys.computerdatabase.exception.NotSuchCompanyException;
+import main.java.com.excilys.computerdatabase.exception.NotSuchComputerException;
+import main.java.com.excilys.computerdatabase.service.CompanyController;
+import main.java.com.excilys.computerdatabase.service.ComputerController;
 
 public class ComputerLineInterface{
 	private int iterCpu;

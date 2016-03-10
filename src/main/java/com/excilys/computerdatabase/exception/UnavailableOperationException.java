@@ -1,4 +1,4 @@
-package com.excilys.computerdatabase.exception;
+package main.java.com.excilys.computerdatabase.exception;
 
 /**
  * Exception throwed when someone attempts to use a non existing method on the implementation of a DAO.

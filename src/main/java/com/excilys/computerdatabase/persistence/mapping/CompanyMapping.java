@@ -1,8 +1,8 @@
-package com.excilys.computerdatabase.persistence.mapping;
+package main.java.com.excilys.computerdatabase.persistence.mapping;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import com.excilys.computerdatabase.model.Company;
+import main.java.com.excilys.computerdatabase.model.Company;
 
 /**
  * Class to map a result set with a Company.

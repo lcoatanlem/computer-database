@@ -1,4 +1,4 @@
-package com.excilys.computerdatabase.test;
+package test.java.com.excilys.computerdatabase.test;
 
 import static org.junit.Assert.*;
 
@@ -8,11 +8,11 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.excilys.computerdatabase.exception.NotSuchCompanyException;
-import com.excilys.computerdatabase.exception.NotSuchComputerException;
-import com.excilys.computerdatabase.model.Company;
-import com.excilys.computerdatabase.model.Computer;
-import com.excilys.computerdatabase.persistence.dao.ComputerDAO;
+import main.java.com.excilys.computerdatabase.exception.NotSuchCompanyException;
+import main.java.com.excilys.computerdatabase.exception.NotSuchComputerException;
+import main.java.com.excilys.computerdatabase.model.Company;
+import main.java.com.excilys.computerdatabase.model.Computer;
+import main.java.com.excilys.computerdatabase.persistence.dao.ComputerDAO;
 
 /**
  * ComputerDAO testing.
