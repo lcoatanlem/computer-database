@@ -125,11 +125,11 @@ public class ComputerDAOTest {
 	/**
 	 * Tests create(Computer t) in an abnormal use, with a null name.
 	 */
-	public void testCreateNPExc(){
+	public void testCreateIAExc(){
 		Computer comp = new Computer();
 		try{
 			comp.setName(null);
-		} catch (NullPointerException e){
+		} catch (IllegalArgumentException e){
 			
 		}
 		comp.setIntroduced(LocalDate.parse("1990-11-10"));
@@ -149,7 +149,7 @@ public class ComputerDAOTest {
 	 */
 	public void testUpdate(){
 		Computer comp = new Computer();
-		comp.setId(576L);
+		comp.setId(577L);
 		try{
 			comp.setName("Update");
 		} catch (NullPointerException e){
@@ -169,14 +169,14 @@ public class ComputerDAOTest {
 	
 	@Test
 	/**
-	 * Tests update(Computer t) in a normal use, with a null name.
+	 * Tests update(Computer t) in an abnormal use, with a null name.
 	 */
-	public void testUpdateExc(){
+	public void testUpdateNPExc(){
 		Computer comp = new Computer();
-		comp.setId(577L);
+		comp.setId(576L);
 		try{
-			comp.setName("Update");
-		} catch (NullPointerException e){
+			comp.setName(null);
+		} catch (IllegalArgumentException e){
 			
 		}
 		comp.setIntroduced(LocalDate.parse("1995-11-10"));

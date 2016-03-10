@@ -21,5 +21,9 @@ Training: computer-database
 	- Exceptions, documented.
 	- Testing (for DAOs), documented.
 	- Controllers for computer and company, documented.
-	- UI : TODO.
+	- UI : Done.
 	- Logs : TODO.
+####	- 4.2.2 Pages:
+	- Pagination : Done.
+####	- 4.2.3 Code Review:
+	- Refactoring in progress.

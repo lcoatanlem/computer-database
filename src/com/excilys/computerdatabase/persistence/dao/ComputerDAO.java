@@ -23,7 +23,7 @@ public class ComputerDAO implements DAO<Computer>{
 		List<Computer> liste = new ArrayList<Computer>();
 		try {
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM computer;");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM computer");
 			Mapping<Computer> mapping = new ComputerMapping();
 			while(rs.next()){
 				liste.add(((ComputerMapping) mapping).map(rs));
@@ -43,7 +43,7 @@ public class ComputerDAO implements DAO<Computer>{
 		Computer comp = null;
 		try {
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM computer WHERE id=" + id + ";");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM computer WHERE id=" + id + "");
 			Mapping<Computer> mapping = new ComputerMapping();
 			if (rs.next()){
 				comp = ((ComputerMapping) mapping).map(rs);
@@ -66,20 +66,23 @@ public class ComputerDAO implements DAO<Computer>{
 	 */
 	public void create(Computer t) throws NotSuchCompanyException {
 		try {
-			if (t.getManufacturer().getId() != null){
-				Statement stmt = conn.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT id FROM company WHERE id = "
-						+ t.getManufacturer().getId() + ";");
-				if (!rs.next()){
-					throw new NotSuchCompanyException();
+			if (t.getManufacturer() != null){
+				if (t.getManufacturer().getId() != null){
+					Statement stmt = conn.createStatement();
+					ResultSet rs = stmt.executeQuery("SELECT id FROM company WHERE id = "
+							+ t.getManufacturer().getId() + ";");
+					if (!rs.next()){
+						throw new NotSuchCompanyException();
+					}
+					stmt.close();
+					rs.close();
 				}
-				stmt.close();
-				rs.close();
 			}
 			Statement stmt2 = conn.createStatement();
 			stmt2.executeUpdate("INSERT INTO computer (name,introduced,discontinued,company_id) "
-					+ "VALUES ('" + t.getName() + "', '" + Date.valueOf(t.getIntroduced()) + "', '"
-					+ Date.valueOf(t.getDiscontinued()) + "', " + t.getManufacturer().getId() + ");");
+					+ "VALUES ('" + t.getName() + "', " + (t.getIntroduced()==null ? "null" : ("'" + Date.valueOf(t.getIntroduced())) + "'") + ", "
+					+ (t.getDiscontinued()==null ? "null" : ("'" + Date.valueOf(t.getDiscontinued())) + "'") + ", " 
+					+ (t.getManufacturer()==null ? "null" : t.getManufacturer().getId()) + ")");
 			stmt2.close();
 		} catch (SQLException e) {
 			// Database acces error / closed connection / closed statement
@@ -96,19 +99,21 @@ public class ComputerDAO implements DAO<Computer>{
 	public void update(Computer t) throws NotSuchComputerException, NotSuchCompanyException{
 		try {
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM computer WHERE id = " + t.getId() + ";");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM computer WHERE id = " + t.getId() + "");
 			if (!rs.next()){
 				throw new NotSuchComputerException();
 			} else {
-				if (t.getManufacturer().getId() != null){
-					Statement stmt2 = conn.createStatement();
-					ResultSet rs2 = stmt2.executeQuery("SELECT id FROM company WHERE id = "
-							+ t.getManufacturer().getId() + ";");
-					if (!rs2.next()){
-						throw new NotSuchCompanyException();
+				if (t.getManufacturer() != null){
+					if (t.getManufacturer().getId() != null){
+						Statement stmt2 = conn.createStatement();
+						ResultSet rs2 = stmt2.executeQuery("SELECT id FROM company WHERE id = "
+								+ t.getManufacturer().getId() + ";");
+						if (!rs2.next()){
+							throw new NotSuchCompanyException();
+						}
+						rs2.close();
+						stmt2.close();
 					}
-					rs2.close();
-					stmt2.close();
 				}
 			}
 			rs.close();
@@ -116,9 +121,9 @@ public class ComputerDAO implements DAO<Computer>{
 			Statement stmt3 = conn.createStatement();
 			stmt3.executeUpdate("UPDATE computer "
 					+ "SET name='" + t.getName() + "', "
-					+ "introduced='" + Date.valueOf(t.getIntroduced()) + "', "
-					+ "discontinued='" + Date.valueOf(t.getDiscontinued()) + "', "
-					+ "company_id=" + t.getManufacturer().getId()
+					+ "introduced=" + (t.getIntroduced()==null ? "null" : ("'" + Date.valueOf(t.getIntroduced())) + "'") + ", "
+					+ "discontinued=" + (t.getDiscontinued()==null ? "null" : ("'" + Date.valueOf(t.getDiscontinued())) + "'") + ", "
+					+ "company_id=" + (t.getManufacturer()==null ? "null" : t.getManufacturer().getId())
 					+ " WHERE id=" + t.getId() + ";");
 			stmt3.close();
 		} catch (SQLException e) {
@@ -136,10 +141,10 @@ public class ComputerDAO implements DAO<Computer>{
 	public void delete(Long id) throws NotSuchComputerException {
 		try {
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM computer WHERE id = " + id + ";");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM computer WHERE id = " + id + "");
 			if (rs.next()){
 				Statement stmt2 = conn.createStatement();
-				stmt2.executeUpdate("DELETE FROM computer WHERE id = " + id + ";");
+				stmt2.executeUpdate("DELETE FROM computer WHERE id = " + id + "");
 				stmt2.close();
 			} else {
 				throw new NotSuchComputerException();
