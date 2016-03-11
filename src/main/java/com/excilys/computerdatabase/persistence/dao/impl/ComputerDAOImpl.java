@@ -112,7 +112,6 @@ public class ComputerDAOImpl implements DAO<Computer>{
 			stmt.setString(1, t.getName());
 			stmt.setDate(2, (t.getIntroduced()==null ? null : Date.valueOf(t.getIntroduced())));
 			stmt.setDate(3, (t.getDiscontinued()==null ? null : Date.valueOf(t.getDiscontinued())));
-			System.out.println(t.getManufacturer());
 			Long id_cpn = (t.getManufacturer()==null ? null : t.getManufacturer().getId());
 			if (id_cpn == null){
 				stmt.setNull(4, Types.NULL);

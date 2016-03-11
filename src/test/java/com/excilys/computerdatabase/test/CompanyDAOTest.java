@@ -17,14 +17,14 @@ import main.java.com.excilys.computerdatabase.persistence.dao.impl.CompanyDAOImp
  *
  */
 public class CompanyDAOTest {
-	
+
 	private static CompanyDAOImpl cDAO;
-	
+
 	@BeforeClass
 	public static void initDAO(){
 		cDAO = new CompanyDAOImpl();
 	}
-	
+
 	@Test
 	/**
 	 * Tests findAll(), only normal use available.
@@ -34,9 +34,9 @@ public class CompanyDAOTest {
 		for (Company comp : liste){
 			assertNotNull(comp.getId());
 		}
-		assertEquals(42,liste.size());
+		assertEquals(10,liste.size());
 	}
-	
+
 	@Test
 	/**
 	 * Tests find(Long id) in a normal use.
@@ -53,7 +53,7 @@ public class CompanyDAOTest {
 		assertEquals((Long) 2L, comp.getId());
 		assertEquals("Thinking Machines", comp.getName());
 	}
-	
+
 	@Test
 	/**
 	 * Tests find(Long id) in an abnormal use (id not in DB).

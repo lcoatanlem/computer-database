@@ -139,16 +139,12 @@ public class ComputerDAOTest {
 		}
 	}
 	
-	@Test
+	@Test(expected=IllegalArgumentException.class)
 	/**
 	 * Tests update(Computer t) in an abnormal use, with a null name.
 	 */
 	public void testUpdateIAExc(){
-		try{
-			Computer comp = new Computer(null);
-			fail();
-		} catch (IllegalArgumentException e){
-		}
+		Computer comp = new Computer(null);
 	}
 	
 	@Test
