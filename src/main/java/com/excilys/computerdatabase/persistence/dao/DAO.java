@@ -1,11 +1,9 @@
 package main.java.com.excilys.computerdatabase.persistence.dao;
 
-import java.sql.Connection;
 import java.util.List;
 
 import main.java.com.excilys.computerdatabase.exception.NotSuchCompanyException;
 import main.java.com.excilys.computerdatabase.exception.NotSuchComputerException;
-import main.java.com.excilys.computerdatabase.persistence.ConnectionJDBC;
 
 /**
  * This interface permits to abstract the functions findAll and CRUD for every DAO.
@@ -14,8 +12,6 @@ import main.java.com.excilys.computerdatabase.persistence.ConnectionJDBC;
  * @param <T> Computer || Company
  */
 public interface DAO<T> {
-	public Connection conn = ConnectionJDBC.getInstance();
-
 	/**
 	 * Method to return the elements from begin to (begin+range) into a List.
 	 * @return List<Company> || List<Computer>

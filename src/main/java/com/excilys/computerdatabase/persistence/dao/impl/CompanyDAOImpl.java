@@ -8,6 +8,7 @@ import java.util.List;
 
 import main.java.com.excilys.computerdatabase.exception.NotSuchCompanyException;
 import main.java.com.excilys.computerdatabase.model.Company;
+import main.java.com.excilys.computerdatabase.persistence.ConnectionJDBC;
 import main.java.com.excilys.computerdatabase.persistence.dao.DAO;
 import main.java.com.excilys.computerdatabase.persistence.mapping.CompanyMapping;
 
@@ -18,11 +19,16 @@ import main.java.com.excilys.computerdatabase.persistence.mapping.CompanyMapping
  * @author lcoatanlem
  */
 public class CompanyDAOImpl implements DAO<Company> {
+	private ConnectionJDBC connJDBC;
+
+	public CompanyDAOImpl(){
+		connJDBC = ConnectionJDBC.getInstance();
+	}
 
 	@Override
 	public List<Company> findAll(int begin, int range) {
 		List<Company> liste = new ArrayList<Company>();
-		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM company LIMIT ?, ?")){
+		try (PreparedStatement stmt = connJDBC.getConnection().prepareStatement("SELECT * FROM company LIMIT ?, ?")){
 			stmt.setInt(1, begin);
 			stmt.setInt(2, range);
 			ResultSet rs = stmt.executeQuery();
@@ -43,7 +49,7 @@ public class CompanyDAOImpl implements DAO<Company> {
 	public Company find(Long id) throws NotSuchCompanyException{
 		Company comp = null;
 		if (id != null){
-			try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM company WHERE id = ?")){
+			try (PreparedStatement stmt = connJDBC.getConnection().prepareStatement("SELECT * FROM company WHERE id = ?")){
 				stmt.setLong(1, id);
 				ResultSet rs = stmt.executeQuery();
 				if (rs.next()){

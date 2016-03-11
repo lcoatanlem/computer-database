@@ -1,4 +1,4 @@
-package test.java.com.excilys.computerdatabase.test;
+package test.java.com.excilys.computerdatabase.persistence.dao;
 
 import static org.junit.Assert.*;
 

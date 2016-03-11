@@ -10,6 +10,7 @@ import java.util.List;
 import main.java.com.excilys.computerdatabase.exception.NotSuchCompanyException;
 import main.java.com.excilys.computerdatabase.exception.NotSuchComputerException;
 import main.java.com.excilys.computerdatabase.model.Computer;
+import main.java.com.excilys.computerdatabase.persistence.ConnectionJDBC;
 import main.java.com.excilys.computerdatabase.persistence.dao.DAO;
 import main.java.com.excilys.computerdatabase.persistence.mapping.ComputerMapping;
 
@@ -18,11 +19,16 @@ import main.java.com.excilys.computerdatabase.persistence.mapping.ComputerMappin
  * @author lcoatanlem
  */
 public class ComputerDAOImpl implements DAO<Computer>{
+	private ConnectionJDBC connJDBC;
+	
+	public ComputerDAOImpl(){
+		connJDBC = ConnectionJDBC.getInstance();
+	}
 
 	@Override
 	public List<Computer> findAll(int begin, int range) {
 		List<Computer> liste = new ArrayList<Computer>();
-		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM computer LIMIT ?, ?")){
+		try (PreparedStatement stmt = connJDBC.getConnection().prepareStatement("SELECT * FROM computer LIMIT ?, ?")){
 			stmt.setInt(1, begin);
 			stmt.setInt(2, range);
 			ResultSet rs = stmt.executeQuery();
@@ -41,7 +47,7 @@ public class ComputerDAOImpl implements DAO<Computer>{
 	@Override
 	public Computer find(Long id) throws NotSuchComputerException {
 		Computer comp = null;
-		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM computer WHERE id = ?")){
+		try (PreparedStatement stmt = connJDBC.getConnection().prepareStatement("SELECT * FROM computer WHERE id = ?")){
 			stmt.setLong(1, id);
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()){
@@ -63,7 +69,7 @@ public class ComputerDAOImpl implements DAO<Computer>{
 	 * Creates a new line in the DB for the Computer t, checking company id given.
 	 */
 	public void create(Computer t) {
-		try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO computer(name,introduced,discontinued,company_id) VALUES (?,?,?,?)")){
+		try (PreparedStatement stmt = connJDBC.getConnection().prepareStatement("INSERT INTO computer(name,introduced,discontinued,company_id) VALUES (?,?,?,?)")){
 			if (t.getManufacturer() != null){
 				if (t.getManufacturer().getId() != null){
 					CompanyDAOImpl companyDAO = new CompanyDAOImpl();
@@ -97,7 +103,7 @@ public class ComputerDAOImpl implements DAO<Computer>{
 	 * a NotSuchComputerException.
 	 */
 	public void update(Computer t) throws NotSuchComputerException {
-		try (PreparedStatement stmt = conn.prepareStatement("UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?")){
+		try (PreparedStatement stmt = connJDBC.getConnection().prepareStatement("UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?")){
 			find(t.getId());
 			if (t.getManufacturer() != null){
 				if (t.getManufacturer().getId() != null){
@@ -133,7 +139,7 @@ public class ComputerDAOImpl implements DAO<Computer>{
 	 * a NotSuchComputerException.
 	 */
 	public void delete(Long id) throws NotSuchComputerException {
-		try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM computer WHERE id = ?")){
+		try (PreparedStatement stmt = connJDBC.getConnection().prepareStatement("DELETE FROM computer WHERE id = ?")){
 			find(id);
 			stmt.setLong(1, id);
 			stmt.executeUpdate();
