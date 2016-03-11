@@ -33,7 +33,7 @@ public class ComputerController {
 	 */
 	public String listComputers(int begin, int pagination) throws IndexOutOfBoundsException{
 		if (liste.isEmpty()){
-			liste = cDAO.findAll();
+			liste = cDAO.findAll(begin,pagination);
 		}
 		if(begin < 0){
 			throw new IndexOutOfBoundsException();
@@ -88,8 +88,7 @@ public class ComputerController {
 			CompanyDAOImpl cpnDAO = new CompanyDAOImpl();
 			manufacturer = cpnDAO.find(id);
 		}
-		Computer cpu = new Computer();
-		cpu.setName(name);
+		Computer cpu = new Computer(name);
 		cpu.setIntroduced(introduced);
 		cpu.setDiscontinued(discontinued);
 		cpu.setManufacturer(manufacturer);
@@ -112,9 +111,8 @@ public class ComputerController {
 			CompanyDAOImpl cpnDAO = new CompanyDAOImpl();
 			manufacturer = cpnDAO.find(idcpn);
 		}
-		Computer cpu = new Computer();
+		Computer cpu = new Computer(name);
 		cpu.setId(idcpu);
-		cpu.setName(name);
 		cpu.setIntroduced(introduced);
 		cpu.setDiscontinued(discontinued);
 		cpu.setManufacturer(manufacturer);

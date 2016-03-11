@@ -28,7 +28,7 @@ public class CompanyController {
 	 */
 	public String listCompanies(int begin, int pagination) throws IndexOutOfBoundsException{
 		if (liste.isEmpty()){
-			liste = cDAO.findAll();
+			liste = cDAO.findAll(begin,pagination);
 		}
 		if(begin < 0){
 			throw new IndexOutOfBoundsException();

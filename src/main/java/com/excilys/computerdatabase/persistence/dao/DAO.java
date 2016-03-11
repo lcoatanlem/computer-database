@@ -1,7 +1,6 @@
 package main.java.com.excilys.computerdatabase.persistence.dao;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
 import main.java.com.excilys.computerdatabase.exception.NotSuchCompanyException;
@@ -34,10 +33,10 @@ public interface DAO<T> {
 	default void create(T t) throws UnsupportedOperationException, NotSuchCompanyException {
 		throw new UnsupportedOperationException("Create not implemented");
 	}
-	default void update(T t) throws UnsupportedOperationException, NotSuchComputerException, NotSuchCompanyException, SQLException {
+	default void update(T t) throws UnsupportedOperationException, NotSuchComputerException, NotSuchCompanyException {
 		throw new UnsupportedOperationException("Update not implemented");
 	}
-	default void delete(Long id) throws UnsupportedOperationException, NotSuchComputerException, SQLException {
+	default void delete(Long id) throws UnsupportedOperationException, NotSuchComputerException {
 		throw new UnsupportedOperationException("Delete not implemented");
 	}
 }

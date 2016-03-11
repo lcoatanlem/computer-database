@@ -3,7 +3,6 @@ package main.java.com.excilys.computerdatabase.persistence.dao.impl;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,27 +34,29 @@ public class CompanyDAOImpl implements DAO<Company> {
 		} catch (SQLException e) {
 			// Database access error / closed connection / closed statement
 			// returning something else than a ResultSet / timeout have been reached
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
-		return liste;
+		return liste; 
 	}
 
 	@Override
 	public Company find(Long id) throws NotSuchCompanyException{
 		Company comp = null;
-		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM company WHERE id = ?")){
-			stmt.setLong(1, id);
-			ResultSet rs = stmt.executeQuery();
-			if (rs.next()){
-				comp = (CompanyMapping.map(rs));
-			} else {
-				throw new NotSuchCompanyException("No company for this ID...");
+		if (id != null){
+			try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM company WHERE id = ?")){
+				stmt.setLong(1, id);
+				ResultSet rs = stmt.executeQuery();
+				if (rs.next()){
+					comp = (CompanyMapping.map(rs));
+				} else {
+					throw new NotSuchCompanyException();
+				}
+				rs.close();
+			} catch (SQLException e) {
+				// Database access error / closed connection / closed statement
+				// returning something else than a ResultSet / timeout have been reached
+				throw new RuntimeException(e);
 			}
-			rs.close();
-		} catch (SQLException e) {
-			// Database access error / closed connection / closed statement
-			// returning something else than a ResultSet / timeout have been reached
-			e.printStackTrace();
 		}
 		return comp;
 	}

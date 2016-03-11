@@ -21,27 +21,34 @@ public class ComputerMapping {
 	 * Method to map a result set with a Computer
 	 * @param rs
 	 * @return Computer
-	 * @throws NotSuchCompanyException 
 	 */
-	public static Computer map(ResultSet rs) throws SQLException, NotSuchCompanyException, IllegalArgumentException {
+	public static Computer map(ResultSet rs) {
 		Computer cpu = null;
-		Long id = rs.getLong("id");
-		String name = rs.getString("name");
-		LocalDate introduced = (rs.getDate("introduced") == null) ? null : rs.getDate("introduced").toLocalDate();
-		LocalDate discontinued = (rs.getDate("discontinued") == null) ? null : rs.getDate("discontinued").toLocalDate();
-		Long company_id = rs.getLong("company_id");
-		Company manufacturer = new Company();
-		if (company_id != null){
-			// We create a DAO to find the company in the DB
-			DAO<Company> companyDao = new CompanyDAOImpl();
-			// We need to create a new company from the given company_id if it is not null
-			manufacturer = ((CompanyDAOImpl) companyDao).find(company_id);
+		try {
+			Long id = rs.getLong("id");
+			String name = rs.getString("name");
+			LocalDate introduced = (rs.getDate("introduced") == null) ? null : rs.getDate("introduced").toLocalDate();
+			LocalDate discontinued = (rs.getDate("discontinued") == null) ? null : rs.getDate("discontinued").toLocalDate();
+			Long company_id = rs.getLong("company_id");
+			Company manufacturer = new Company();
+			if (company_id != null){
+				// We create a DAO to find the company in the DB
+				DAO<Company> companyDao = new CompanyDAOImpl();
+				// We need to create a new company from the given company_id if it is not null
+				try {
+					manufacturer = ((CompanyDAOImpl) companyDao).find(company_id);
+				} catch (NotSuchCompanyException e) {
+					company_id = null;
+				}
+			}
+			cpu = new Computer(name);
+			cpu.setId(id);
+			cpu.setIntroduced(introduced);
+			cpu.setDiscontinued(discontinued);
+			cpu.setManufacturer(manufacturer);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
 		}
-		cpu = new Computer(name);
-		cpu.setId(id);
-		cpu.setIntroduced(introduced);
-		cpu.setDiscontinued(discontinued);
-		cpu.setManufacturer(manufacturer);
 		return cpu;
 	}
 

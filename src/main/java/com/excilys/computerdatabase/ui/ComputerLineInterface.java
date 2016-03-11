@@ -238,7 +238,7 @@ public class ComputerLineInterface{
 		LocalDate discontinued = null;
 		Long idCpn = null;
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Computer Update\nId of the computer, -1 to go back to menu");
+		System.out.println("Computer Update\nId of the computer, -1 to go back to menu:");
 		Long idCpu = null;
 		String resIdCpu = sc.nextLine();
 		if (resIdCpu.equals("-1")){

@@ -19,7 +19,7 @@ public class Computer {
 	 * @param name
 	 * @throws IllegalArgumentException if name is null
 	 */
-	public Computer(String name) throws IllegalArgumentException {
+	public Computer(String name){
 		if (name == null){
 			throw new IllegalArgumentException();
 		} else {
@@ -40,7 +40,7 @@ public class Computer {
  * @param name
  * @throws IllegalArgumentException if name is null
  */
-	public void setName(String name) throws IllegalArgumentException {
+	public void setName(String name){
 		if (name == null){
 			throw new IllegalArgumentException();
 		} else {
