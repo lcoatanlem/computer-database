@@ -16,6 +16,7 @@ import java.util.Properties;
  */
 public class ConnectionJDBC {
 	private static final ConnectionJDBC INSTANCE;
+	private Connection connJDBC;
 	
 	private static final String PROPERTIES_FILE = "connection.properties";
 	private String url;
@@ -76,7 +77,10 @@ public class ConnectionJDBC {
 	}
 	
 	public Connection getConnection() throws SQLException {
-		return DriverManager.getConnection(url, user, pwd);
+		if (connJDBC == null){
+			connJDBC = DriverManager.getConnection(url, user, pwd);
+		}
+		return connJDBC;
 	}
 
 	public String getUrl() {

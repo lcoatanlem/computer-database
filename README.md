@@ -31,3 +31,5 @@ Training: computer-database
 	- Maven : done.
 	- Unit testing : DBUnit + Unit tests (in progress).
 	- Logging : TODO.
+####	- Implement listing and computer add features in the web-ui.
+	- Started.

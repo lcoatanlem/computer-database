@@ -32,9 +32,7 @@ public class ComputerController {
 	 * @return a String containing the pretty printing of the instances we want.
 	 */
 	public String listComputers(int begin, int pagination) throws IndexOutOfBoundsException{
-		if (liste.isEmpty()){
-			liste = cDAO.findAll(begin,pagination);
-		}
+		liste = cDAO.findAll(begin,pagination);
 		if(begin < 0){
 			throw new IndexOutOfBoundsException();
 		}
