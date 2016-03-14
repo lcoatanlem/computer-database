@@ -9,7 +9,7 @@ import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
 
 /** 
- * Class with a static instance which permits to create an XML file from the DB.
+ * Class with a main which permits to create an XML file from the DB, which will be used for DBUnit as an input.
  * @author lcoatanlem
  */
 public class DBExportToXML {

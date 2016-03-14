@@ -9,8 +9,9 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 /**
- * This class instantiates the connection if it does not exists, else it returns the one existing.
- * Use the pattern Singleton to avoid multiple connections to the DB.
+ * This class is singleton and contains an unique instance, which itself contains an unique connection to the base.
+ * Using properties file to get connection informations, this file exists in two exemplars : one for the normal DB, another one for DBUnit.
+ *  
  * @author lcoatanlem
  */
 public class ConnectionJDBC {
@@ -22,6 +23,13 @@ public class ConnectionJDBC {
 	private String user;
 	private String pwd;
 
+	/**
+	 * Private constructor, to make an instance of the class from all properties.
+	 * @param url
+	 * @param driver
+	 * @param user
+	 * @param pwd
+	 */
 	private ConnectionJDBC(String url, String driver, String user, String pwd){
 		this.url = url;
 		this.driver = driver;

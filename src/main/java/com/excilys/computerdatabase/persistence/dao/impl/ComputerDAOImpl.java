@@ -66,9 +66,9 @@ public class ComputerDAOImpl implements DAO<Computer>{
 
 	@Override
 	/**
-	 * Creates a new line in the DB for the Computer t, checking company id given.
+	 * Creates a new line in the DB for the Computer t, checking company id given, if it doesn't exists, set Manufacturer to null and raises an exception.
 	 */
-	public void create(Computer t) {
+	public void create(Computer t) throws NotSuchCompanyException {
 		try (PreparedStatement stmt = connJDBC.getConnection().prepareStatement("INSERT INTO computer(name,introduced,discontinued,company_id) VALUES (?,?,?,?)")){
 			if (t.getManufacturer() != null){
 				if (t.getManufacturer().getId() != null){
@@ -77,6 +77,7 @@ public class ComputerDAOImpl implements DAO<Computer>{
 						companyDAO.find(t.getManufacturer().getId());
 					} catch (NotSuchCompanyException e) {
 						t.setManufacturer(null);
+						throw new NotSuchCompanyException("Company " + t.getManufacturer().getId() + " doesn't exists, have been set to null.");
 					}
 				}
 			}
@@ -99,10 +100,10 @@ public class ComputerDAOImpl implements DAO<Computer>{
 
 	@Override
 	/**
-	 * Update a computer in the DB. If the id of the given Computer doesn't exists, raises
-	 * a NotSuchComputerException.
+	 * Update a computer in the DB. If the id of the given Computer doesn't exists, raises a NoSuchComputerException.
+	 * Check the company id given, and if it doesn't exists, set Manufacturer to null and raises an exception.
 	 */
-	public void update(Computer t) throws NotSuchComputerException {
+	public void update(Computer t) throws NotSuchComputerException, NotSuchCompanyException {
 		try (PreparedStatement stmt = connJDBC.getConnection().prepareStatement("UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?")){
 			find(t.getId());
 			if (t.getManufacturer() != null){
@@ -112,6 +113,7 @@ public class ComputerDAOImpl implements DAO<Computer>{
 						companyDAO.find(t.getManufacturer().getId());
 					} catch (NotSuchCompanyException e) {
 						t.setManufacturer(null);
+						throw new NotSuchCompanyException("Company " + t.getManufacturer().getId() + " doesn't exists, have been set to null.");
 					}
 				}
 			}
@@ -135,8 +137,7 @@ public class ComputerDAOImpl implements DAO<Computer>{
 
 	@Override
 	/**
-	 * Delete a computer in the DB. If the id of the given Computer doesn't exists, raises
-	 * a NotSuchComputerException.
+	 * Delete a computer in the DB. If the id of the given Computer doesn't exists, raises a NotSuchComputerException.
 	 */
 	public void delete(Long id) throws NotSuchComputerException {
 		try (PreparedStatement stmt = connJDBC.getConnection().prepareStatement("DELETE FROM computer WHERE id = ?")){

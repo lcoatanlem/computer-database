@@ -26,4 +26,7 @@ Training: computer-database
 ####	- 4.2.2 Pages:
 	- Pagination : Done.
 ####	- 4.2.3 Code Review:
-	- Refactoring in progress.
+	- Refactoring in progress (added DBUnit, changed connection singleton to instance singleton,
+									changed to put connection informations in a properties file,
+									only one connection for main and test use, reduced number of entries in
+									test database) ...

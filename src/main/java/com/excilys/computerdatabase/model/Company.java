@@ -1,7 +1,7 @@
 package main.java.com.excilys.computerdatabase.model;
 
 /**
- * This class is the model of the companies. Attributes are id and name, with getters and setters.
+ * This class is the model of the companies. Attributes are id and name, with basic getters and setters.
  * @author lcoatanlem
  */
 public class Company {
