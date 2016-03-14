@@ -28,5 +28,4 @@ public class Pagination {
 	public void setListeCpn(List<Company> listeCpn) {
 		this.listeCpn = listeCpn;
 	}
-
 }
