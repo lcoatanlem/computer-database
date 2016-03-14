@@ -77,7 +77,7 @@ public class ComputerDAOImpl implements DAO<Computer>{
 						companyDAO.find(t.getManufacturer().getId());
 					} catch (NotSuchCompanyException e) {
 						t.setManufacturer(null);
-						throw new NotSuchCompanyException("Company " + t.getManufacturer().getId() + " doesn't exists, have been set to null.");
+						throw new NotSuchCompanyException("Company doesn't exists, have been set to null.");
 					}
 				}
 			}
@@ -113,7 +113,7 @@ public class ComputerDAOImpl implements DAO<Computer>{
 						companyDAO.find(t.getManufacturer().getId());
 					} catch (NotSuchCompanyException e) {
 						t.setManufacturer(null);
-						throw new NotSuchCompanyException("Company " + t.getManufacturer().getId() + " doesn't exists, have been set to null.");
+						throw new NotSuchCompanyException("Company doesn't exists, have been set to null.");
 					}
 				}
 			}

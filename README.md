@@ -22,11 +22,12 @@ Training: computer-database
 	- Testing (for DAOs), documented.
 	- Controllers for computer and company, documented.
 	- UI : Done.
-	- Logs : TODO.
 ####	- 4.2.2 Pages:
 	- Pagination : Done.
 ####	- 4.2.3 Code Review:
-	- Refactoring in progress (added DBUnit, changed connection singleton to instance singleton,
-									changed to put connection informations in a properties file,
-									only one connection for main and test use, reduced number of entries in
-									test database) ...
+	- Refactoring in progress.
+###4.3 CLI + Web Interface Client:
+####	- 4.3.1 Maven, Logging & Unit testing:
+	- Maven : done.
+	- Unit testing : DBUnit + Unit tests (in progress).
+	- Logging : TODO.

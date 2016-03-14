@@ -1,12 +1,7 @@
 package test.java.com.excilys.computerdatabase.persistence;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import java.io.FileInputStream;
 import java.nio.charset.Charset;
-import java.util.List;
-
 import org.dbunit.IDatabaseTester;
 import org.dbunit.JdbcDatabaseTester;
 import org.dbunit.dataset.IDataSet;
@@ -15,11 +10,7 @@ import org.dbunit.operation.DatabaseOperation;
 import org.h2.tools.RunScript;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
-
-import main.java.com.excilys.computerdatabase.model.Computer;
 import main.java.com.excilys.computerdatabase.persistence.ConnectionJDBC;
-import main.java.com.excilys.computerdatabase.persistence.dao.impl.ComputerDAOImpl;
 
 /**
  * This class permits to initiate, and populate the database for each test class on persistence.
@@ -35,7 +26,8 @@ public class DBTesting {
 	 * @throws Exception
 	 */
 	protected IDataSet getDataSet() throws Exception {
-		return new FlatXmlDataSetBuilder().build(new FileInputStream("src/test/resources/computer-database.xml"));
+		// Change for computer-database to run full entries tests.
+		return new FlatXmlDataSetBuilder().build(new FileInputStream("src/test/resources/computer-database-lite.xml"));
 	}
 	
 	/**
@@ -67,15 +59,5 @@ public class DBTesting {
 		databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
 		databaseTester.setDataSet(dataSet);
 		databaseTester.onSetup();
-	}
-	
-	@Test
-	public void testFindAll(){
-		List<Computer> liste = new ComputerDAOImpl().findAll(0,10);
-		for (Computer comp : liste){
-			assertNotNull(comp.getId());
-			assertNotNull(comp.getName());
-		}
-		assertTrue(liste.size() == 576);
 	}
 }
