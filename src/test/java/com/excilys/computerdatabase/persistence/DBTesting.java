@@ -36,7 +36,7 @@ public class DBTesting {
 	 */
 	@BeforeClass
 	public static void createSchema() throws Exception {
-		RunScript.execute(connJDBC_test.getUrl(), connJDBC_test.getUser(), connJDBC_test.getPwd(), "baz: enkgjnzlv kjrtntest/config/db-test/4-TESTSCHEMA.sql", Charset.forName("UTF8"), false);
+		RunScript.execute(connJDBC_test.getUrl(), connJDBC_test.getUser(), connJDBC_test.getPwd(), "src/test/config/db-test/4-TESTSCHEMA.sql", Charset.forName("UTF8"), false);
 	} 
 	
 	/**
