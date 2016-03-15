@@ -11,6 +11,7 @@ import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.pagination.impl.ComputerPagination;
 import com.excilys.computerdatabase.persistence.dao.impl.CompanyDAOImpl;
 import com.excilys.computerdatabase.persistence.dao.impl.ComputerDAOImpl;
+import com.excilys.computerdatabase.persistence.dto.CompanyDTO;
 import com.excilys.computerdatabase.persistence.dto.ComputerDTO;
 
 public class ComputerService {
@@ -36,11 +37,11 @@ public class ComputerService {
 	public List<ComputerDTO> listComputers(Long begin, int paging){
 		if (begin <= cPage.getTotalEntries() && (begin+paging) > 0){
 			
-			int pn = cPage.getPageNumber();
+			int pagenb = cPage.getPageNumber();
 			if (begin < cPage.getStartIndex()){
-				cPage.setPageNumber(pn-1);
+				cPage.setPageNumber(pagenb-1);
 			} else {
-				cPage.setPageNumber(pn+1);
+				cPage.setPageNumber(pagenb+1);
 			}
 			
 			cPage.setStartIndex(begin);
@@ -49,10 +50,10 @@ public class ComputerService {
 			
 			cPage.getList().clear();
 			
-			for(Computer cpn: cDAO.findAll(begin.intValue(),paging)){
-				cPage.setLastIndex(cpn.getId());
+			for(Computer cpu: cDAO.findAll(begin.intValue(),paging)){
+				cPage.setLastIndex(cpu.getId());
 
-				cPage.getList().add(new ComputerDTO(cpn.getId(), cpn.getName(), cpn.getIntroduced(), cpn.getDiscontinued(), cpn.getManufacturer().getId(), cpn.getManufacturer().getName()));
+				cPage.getList().add(new ComputerDTO(cpu.getId(), cpu.getName(), cpu.getIntroduced(), cpu.getDiscontinued(), cpu.getManufacturer().getId(), cpu.getManufacturer().getName()));
 			}
 			
 			if(cPage.getList().size() == 0){
@@ -68,20 +69,9 @@ public class ComputerService {
 	 * @return a String containing our pretty printing
 	 * @throws NotSuchComputerException
 	 */
-	public String showComputer(Long id) throws NotSuchComputerException{
-		String res = "Computer " + id + " infos:\n";
+	public ComputerDTO showComputer(Long id) throws NotSuchComputerException{
 		Computer cpu = cDAO.find(id);
-		res += "Name: " + cpu.getName() + "\n";
-		if (cpu.getIntroduced() != null){
-			res += "Introduced: " + cpu.getIntroduced().toString() + "\n";
-		}
-		if (cpu.getDiscontinued() != null){
-			res += "Discontinued: " + cpu.getDiscontinued().toString() + "\n";
-		}
-		if (cpu.getManufacturer() != null){
-			res += "Manufacturer: " + cpu.getManufacturer().getName() + "\n";
-		}
-		return res;
+		return new ComputerDTO(cpu.getId(), cpu.getName(), cpu.getIntroduced(), cpu.getDiscontinued(), cpu.getManufacturer().getId(), cpu.getManufacturer().getName());
 	}
 
 	/**
