@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class ListComputers
+ * Servlet implementation class AddComputer
  */
-@WebServlet("/ListCpu")
-public class ListCpu extends HttpServlet {
+@WebServlet("/AddComputer")
+public class AddComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ListCpu() {
+    public AddComputer() {
         super();
     }
 
@@ -25,7 +25,7 @@ public class ListCpu extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		this.getServletContext().getRequestDispatcher("/WEB-INF/ListComputers.jsp").forward( request, response );
+		this.getServletContext().getRequestDispatcher("/WEB-INF/views/addComputer.jsp").forward( request, response );
 	}
 
 	/**
