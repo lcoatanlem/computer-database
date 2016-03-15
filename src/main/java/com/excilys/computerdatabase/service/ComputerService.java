@@ -8,19 +8,21 @@ import com.excilys.computerdatabase.exception.NotSuchCompanyException;
 import com.excilys.computerdatabase.exception.NotSuchComputerException;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
+import com.excilys.computerdatabase.pagination.impl.ComputerPagination;
 import com.excilys.computerdatabase.persistence.dao.impl.CompanyDAOImpl;
 import com.excilys.computerdatabase.persistence.dao.impl.ComputerDAOImpl;
+import com.excilys.computerdatabase.persistence.dto.ComputerDTO;
 
-public class ComputerController {
+public class ComputerService {
 	private ComputerDAOImpl cDAO ;
-	private List<Computer> liste;
+	private ComputerPagination cPage ;
 
 	/**
 	 * Instantiates the DAO and the list of computers.
 	 */
-	public ComputerController(){
+	public ComputerService(){
 		cDAO = new ComputerDAOImpl();
-		liste = new ArrayList<Computer>();
+		cPage = new ComputerPagination(1L, 1L, 0, 10, cDAO.sizeTable(), new ArrayList<ComputerDTO>());
 	}
 
 	/**
@@ -31,24 +33,34 @@ public class ComputerController {
 	 * @throws IndexOutOfBoundsException
 	 * @return a String containing the pretty printing of the instances we want.
 	 */
-	public String listComputers(int begin, int pagination) throws IndexOutOfBoundsException{
-		liste = cDAO.findAll(begin,pagination);
-		if(begin < 0){
-			throw new IndexOutOfBoundsException();
+	public List<ComputerDTO> listComputers(Long begin, int paging){
+		if (begin <= cPage.getTotalEntries() && (begin+paging) > 0){
+			
+			int pn = cPage.getPageNumber();
+			if (begin < cPage.getStartIndex()){
+				cPage.setPageNumber(pn-1);
+			} else {
+				cPage.setPageNumber(pn+1);
+			}
+			
+			cPage.setStartIndex(begin);
+			
+			cPage.setPageSize(paging);
+			
+			cPage.getList().clear();
+			
+			for(Computer cpn: cDAO.findAll(begin.intValue(),paging)){
+				cPage.setLastIndex(cpn.getId());
+
+				cPage.getList().add(new ComputerDTO(cpn.getId(), cpn.getName(), cpn.getIntroduced(), cpn.getDiscontinued(), cpn.getManufacturer().getId(), cpn.getManufacturer().getName()));
+			}
+			
+			if(cPage.getList().size() == 0){
+				throw new IndexOutOfBoundsException();
+			}
 		}
-		if(begin > liste.size()){
-			throw new IndexOutOfBoundsException();
-		}
-		if((begin+pagination)>liste.size()){
-			pagination = liste.size() - begin;
-		}
-		String res = "\tComputers (" + (begin+1) + "-" + (begin+pagination) + "/" + liste.size() + ")\n"
-				+ "\t Id \t Name\n\n";
-		for (int i = begin; i < begin+pagination; i ++){
-			res += "\t " + liste.get(i).getId() + "\t " + liste.get(i).getName() + "\n"; 
-		}
-		return res;	
-	}
+		return cPage.getList();
+	}	
 
 	/**
 	 * Method to show the details of only one computer. The fields are displayed iff they are not null.

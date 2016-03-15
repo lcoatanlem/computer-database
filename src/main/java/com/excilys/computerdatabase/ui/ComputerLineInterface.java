@@ -6,21 +6,23 @@ import java.util.Scanner;
 
 import com.excilys.computerdatabase.exception.NotSuchCompanyException;
 import com.excilys.computerdatabase.exception.NotSuchComputerException;
+import com.excilys.computerdatabase.persistence.dto.CompanyDTO;
+import com.excilys.computerdatabase.persistence.dto.ComputerDTO;
 import com.excilys.computerdatabase.service.CompanyService;
-import com.excilys.computerdatabase.service.ComputerController;
+import com.excilys.computerdatabase.service.ComputerService;
 
 public class ComputerLineInterface{
-	private int iterCpu;
+	private Long iterCpu;
 	private final int paginationCpu = 50;
 	private Long iterCpn;
 	private final int paginationCpn = 10;
-	private ComputerController cpuController;
+	private ComputerService cpuController;
 	private CompanyService cpnController;
 
 	public ComputerLineInterface(){
-		cpuController = new ComputerController();
+		cpuController = new ComputerService();
 		cpnController = new CompanyService();
-		iterCpu = 0;
+		iterCpu = 0L;
 		iterCpn = 0L;
 	}
 
@@ -72,7 +74,9 @@ public class ComputerLineInterface{
 		int choix = 0;
 		Scanner sc = new Scanner(System.in);
 		try{
-			System.out.println(cpuController.listComputers(iterCpu, paginationCpu));
+			for (ComputerDTO cpu : cpuController.listComputers(iterCpu, paginationCpu)){
+				System.out.println(cpu.getName());
+			}
 		} catch (IndexOutOfBoundsException e){
 			System.out.println("OutOfBounds, you need to make another choice");
 			if(iterCpu<0){
@@ -113,7 +117,9 @@ public class ComputerLineInterface{
 		Scanner sc = new Scanner(System.in);
 
 		try{
-			System.out.println(cpnController.listCompanies(iterCpn, paginationCpn));
+			for (CompanyDTO cpn : cpnController.listCompanies(iterCpn, paginationCpn)){
+				System.out.println(cpn.getName());
+			}
 		} catch (IndexOutOfBoundsException e){
 			System.out.println("OutOfBounds, you need to make another choice");
 			if(iterCpn<0){

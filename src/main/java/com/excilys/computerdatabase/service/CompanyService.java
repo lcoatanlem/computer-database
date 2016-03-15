@@ -28,11 +28,16 @@ public class CompanyService {
 	 * @return a String containing the pretty printing of the instances we want.
 	 */
 	public List<CompanyDTO> listCompanies(Long begin, int paging){
-		if (begin <= cPage.getTotalEntries()){
-			cPage.setStartIndex(begin);
+		if (begin <= cPage.getTotalEntries() && (begin+paging) > 0){
 			
-			int pn = cPage.getPageNumber() + 1;
-			cPage.setPageNumber(pn);
+			int pn = cPage.getPageNumber();
+			if (begin < cPage.getStartIndex()){
+				cPage.setPageNumber(pn-1);
+			} else {
+				cPage.setPageNumber(pn+1);
+			}
+			
+			cPage.setStartIndex(begin);
 			
 			cPage.setPageSize(paging);
 			
