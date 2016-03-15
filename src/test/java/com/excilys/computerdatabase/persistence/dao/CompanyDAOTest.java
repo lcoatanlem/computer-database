@@ -1,4 +1,4 @@
-package test.java.com.excilys.computerdatabase.persistence.dao;
+package com.excilys.computerdatabase.persistence.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -10,10 +10,10 @@ import java.util.List;
 
 import org.junit.Test;
 
-import main.java.com.excilys.computerdatabase.exception.NotSuchCompanyException;
-import main.java.com.excilys.computerdatabase.model.Company;
-import main.java.com.excilys.computerdatabase.persistence.dao.impl.CompanyDAOImpl;
-import test.java.com.excilys.computerdatabase.persistence.DBTesting;
+import com.excilys.computerdatabase.exception.NotSuchCompanyException;
+import com.excilys.computerdatabase.model.Company;
+import com.excilys.computerdatabase.persistence.dao.impl.CompanyDAOImpl;
+import com.excilys.computerdatabase.persistence.DBTesting;
 
 public class CompanyDAOTest extends DBTesting {
 

@@ -1,9 +1,9 @@
-package main.java.com.excilys.computerdatabase.persistence.dao;
+package com.excilys.computerdatabase.persistence.dao;
 
 import java.util.List;
 
-import main.java.com.excilys.computerdatabase.exception.NotSuchCompanyException;
-import main.java.com.excilys.computerdatabase.exception.NotSuchComputerException;
+import com.excilys.computerdatabase.exception.NotSuchCompanyException;
+import com.excilys.computerdatabase.exception.NotSuchComputerException;
 
 /**
  * This interface permits to abstract the functions findAll and CRUD for every DAO.
@@ -26,6 +26,8 @@ public interface DAO<T> {
 	 */
 	public T find(Long id) throws NotSuchCompanyException, NotSuchComputerException;
 
+	public int sizeTable();
+	
 	default void create(T t) throws UnsupportedOperationException, NotSuchCompanyException {
 		throw new UnsupportedOperationException("Create not implemented");
 	}

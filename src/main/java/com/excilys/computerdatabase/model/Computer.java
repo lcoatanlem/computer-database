@@ -1,4 +1,4 @@
-package main.java.com.excilys.computerdatabase.model;
+package com.excilys.computerdatabase.model;
 
 import java.time.LocalDate;
 

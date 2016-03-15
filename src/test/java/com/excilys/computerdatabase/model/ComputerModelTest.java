@@ -1,8 +1,8 @@
-package test.java.com.excilys.computerdatabase.model;
+package com.excilys.computerdatabase.model;
 
 import org.junit.Test;
 
-import main.java.com.excilys.computerdatabase.model.Computer;
+import com.excilys.computerdatabase.model.Computer;
 
 /**
  * Computer model testing.

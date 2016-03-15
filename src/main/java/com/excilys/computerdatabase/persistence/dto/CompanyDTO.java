@@ -1,4 +1,4 @@
-package main.java.com.excilys.computerdatabase.persistence.dto;
+package com.excilys.computerdatabase.persistence.dto;
 
 public class CompanyDTO {
 

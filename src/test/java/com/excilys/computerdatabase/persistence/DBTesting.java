@@ -1,4 +1,4 @@
-package test.java.com.excilys.computerdatabase.persistence;
+package com.excilys.computerdatabase.persistence;
 
 import java.io.FileInputStream;
 import java.nio.charset.Charset;
@@ -10,7 +10,7 @@ import org.dbunit.operation.DatabaseOperation;
 import org.h2.tools.RunScript;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import main.java.com.excilys.computerdatabase.persistence.ConnectionJDBC;
+import com.excilys.computerdatabase.persistence.ConnectionJDBC;
 
 /**
  * This class permits to initiate, and populate the database for each test class on persistence.
@@ -36,7 +36,7 @@ public class DBTesting {
 	 */
 	@BeforeClass
 	public static void createSchema() throws Exception {
-		RunScript.execute(connJDBC_test.getUrl(), connJDBC_test.getUser(), connJDBC_test.getPwd(), "config/db-test/4-TESTSCHEMA.sql", Charset.forName("UTF8"), false);
+		RunScript.execute(connJDBC_test.getUrl(), connJDBC_test.getUser(), connJDBC_test.getPwd(), "baz: enkgjnzlv kjrtntest/config/db-test/4-TESTSCHEMA.sql", Charset.forName("UTF8"), false);
 	} 
 	
 	/**

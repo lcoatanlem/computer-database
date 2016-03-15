@@ -1,4 +1,4 @@
-package main.java.com.excilys.computerdatabase.exception;
+package com.excilys.computerdatabase.exception;
 
 /**
  * Exception throwed when someone attempts to use a non existing company.

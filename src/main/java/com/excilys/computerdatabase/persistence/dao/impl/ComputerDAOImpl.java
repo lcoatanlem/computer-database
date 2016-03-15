@@ -1,18 +1,19 @@
-package main.java.com.excilys.computerdatabase.persistence.dao.impl;
+package com.excilys.computerdatabase.persistence.dao.impl;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
-import main.java.com.excilys.computerdatabase.exception.NotSuchCompanyException;
-import main.java.com.excilys.computerdatabase.exception.NotSuchComputerException;
-import main.java.com.excilys.computerdatabase.model.Computer;
-import main.java.com.excilys.computerdatabase.persistence.ConnectionJDBC;
-import main.java.com.excilys.computerdatabase.persistence.dao.DAO;
-import main.java.com.excilys.computerdatabase.persistence.mapping.ComputerMapping;
+import com.excilys.computerdatabase.exception.NotSuchCompanyException;
+import com.excilys.computerdatabase.exception.NotSuchComputerException;
+import com.excilys.computerdatabase.model.Computer;
+import com.excilys.computerdatabase.persistence.ConnectionJDBC;
+import com.excilys.computerdatabase.persistence.dao.DAO;
+import com.excilys.computerdatabase.persistence.mapping.ComputerMapping;
 
 /**
  * Class DAO for Computers, every method from interface DAO is implemented.
@@ -25,6 +26,21 @@ public class ComputerDAOImpl implements DAO<Computer>{
 		connJDBC = ConnectionJDBC.getInstance();
 	}
 
+	@Override
+	public int sizeTable(){
+		int size = 0;
+		try(Statement stmt = connJDBC.getConnection().createStatement()){
+			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM computer");
+			if (rs.next()){
+				size = rs.getInt(1);
+			}
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return size;
+	}
+	
 	@Override
 	public List<Computer> findAll(int begin, int range) {
 		List<Computer> liste = new ArrayList<Computer>();

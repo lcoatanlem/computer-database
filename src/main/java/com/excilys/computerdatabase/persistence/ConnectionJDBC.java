@@ -1,4 +1,4 @@
-package main.java.com.excilys.computerdatabase.persistence;
+package com.excilys.computerdatabase.persistence;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

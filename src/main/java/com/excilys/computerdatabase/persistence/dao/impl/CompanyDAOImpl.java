@@ -1,16 +1,17 @@
-package main.java.com.excilys.computerdatabase.persistence.dao.impl;
+package com.excilys.computerdatabase.persistence.dao.impl;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.com.excilys.computerdatabase.exception.NotSuchCompanyException;
-import main.java.com.excilys.computerdatabase.model.Company;
-import main.java.com.excilys.computerdatabase.persistence.ConnectionJDBC;
-import main.java.com.excilys.computerdatabase.persistence.dao.DAO;
-import main.java.com.excilys.computerdatabase.persistence.mapping.CompanyMapping;
+import com.excilys.computerdatabase.exception.NotSuchCompanyException;
+import com.excilys.computerdatabase.model.Company;
+import com.excilys.computerdatabase.persistence.ConnectionJDBC;
+import com.excilys.computerdatabase.persistence.dao.DAO;
+import com.excilys.computerdatabase.persistence.mapping.CompanyMapping;
 
 
 /**
@@ -26,6 +27,22 @@ public class CompanyDAOImpl implements DAO<Company> {
 	}
 
 	@Override
+	public int sizeTable(){
+		int size = 0;
+		try(Statement stmt = connJDBC.getConnection().createStatement()){
+			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM company");
+			if (rs.next()){
+				size = rs.getInt(1);
+			}
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return size;
+	}
+	
+	
+	@Override
 	public List<Company> findAll(int begin, int range) {
 		List<Company> liste = new ArrayList<Company>();
 		try (PreparedStatement stmt = connJDBC.getConnection().prepareStatement("SELECT * FROM company LIMIT ?, ?")){
@@ -36,7 +53,6 @@ public class CompanyDAOImpl implements DAO<Company> {
 				liste.add(CompanyMapping.map(rs));
 			}
 			rs.close();
-			stmt.close();
 		} catch (SQLException e) {
 			// Database access error / closed connection / closed statement
 			// returning something else than a ResultSet / timeout have been reached
