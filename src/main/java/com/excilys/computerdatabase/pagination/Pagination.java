@@ -2,30 +2,36 @@ package main.java.com.excilys.computerdatabase.pagination;
 
 import java.util.List;
 
-import main.java.com.excilys.computerdatabase.model.Company;
-import main.java.com.excilys.computerdatabase.model.Computer;
-
-public class Pagination {
-	private Computer cpu;
-	private List<Computer> listeCpu;
-	private List<Company> listeCpn;
+public abstract class Pagination<T> {
 	
-	public Computer getCpu() {
-		return cpu;
+	private int lastIndex;
+	private int pageNumber;
+	private int pageSize;
+	private int totalEntries;
+	
+	public int getLastIndex() {
+		return lastIndex;
 	}
-	public void setCpu(Computer cpu) {
-		this.cpu = cpu;
+	public void setLastIndex(int lastIndex) {
+		this.lastIndex = lastIndex;
 	}
-	public List<Computer> getListeCpu() {
-		return listeCpu;
+	public int getPageNumber() {
+		return pageNumber;
 	}
-	public void setListeCpu(List<Computer> listeCpu) {
-		this.listeCpu = listeCpu;
+	public void setPageNumber(int pageNumber) {
+		this.pageNumber = pageNumber;
 	}
-	public List<Company> getListeCpn() {
-		return listeCpn;
+	public int getPageSize() {
+		return pageSize;
 	}
-	public void setListeCpn(List<Company> listeCpn) {
-		this.listeCpn = listeCpn;
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
 	}
+	public int getTotalEntries() {
+		return totalEntries;
+	}
+	public void setTotalEntries(int totalEntries) {
+		this.totalEntries = totalEntries;
+	}	
+	public abstract List<T> getList();
 }
