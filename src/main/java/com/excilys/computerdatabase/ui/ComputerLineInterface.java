@@ -12,9 +12,9 @@ import com.excilys.computerdatabase.service.CompanyService;
 import com.excilys.computerdatabase.service.ComputerService;
 
 public class ComputerLineInterface{
-	private Long iterCpu;
+	private int iterCpu;
 	private final int paginationCpu = 50;
-	private Long iterCpn;
+	private int iterCpn;
 	private final int paginationCpn = 10;
 	private ComputerService cpuController;
 	private CompanyService cpnController;
@@ -22,8 +22,8 @@ public class ComputerLineInterface{
 	public ComputerLineInterface(){
 		cpuController = new ComputerService();
 		cpnController = new CompanyService();
-		iterCpu = 0L;
-		iterCpn = 0L;
+		iterCpu = 0;
+		iterCpn = 0;
 	}
 
 	private void init(){
@@ -74,7 +74,8 @@ public class ComputerLineInterface{
 		int choix = 0;
 		Scanner sc = new Scanner(System.in);
 		try{
-			for (ComputerDTO cpu : cpuController.listComputers(iterCpu, paginationCpu)){
+			cpuController.listComputers(iterCpu, paginationCpu);
+			for (ComputerDTO cpu : cpuController.getcPage().getList()){
 				System.out.println(cpu.getName());
 			}
 		} catch (IndexOutOfBoundsException e){
@@ -227,7 +228,8 @@ public class ComputerLineInterface{
 				} else {
 					resIdCpn = null;
 				}
-				cpuController.createComputer(name, introduced, discontinued, idCpn);
+				ComputerDTO cpuDto = new ComputerDTO(null, name,introduced,discontinued,idCpn, null);
+				cpuController.createComputer(cpuDto);
 				createComputer();
 			} catch (NumberFormatException e){
 				System.out.println("Not a good entry, type a number of type Long!");
@@ -305,7 +307,8 @@ public class ComputerLineInterface{
 				} else {
 					resIdCpn = null;
 				}
-				cpuController.updateComputer(idCpu, name, introduced, discontinued, idCpn);
+				ComputerDTO cpuDto = new ComputerDTO(null, name,introduced,discontinued,idCpn, null);
+				cpuController.updateComputer(cpuDto);
 				updateComputer();
 			} catch (NumberFormatException e){
 				System.out.println("Not a good entry, type a number of type Long!");

@@ -9,8 +9,8 @@ public class ComputerPagination extends Pagination<ComputerDTO> {
 	
 	private List<ComputerDTO> list;
 
-	public ComputerPagination(Long startIndex, Long lastIndex, int pageNumber, int pageSize, int totalEntries, List<ComputerDTO> list) {
-		super(startIndex, lastIndex, pageNumber, pageSize, totalEntries);
+	public ComputerPagination(int pageNumber, int pageSize, int totalEntries, List<ComputerDTO> list) {
+		super(pageNumber, pageSize, totalEntries);
 		this.list = list;
 	}
 

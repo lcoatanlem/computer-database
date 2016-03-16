@@ -1,9 +1,6 @@
 package com.excilys.computerdatabase.service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
-
 import com.excilys.computerdatabase.exception.NotSuchCompanyException;
 import com.excilys.computerdatabase.exception.NotSuchComputerException;
 import com.excilys.computerdatabase.model.Company;
@@ -11,7 +8,6 @@ import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.pagination.impl.ComputerPagination;
 import com.excilys.computerdatabase.persistence.dao.impl.CompanyDAOImpl;
 import com.excilys.computerdatabase.persistence.dao.impl.ComputerDAOImpl;
-import com.excilys.computerdatabase.persistence.dto.CompanyDTO;
 import com.excilys.computerdatabase.persistence.dto.ComputerDTO;
 
 public class ComputerService {
@@ -23,7 +19,7 @@ public class ComputerService {
 	 */
 	public ComputerService(){
 		cDAO = new ComputerDAOImpl();
-		cPage = new ComputerPagination(1L, 1L, 0, 10, cDAO.sizeTable(), new ArrayList<ComputerDTO>());
+		cPage = new ComputerPagination(1, 10, cDAO.sizeTable(), new ArrayList<ComputerDTO>());
 	}
 
 	/**
@@ -34,33 +30,17 @@ public class ComputerService {
 	 * @throws IndexOutOfBoundsException
 	 * @return a String containing the pretty printing of the instances we want.
 	 */
-	public List<ComputerDTO> listComputers(Long begin, int paging){
+	public void listComputers(int begin, int paging){
 		if (begin <= cPage.getTotalEntries() && (begin+paging) > 0){
-			
-			int pagenb = cPage.getPageNumber();
-			if (begin < cPage.getStartIndex()){
-				cPage.setPageNumber(pagenb-1);
-			} else {
-				cPage.setPageNumber(pagenb+1);
-			}
-			
-			cPage.setStartIndex(begin);
 			
 			cPage.setPageSize(paging);
 			
 			cPage.getList().clear();
 			
-			for(Computer cpu: cDAO.findAll(begin.intValue(),paging)){
-				cPage.setLastIndex(cpu.getId());
-
+			for(Computer cpu: cDAO.findAll(begin,paging)){
 				cPage.getList().add(new ComputerDTO(cpu.getId(), cpu.getName(), cpu.getIntroduced(), cpu.getDiscontinued(), cpu.getManufacturer().getId(), cpu.getManufacturer().getName()));
 			}
-			
-			if(cPage.getList().size() == 0){
-				throw new IndexOutOfBoundsException();
-			}
 		}
-		return cPage.getList();
 	}	
 
 	/**
@@ -82,15 +62,15 @@ public class ComputerService {
 	 * @param id
 	 * @throws NotSuchCompanyException
 	 */
-	public void createComputer(String name, LocalDate introduced, LocalDate discontinued, Long id) throws NotSuchCompanyException{
+	public void createComputer(ComputerDTO cDto) throws NotSuchCompanyException{
 		Company manufacturer = null;
-		if (id != null){
+		if (cDto.getId_cpn() != null){
 			CompanyDAOImpl cpnDAO = new CompanyDAOImpl();
-			manufacturer = cpnDAO.find(id);
+			manufacturer = cpnDAO.find(cDto.getId_cpn());
 		}
-		Computer cpu = new Computer(name);
-		cpu.setIntroduced(introduced);
-		cpu.setDiscontinued(discontinued);
+		Computer cpu = new Computer(cDto.getName());
+		cpu.setIntroduced(cDto.getIntroduced());
+		cpu.setDiscontinued(cDto.getDiscontinued());
 		cpu.setManufacturer(manufacturer);
 		cDAO.create(cpu);
 	}
@@ -105,16 +85,15 @@ public class ComputerService {
 	 * @throws NotSuchCompanyException
 	 * @throws NotSuchComputerException
 	 */
-	public void updateComputer(Long idcpu, String name, LocalDate introduced, LocalDate discontinued, Long idcpn) throws NotSuchCompanyException, NotSuchComputerException{
+	public void updateComputer(ComputerDTO cDto) throws NotSuchCompanyException, NotSuchComputerException{
 		Company manufacturer = null;
-		if (idcpn != null){
+		if (cDto.getId_cpn() != null){
 			CompanyDAOImpl cpnDAO = new CompanyDAOImpl();
-			manufacturer = cpnDAO.find(idcpn);
+			manufacturer = cpnDAO.find(cDto.getId_cpn());
 		}
-		Computer cpu = new Computer(name);
-		cpu.setId(idcpu);
-		cpu.setIntroduced(introduced);
-		cpu.setDiscontinued(discontinued);
+		Computer cpu = new Computer(cDto.getName());
+		cpu.setIntroduced(cDto.getIntroduced());
+		cpu.setDiscontinued(cDto.getDiscontinued());
 		cpu.setManufacturer(manufacturer);
 		cDAO.update(cpu);
 	}
@@ -126,5 +105,13 @@ public class ComputerService {
 	 */
 	public void deleteComputer(Long id) throws NotSuchComputerException{
 		cDAO.delete(id);
+	}
+
+	public ComputerPagination getcPage() {
+		return cPage;
+	}
+
+	public void setcPage(ComputerPagination cPage) {
+		this.cPage = cPage;
 	}
 }

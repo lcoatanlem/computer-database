@@ -25,11 +25,14 @@ Training: computer-database
 ####	- 4.2.2 Pages:
 	- Pagination : Done.
 ####	- 4.2.3 Code Review:
-	- Refactoring in progress.
+	- Refactoring done.
 ###4.3 CLI + Web Interface Client:
 ####	- 4.3.1 Maven, Logging & Unit testing:
 	- Maven : done.
 	- Unit testing : DBUnit + Unit tests (in progress).
 	- Logging : TODO.
 ####	- Implement listing and computer add features in the web-ui.
-	- Started.
+	- Refactored to match DTO.
+	- Service update to match a good model.
+	- Reworked interface to match maven standard for webapps.
+	- Views in JSP (using JSTL) --> OMW.

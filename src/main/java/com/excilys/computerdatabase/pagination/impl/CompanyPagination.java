@@ -10,7 +10,7 @@ public class CompanyPagination extends Pagination<CompanyDTO> {
 	private List<CompanyDTO> list;
 
 	public CompanyPagination(Long startIndex, Long lastIndex, int pageNumber, int pageSize, int totalEntries, List<CompanyDTO> list) {
-		super(startIndex, lastIndex, pageNumber, pageSize, totalEntries);
+		super(pageNumber, pageSize, totalEntries);
 		this.list = list;
 	}
 

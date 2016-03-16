@@ -3,34 +3,18 @@ package com.excilys.computerdatabase.pagination;
 import java.util.List;
 
 public abstract class Pagination<T> {
-	private Long startIndex;
-	private Long lastIndex;
 	private int pageNumber;
 	private int pageSize;
 	private int totalEntries;
-	
-	public Pagination(Long startIndex, Long lastIndex, int pageNumber, int pageSize, int totalEntries) {
+
+	public Pagination(int pageNumber, int pageSize, int totalEntries) {
 		super();
-		this.startIndex = startIndex;
-		this.lastIndex = lastIndex;
 		this.pageNumber = pageNumber;
 		this.pageSize = pageSize;
 		this.totalEntries = totalEntries;
 	}
-	
-	public Long getStartIndex() {
-		return startIndex;
-	}
-	public void setStartIndex(Long startIndex) {
-		this.startIndex = startIndex;
-	}
-	public Long getLastIndex() {
-		return lastIndex;
-	}
-	public void setLastIndex(Long lastIndex) {
-		this.lastIndex = lastIndex;
-	}
-		public int getPageNumber() {
+
+	public int getPageNumber() {
 		return pageNumber;
 	}
 	public void setPageNumber(int pageNumber) {
