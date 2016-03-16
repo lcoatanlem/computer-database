@@ -10,7 +10,7 @@ import com.excilys.computerdatabase.persistence.dto.CompanyDTO;
 
 public class CompanyService {
 	private CompanyDAOImpl cDAO ;
-	private CompanyPagination cPage;
+	public static CompanyPagination cPage; //TODO
 
 	/**
 	 * Instantiates the DAO and the CompanyPage.

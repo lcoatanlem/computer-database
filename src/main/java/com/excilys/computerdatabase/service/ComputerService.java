@@ -1,5 +1,6 @@
 package com.excilys.computerdatabase.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import com.excilys.computerdatabase.exception.NotSuchCompanyException;
 import com.excilys.computerdatabase.exception.NotSuchComputerException;
@@ -12,7 +13,7 @@ import com.excilys.computerdatabase.persistence.dto.ComputerDTO;
 
 public class ComputerService {
 	private ComputerDAOImpl cDAO ;
-	private ComputerPagination cPage ;
+	public static ComputerPagination cPage ; //TODO
 
 	/**
 	 * Instantiates the DAO and the list of computers.
@@ -38,7 +39,10 @@ public class ComputerService {
 			cPage.getList().clear();
 			
 			for(Computer cpu: cDAO.findAll(begin,paging)){
-				cPage.getList().add(new ComputerDTO(cpu.getId(), cpu.getName(), cpu.getIntroduced(), cpu.getDiscontinued(), cpu.getManufacturer().getId(), cpu.getManufacturer().getName()));
+				cPage.getList().add(new ComputerDTO(cpu.getId(), cpu.getName(), 
+						(cpu.getIntroduced() == null ? null : cpu.getIntroduced().toString()), 
+						(cpu.getDiscontinued() == null ? null : cpu.getDiscontinued().toString()), 
+						cpu.getManufacturer().getId(), cpu.getManufacturer().getName()));
 			}
 		}
 	}	
@@ -51,7 +55,7 @@ public class ComputerService {
 	 */
 	public ComputerDTO showComputer(Long id) throws NotSuchComputerException{
 		Computer cpu = cDAO.find(id);
-		return new ComputerDTO(cpu.getId(), cpu.getName(), cpu.getIntroduced(), cpu.getDiscontinued(), cpu.getManufacturer().getId(), cpu.getManufacturer().getName());
+		return new ComputerDTO(cpu.getId(), cpu.getName(), cpu.getIntroduced().toString(), cpu.getDiscontinued().toString(), cpu.getManufacturer().getId(), cpu.getManufacturer().getName());
 	}
 
 	/**
@@ -69,8 +73,8 @@ public class ComputerService {
 			manufacturer = cpnDAO.find(cDto.getId_cpn());
 		}
 		Computer cpu = new Computer(cDto.getName());
-		cpu.setIntroduced(cDto.getIntroduced());
-		cpu.setDiscontinued(cDto.getDiscontinued());
+		cpu.setIntroduced(LocalDate.parse(cDto.getIntroduced()));
+		cpu.setDiscontinued(LocalDate.parse(cDto.getDiscontinued()));
 		cpu.setManufacturer(manufacturer);
 		cDAO.create(cpu);
 	}
@@ -92,8 +96,8 @@ public class ComputerService {
 			manufacturer = cpnDAO.find(cDto.getId_cpn());
 		}
 		Computer cpu = new Computer(cDto.getName());
-		cpu.setIntroduced(cDto.getIntroduced());
-		cpu.setDiscontinued(cDto.getDiscontinued());
+		cpu.setIntroduced(LocalDate.parse(cDto.getIntroduced()));
+		cpu.setDiscontinued(LocalDate.parse(cDto.getDiscontinued()));
 		cpu.setManufacturer(manufacturer);
 		cDAO.update(cpu);
 	}
