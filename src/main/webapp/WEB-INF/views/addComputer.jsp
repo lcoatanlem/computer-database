@@ -12,11 +12,13 @@
 <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="css/font-awesome.css" rel="stylesheet" media="screen">
 <link href="css/main.css" rel="stylesheet" media="screen">
+<script type="text/javascript" src="js/jquery.min.js"></script>
 </head>
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="/computer-database/dashboard">
+			<a class="navbar-brand"
+				href="/computer-database/dashboard?limit=10&numPage=1">
 				Application - Computer Database </a>
 		</div>
 	</header>
@@ -42,8 +44,8 @@
 							</div>
 							<div class="form-group">
 								<label for="discontinued">Discontinued date</label> <input
-									name="discontinued" type="date" class="form-control" id="discontinued"
-									placeholder="Discontinued date">
+									name="discontinued" type="date" class="form-control"
+									id="discontinued" placeholder="Discontinued date">
 							</div>
 							<div class="form-group">
 								<label for="companyId">Company</label> <select

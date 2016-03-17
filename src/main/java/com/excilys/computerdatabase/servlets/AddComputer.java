@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.excilys.computerdatabase.exception.NotSuchCompanyException;
 import com.excilys.computerdatabase.persistence.dto.CompanyDTO;
 import com.excilys.computerdatabase.persistence.dto.ComputerDTO;
@@ -20,18 +22,25 @@ import com.excilys.computerdatabase.service.ComputerService;
  */
 public class AddComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
+	private Logger log = Logger.getLogger(AddComputer.class);
+
 	private ComputerService cpuServ = ComputerService.CPUSERV;
 
 	private CompanyService cpnServ = CompanyService.CPNSERV;
 	private List<CompanyDTO> listCpn = new ArrayList<CompanyDTO>();
+
+	boolean added = false;
 
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		added = false;
 		if (listCpn.isEmpty()){
-			listCpn = cpnServ.listCompanies(0, 43);
+			listCpn = cpnServ.listCompanies(0, cpnServ.getcPage().getTotalEntries());
+			log.info("Companies list initialisation");
 		}
 		request.setAttribute("companies", listCpn);
 		this.getServletContext().getRequestDispatcher("/WEB-INF/views/addComputer.jsp").forward(request, response);
@@ -57,13 +66,22 @@ public class AddComputer extends HttpServlet {
 			}
 			try {
 				cpuServ.createComputer(cDto);
+				log.info("Added Computer " + cDto.getName());
 				int newTotalEntries = cpuServ.getcPage().getTotalEntries() + 1;
 				cpuServ.getcPage().setTotalEntries(newTotalEntries);
+				added = true;
 			} catch (NotSuchCompanyException e) {
-				e.printStackTrace();
+				log.error("This situation shouldn't happen, company was not found.");
+				throw new RuntimeException(e);
 			}
+		} else {
+			log.info("The name was null, couldn't create a new Computer in Database.");
 		}
-		doGet(request, response);
+		if (added){
+			this.getServletContext().getRequestDispatcher("/dashboard").forward(request, response);
+		}else{
+			doGet(request, response);
+		}
 	}
 
 }

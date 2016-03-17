@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import org.apache.log4j.Logger;
 
 /**
  * This class is singleton and contains an unique instance, which itself contains an unique connection to the base.
@@ -15,6 +16,8 @@ import java.util.Properties;
  * @author lcoatanlem
  */
 public class ConnectionJDBC {
+	private static Logger log = Logger.getLogger(ConnectionJDBC.class);
+	
 	private static final ConnectionJDBC INSTANCE;
 	private Connection connJDBC;
 	
@@ -57,11 +60,13 @@ public class ConnectionJDBC {
 			user = properties.getProperty("user");
 			pwd = properties.getProperty("pwd");
 		} catch (IOException e) {
-			throw new RuntimeException("Fail loading the properties file " + PROPERTIES_FILE);
+			log.error("Fail loading the properties file " + PROPERTIES_FILE);
+			throw new RuntimeException("FATAL : Fail loading the properties file " + PROPERTIES_FILE);
 		}
 		try{
 			Class.forName(driver);
 		}catch(ClassNotFoundException e){
+			log.error("FATAL : Class " + driver + "was not found.");
 			throw new RuntimeException(e);
 		}
 		

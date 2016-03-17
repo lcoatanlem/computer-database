@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.excilys.computerdatabase.service.ComputerService;
 
 /**
@@ -14,6 +16,8 @@ import com.excilys.computerdatabase.service.ComputerService;
  */
 public class Dashboard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
+	private Logger log = Logger.getLogger(Dashboard.class);
 
 	private ComputerService cpuServ = ComputerService.CPUSERV;
 	/**
@@ -27,6 +31,9 @@ public class Dashboard extends HttpServlet {
 				cpuServ.getcPage().setPageNumber(paramNb);
 			}
 		} catch (NumberFormatException e){
+			if (request.getParameter("numPage") != null){
+				log.info("User tried to change numPage parameter manually to " + request.getParameter("numPage") + ".");
+			}
 		}
 
 		int paramLim = 0;
@@ -37,9 +44,11 @@ public class Dashboard extends HttpServlet {
 				cpuServ.getcPage().setPageSize(paramLim);
 			}
 		} catch (NumberFormatException e){
+			if (request.getParameter("limit") != null){
+				log.info("User tried to change limit parameter manually to " + request.getParameter("limit") + ".");
+			}
 		}
-		
-		
+
 		cpuServ.listComputers((cpuServ.getcPage().getPageNumber()-1)*cpuServ.getcPage().getPageSize(), cpuServ.getcPage().getPageSize());
 		request.setAttribute("cpuPage", cpuServ.getcPage());
 		this.getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward( request, response );

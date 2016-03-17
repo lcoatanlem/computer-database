@@ -7,6 +7,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.excilys.computerdatabase.exception.NotSuchCompanyException;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.persistence.ConnectionJDBC;
@@ -21,6 +23,8 @@ import com.excilys.computerdatabase.persistence.mapping.CompanyMapping;
  */
 public class CompanyDAOImpl implements DAO<Company> {
 	private ConnectionJDBC connJDBC;
+	
+	Logger log = Logger.getLogger(CompanyDAOImpl.class);
 
 	public CompanyDAOImpl(){
 		connJDBC = ConnectionJDBC.getInstance();
@@ -36,7 +40,8 @@ public class CompanyDAOImpl implements DAO<Company> {
 			}
 			rs.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.error("FATAL : " + e);
+			throw new RuntimeException(e);
 		}
 		return size;
 	}
@@ -56,6 +61,7 @@ public class CompanyDAOImpl implements DAO<Company> {
 		} catch (SQLException e) {
 			// Database access error / closed connection / closed statement
 			// returning something else than a ResultSet / timeout have been reached
+			log.error("FATAL : " + e);
 			throw new RuntimeException(e);
 		}
 		return liste; 
@@ -77,6 +83,7 @@ public class CompanyDAOImpl implements DAO<Company> {
 			} catch (SQLException e) {
 				// Database access error / closed connection / closed statement
 				// returning something else than a ResultSet / timeout have been reached
+				log.error("FATAL : " + e);
 				throw new RuntimeException(e);
 			}
 		}

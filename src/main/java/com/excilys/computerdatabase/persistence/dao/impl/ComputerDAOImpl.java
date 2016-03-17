@@ -8,6 +8,9 @@ import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.log4j.Logger;
+
 import com.excilys.computerdatabase.exception.NotSuchCompanyException;
 import com.excilys.computerdatabase.exception.NotSuchComputerException;
 import com.excilys.computerdatabase.model.Computer;
@@ -21,6 +24,7 @@ import com.excilys.computerdatabase.persistence.mapping.ComputerMapping;
  */
 public class ComputerDAOImpl implements DAO<Computer>{
 	private ConnectionJDBC connJDBC;
+	Logger log = Logger.getLogger(ComputerDAOImpl.class);
 	
 	public ComputerDAOImpl(){
 		connJDBC = ConnectionJDBC.getInstance();
@@ -36,7 +40,8 @@ public class ComputerDAOImpl implements DAO<Computer>{
 			}
 			rs.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.error("FATAL : " + e);
+			throw new RuntimeException(e);
 		}
 		return size;
 	}
@@ -55,6 +60,7 @@ public class ComputerDAOImpl implements DAO<Computer>{
 		} catch (SQLException e) {
 			// Database access error / closed connection / closed statement
 			// returning something else than a ResultSet / timeout have been reached
+			log.error("FATAL : " + e);
 			throw new RuntimeException(e);
 		}
 		return liste;
@@ -75,6 +81,7 @@ public class ComputerDAOImpl implements DAO<Computer>{
 		} catch (SQLException e) {
 			// Database access error / closed connection / closed statement
 			// returning something else than a ResultSet / timeout have been reached
+			log.error("FATAL : " + e);
 			throw new RuntimeException(e);
 		}
 		return comp;	
@@ -93,7 +100,7 @@ public class ComputerDAOImpl implements DAO<Computer>{
 						companyDAO.find(t.getManufacturer().getId());
 					} catch (NotSuchCompanyException e) {
 						t.setManufacturer(null);
-						throw new NotSuchCompanyException("Company doesn't exists, have been set to null.");
+						log.info("Company " + t.getManufacturer().getId() + " doesn't exist, have been set to null.");
 					}
 				}
 			}
@@ -108,6 +115,7 @@ public class ComputerDAOImpl implements DAO<Computer>{
 			}
 			stmt.executeUpdate();
 		} catch (SQLException e) {
+			log.error("FATAL : " + e);
 			// Database access error / closed connection / closed statement
 			// returning something else than a ResultSet / timeout have been reached
 			throw new RuntimeException(e);
@@ -147,6 +155,7 @@ public class ComputerDAOImpl implements DAO<Computer>{
 		} catch (SQLException e) {
 			// Database access error / closed connection / closed statement
 			// returning something else than a ResultSet / timeout have been reached
+			log.error("FATAL : " + e);
 			throw new RuntimeException(e);
 		}
 	}
@@ -163,6 +172,7 @@ public class ComputerDAOImpl implements DAO<Computer>{
 		} catch (SQLException e) {
 			// Database access error / closed connection / closed statement
 			// returning something else than a ResultSet / timeout have been reached
+			log.error("FATAL : " + e);
 			throw new RuntimeException(e);
 		}
 	}

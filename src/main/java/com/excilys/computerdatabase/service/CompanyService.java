@@ -48,5 +48,13 @@ public class CompanyService {
 			}
 		}
 		return cPage.getList();
+	}
+
+	public CompanyPagination getcPage() {
+		return cPage;
+	}
+
+	public void setcPage(CompanyPagination cPage) {
+		this.cPage = cPage;
 	}	
 }
