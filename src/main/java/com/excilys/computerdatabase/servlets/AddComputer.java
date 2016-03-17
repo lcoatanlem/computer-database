@@ -20,9 +20,9 @@ import com.excilys.computerdatabase.service.ComputerService;
  */
 public class AddComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private ComputerService cpuServ = new ComputerService();
+	private ComputerService cpuServ = ComputerService.CPUSERV;
 
-	private CompanyService cpnServ = new CompanyService();
+	private CompanyService cpnServ = CompanyService.CPNSERV;
 	private List<CompanyDTO> listCpn = new ArrayList<CompanyDTO>();
 
 
@@ -42,11 +42,16 @@ public class AddComputer extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String name = request.getParameter("computerName");
-		if (name != null) {
+		if (!name.isEmpty()) {
 			ComputerDTO cDto = new ComputerDTO(null,name,null,null,null,null);
-			cDto.setIntroduced(request.getParameter("introduced"));
-			cDto.setDiscontinued(request.getParameter("discontinued"));
-			if (request.getParameter("company") != null) {
+			if (!request.getParameter("introduced").isEmpty()){
+				cDto.setIntroduced(request.getParameter("introduced"));
+			}
+			if (!request.getParameter("discontinued").isEmpty()) {
+				cDto.setDiscontinued(request.getParameter("discontinued"));
+			}
+			if (!request.getParameter("company").isEmpty()) {
+				System.out.println(request.getParameter("company")+"LOL");
 				cDto.setId_cpn(Long.parseLong(request.getParameter("company")));
 				cDto.setName_cpn(listCpn.get(Integer.parseInt(request.getParameter("company"))).getName());
 			}
@@ -55,7 +60,6 @@ public class AddComputer extends HttpServlet {
 				int newTotalEntries = cpuServ.getcPage().getTotalEntries() + 1;
 				cpuServ.getcPage().setTotalEntries(newTotalEntries);
 			} catch (NotSuchCompanyException e) {
-				//weird
 				e.printStackTrace();
 			}
 		}

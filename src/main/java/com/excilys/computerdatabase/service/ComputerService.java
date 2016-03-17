@@ -13,15 +13,22 @@ import com.excilys.computerdatabase.persistence.dto.ComputerDTO;
 
 public class ComputerService {
 	private ComputerDAOImpl cDAO ;
-	public static ComputerPagination cPage ; //TODO
-
+	private ComputerPagination cPage ;
+	
+	public static final ComputerService CPUSERV;
+	static{
+		CPUSERV = new ComputerService();
+	}
+	
 	/**
 	 * Instantiates the DAO and the list of computers.
 	 */
-	public ComputerService(){
+	private ComputerService(){
 		cDAO = new ComputerDAOImpl();
 		cPage = new ComputerPagination(1, 10, cDAO.sizeTable(), new ArrayList<ComputerDTO>());
 	}
+	
+
 
 	/**
 	 * Method to list all computers. To paginate, it starts with an index and a number of instances we want.
@@ -73,8 +80,8 @@ public class ComputerService {
 			manufacturer = cpnDAO.find(cDto.getId_cpn());
 		}
 		Computer cpu = new Computer(cDto.getName());
-		cpu.setIntroduced(LocalDate.parse(cDto.getIntroduced()));
-		cpu.setDiscontinued(LocalDate.parse(cDto.getDiscontinued()));
+		cpu.setIntroduced((cDto.getIntroduced() == null ? null : LocalDate.parse(cDto.getIntroduced())));
+		cpu.setDiscontinued((cDto.getDiscontinued() == null ? null : LocalDate.parse(cDto.getDiscontinued())));
 		cpu.setManufacturer(manufacturer);
 		cDAO.create(cpu);
 	}

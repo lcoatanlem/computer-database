@@ -10,12 +10,17 @@ import com.excilys.computerdatabase.persistence.dto.CompanyDTO;
 
 public class CompanyService {
 	private CompanyDAOImpl cDAO ;
-	public static CompanyPagination cPage; //TODO
+	private CompanyPagination cPage;
+	
+	public final static CompanyService CPNSERV;
+	static{
+		CPNSERV = new CompanyService();
+	}
 
 	/**
 	 * Instantiates the DAO and the CompanyPage.
 	 */
-	public CompanyService(){
+	private CompanyService(){
 		cDAO = new CompanyDAOImpl();
 		cPage = new CompanyPagination(1L, 1L, 0, 10, cDAO.sizeTable(), new ArrayList<CompanyDTO>());
 	}

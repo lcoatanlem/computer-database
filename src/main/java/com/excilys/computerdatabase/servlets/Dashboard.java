@@ -14,8 +14,8 @@ import com.excilys.computerdatabase.service.ComputerService;
  */
 public class Dashboard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private ComputerService cpuServ = new ComputerService();
 
+	private ComputerService cpuServ = ComputerService.CPUSERV;
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */

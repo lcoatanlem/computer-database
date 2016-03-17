@@ -20,8 +20,8 @@ public class ComputerLineInterface{
 	private CompanyService cpnController;
 
 	public ComputerLineInterface(){
-		cpuController = new ComputerService();
-		cpnController = new CompanyService();
+		cpuController = ComputerService.CPUSERV;
+		cpnController = CompanyService.CPNSERV;
 		iterCpu = 0;
 		iterCpn = 0;
 	}
@@ -228,7 +228,7 @@ public class ComputerLineInterface{
 				} else {
 					resIdCpn = null;
 				}
-				ComputerDTO cpuDto = new ComputerDTO(null, name,introduced,discontinued,idCpn, null);
+				ComputerDTO cpuDto = new ComputerDTO(null, name,introduced.toString(),discontinued.toString(),idCpn, null);
 				cpuController.createComputer(cpuDto);
 				createComputer();
 			} catch (NumberFormatException e){
@@ -307,7 +307,7 @@ public class ComputerLineInterface{
 				} else {
 					resIdCpn = null;
 				}
-				ComputerDTO cpuDto = new ComputerDTO(null, name,introduced,discontinued,idCpn, null);
+				ComputerDTO cpuDto = new ComputerDTO(null, name,introduced.toString(),discontinued.toString(),idCpn, null);
 				cpuController.updateComputer(cpuDto);
 				updateComputer();
 			} catch (NumberFormatException e){
