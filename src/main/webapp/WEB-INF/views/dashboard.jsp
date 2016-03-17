@@ -17,7 +17,8 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="/computer-database/dashboard?limit=10&numPage=1">
+			<a class="navbar-brand"
+				href="/computer-database/dashboard?limit=10&numPage=1">
 				Application - Computer Database </a>
 		</div>
 	</header>
@@ -95,6 +96,13 @@
 	<footer class="navbar-fixed-bottom">
 		<div class="container text-center">
 			<ul class="pagination">
+				<c:set var="totalPages"
+					value="${ fn:substringBefore((cpuPage.totalEntries/cpuPage.pageSize +1), '.') }" />
+				<c:if test="${ (cpuPage.totalEntries mod cpuPage.pageSize) eq 0 }">
+					<c:set var="totalPages"
+						value="${ fn:substringBefore((cpuPage.totalEntries/cpuPage.pageSize), '.') }" />
+				</c:if>
+
 				<c:if test="${ cpuPage.pageNumber gt 1 }">
 					<li><a
 						href="/computer-database/dashboard?numPage=${ cpuPage.pageNumber-1 }"
@@ -121,28 +129,28 @@
 				<li><a href="#">${ cpuPage.pageNumber }</a></li>
 
 				<c:if
-					test="${ cpuPage.pageNumber lt (cpuPage.totalEntries/cpuPage.pageSize)-2 }">
+					test="${ cpuPage.pageNumber lt totalPages-2 }">
 					<li><a
 						href="/computer-database/dashboard?numPage=${ cpuPage.pageNumber+1 }">${ cpuPage.pageNumber+1 }</a></li>
 				</c:if>
 				<c:if
-					test="${ cpuPage.pageNumber lt (cpuPage.totalEntries/cpuPage.pageSize)-3 }">
+					test="${ cpuPage.pageNumber lt totalPages-3 }">
 					<li><a
 						href="/computer-database/dashboard?numPage=${ cpuPage.pageNumber+2 }">${ cpuPage.pageNumber+2 }</a></li>
 				</c:if>
 				<c:if
-					test="${ cpuPage.pageNumber lt (cpuPage.totalEntries/cpuPage.pageSize)-6 }">
+					test="${ cpuPage.pageNumber lt totalPages-6 }">
 					<li><a
 						href="/computer-database/dashboard?numPage=${ cpuPage.pageNumber+5 }">${ cpuPage.pageNumber+5 }</a></li>
 				</c:if>
 
 				<c:if
-					test="${ cpuPage.pageNumber lt fn:substringBefore((cpuPage.totalEntries/cpuPage.pageSize+1), '.') }">
+					test="${ cpuPage.pageNumber lt totalPages }">
 					<li><a
-						href="/computer-database/dashboard?numPage=${ fn:substringBefore((cpuPage.totalEntries/cpuPage.pageSize+1), '.') }">${ fn:substringBefore((cpuPage.totalEntries/cpuPage.pageSize+1), '.') }</a></li>
+						href="/computer-database/dashboard?numPage=${ totalPages }">${ totalPages }</a></li>
 				</c:if>
 				<c:if
-					test="${ cpuPage.pageNumber lt fn:substringBefore((cpuPage.totalEntries/cpuPage.pageSize+1), '.') }">
+					test="${ cpuPage.pageNumber lt totalPages }">
 					<li><a
 						href="/computer-database/dashboard?numPage=${ cpuPage.pageNumber+1 }"
 						aria-label="Next"> <span aria-hidden="true">&raquo;</span>
@@ -151,15 +159,18 @@
 			</ul>
 
 			<div class="btn-group btn-group-sm pull-right" role="group">
-				<button type="button" class="btn btn-default" onclick="javascript:window.location='/computer-database/dashboard?limit=10';">10</button>
-				<button type="button" class="btn btn-default" onclick="javascript:window.location='/computer-database/dashboard?limit=50';">50</button>
-				<button type="button" class="btn btn-default" onclick="javascript:window.location='/computer-database/dashboard?limit=100';">100</button>
+				<button type="button" class="btn btn-default"
+					onclick="javascript:window.location='/computer-database/dashboard?limit=10';">10</button>
+				<button type="button" class="btn btn-default"
+					onclick="javascript:window.location='/computer-database/dashboard?limit=50';">50</button>
+				<button type="button" class="btn btn-default"
+					onclick="javascript:window.location='/computer-database/dashboard?limit=100';">100</button>
 			</div>
 		</div>
 	</footer>
-	<script src="../js/jquery.min.js"></script>
-	<script src="../js/bootstrap.min.js"></script>
-	<script src="../js/dashboard.js"></script>
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/dashboard.js"></script>
 
 </body>
 </html>

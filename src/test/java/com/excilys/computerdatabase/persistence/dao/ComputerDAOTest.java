@@ -117,12 +117,13 @@ public class ComputerDAOTest extends DBTesting{
 		Company cpn = new Company();
 		cpn.setId(100L);
 		comp.setManufacturer(cpn);
-		Computer same = comp;
 		try {
 			cDao.create(comp);
+			assertEquals(cDao.find(52L).getManufacturer(), null);
+		} catch (NotSuchCompanyException e){
 			fail();
-		} catch (NotSuchCompanyException e) {
-			assertEquals(same,comp);
+		} catch (NotSuchComputerException e) {
+			fail();
 		}
 	}
 	

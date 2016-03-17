@@ -60,7 +60,6 @@ public class AddComputer extends HttpServlet {
 				cDto.setDiscontinued(request.getParameter("discontinued"));
 			}
 			if (!request.getParameter("company").isEmpty()) {
-				System.out.println(request.getParameter("company")+"LOL");
 				cDto.setId_cpn(Long.parseLong(request.getParameter("company")));
 				cDto.setName_cpn(listCpn.get(Integer.parseInt(request.getParameter("company"))).getName());
 			}

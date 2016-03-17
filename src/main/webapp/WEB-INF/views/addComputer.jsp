@@ -13,6 +13,8 @@
 <link href="css/font-awesome.css" rel="stylesheet" media="screen">
 <link href="css/main.css" rel="stylesheet" media="screen">
 <script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.validator.js"></script>
+
 </head>
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
@@ -33,8 +35,7 @@
 							<div class="form-group">
 								<label for="computerName">Computer name</label> <input
 									name="computerName" type="text" class="form-control"
-									id="computerName" placeholder="Computer name" required
-									data-rule-minlength="1" data-msg-minlength="Name too short!"
+									id="computerName" placeholder="Computer name"
 									value="${fn:escapeXml(param.computerName)}">
 							</div>
 							<div class="form-group">
@@ -62,6 +63,38 @@
 							or <a href="/computer-database/dashboard" class="btn btn-default">Cancel</a>
 						</div>
 					</form>
+					<script>
+							$('#addcomputer').validate({
+								rules : {
+									computerName : {
+										required : true,
+										minlength : 2,
+										noHTML : true
+									},
+									introduced : {
+										dateISO : true
+									},
+									discontinued : {
+										dateISO : true
+									}
+								},
+								messages : {
+									computerName : {
+										required : "Name is required",
+										minlength : "At least two chars"
+									},
+									introduced : {
+										dateISO : "Invalid date format"
+									},
+									discontinued : {
+										dateISO : "Invalid date format"
+									}
+								},
+								error : function(label) {
+									$(this).addClass("error");
+								}
+							});						
+					</script>
 				</div>
 			</div>
 		</div>
