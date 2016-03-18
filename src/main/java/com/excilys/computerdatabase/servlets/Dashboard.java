@@ -25,27 +25,32 @@ public class Dashboard extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int paramNb = 0;
-		try{
-			paramNb = Integer.parseInt(request.getParameter("numPage"));
-			if(paramNb > 0 && paramNb <= ((cpuServ.getcPage().getTotalEntries()/cpuServ.getcPage().getPageSize())+1)){
-				cpuServ.getcPage().setPageNumber(paramNb);
-			}
-		} catch (NumberFormatException e){
-			if (request.getParameter("numPage") != null){
-				log.info("User tried to change numPage parameter manually to " + request.getParameter("numPage") + ".");
+		if (request.getParameter("numPage") != null){
+			try{
+				paramNb = Integer.parseInt(request.getParameter("numPage"));
+				if(paramNb > 0 && paramNb <= ((cpuServ.getcPage().getTotalEntries()/cpuServ.getcPage().getPageSize())+1)){
+					cpuServ.getcPage().setPageNumber(paramNb);
+				}
+			} catch (NumberFormatException e){
+				if (request.getParameter("numPage") != null){
+					log.info("User tried to change numPage parameter manually to " + request.getParameter("numPage") + ".");
+				}
 			}
 		}
 
+
 		int paramLim = 0;
-		try{
-			paramLim = Integer.parseInt(request.getParameter("limit"));
-			if(paramLim == 10 || paramLim == 50 || paramLim == 100){
-				cpuServ.getcPage().setPageNumber(1);
-				cpuServ.getcPage().setPageSize(paramLim);
-			}
-		} catch (NumberFormatException e){
-			if (request.getParameter("limit") != null){
-				log.info("User tried to change limit parameter manually to " + request.getParameter("limit") + ".");
+		if (request.getParameter("paramLim") != null){
+			try{
+				paramLim = Integer.parseInt(request.getParameter("limit"));
+				if(paramLim == 10 || paramLim == 50 || paramLim == 100){
+					cpuServ.getcPage().setPageNumber(1);
+					cpuServ.getcPage().setPageSize(paramLim);
+				}
+			} catch (NumberFormatException e){
+				if (request.getParameter("limit") != null){
+					log.info("User tried to change limit parameter manually to " + request.getParameter("limit") + ".");
+				}
 			}
 		}
 

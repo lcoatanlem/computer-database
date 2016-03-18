@@ -97,88 +97,14 @@
 
 	<footer class="navbar-fixed-bottom">
 		<div class="container text-center">
-			<ul class="pagination">
+			<c:set var="totalPages"
+				value="${ fn:substringBefore((cpuPage.totalEntries/cpuPage.pageSize +1), '.') }" />
+			<c:if test="${ (cpuPage.totalEntries mod cpuPage.pageSize) eq 0 }">
 				<c:set var="totalPages"
-					value="${ fn:substringBefore((cpuPage.totalEntries/cpuPage.pageSize +1), '.') }" />
-				<c:if test="${ (cpuPage.totalEntries mod cpuPage.pageSize) eq 0 }">
-					<c:set var="totalPages"
-						value="${ fn:substringBefore((cpuPage.totalEntries/cpuPage.pageSize), '.') }" />
-				</c:if>
-
-				<c:if test="${ cpuPage.pageNumber gt 1 }">
-					<li><a
-						href="/computer-database/dashboard?numPage=${ cpuPage.pageNumber-1 }"
-						aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-					</a></li>
-				</c:if>
-				<c:if test="${ cpuPage.pageNumber gt 1 }">
-					<li><mylib:link link="1" target="/computer-database/dashboard"
-							numPage="1">
-						</mylib:link></li>
-				</c:if>
-
-				<c:if test="${ cpuPage.pageNumber gt 6 }">
-					<li><mylib:link link="${ cpuPage.pageNumber-5 }"
-							target="/computer-database/dashboard"
-							numPage="${ cpuPage.pageNumber-5 }">
-						</mylib:link></li>
-				</c:if>
-				<c:if test="${ cpuPage.pageNumber gt 3 }">
-					<li><mylib:link link="${ cpuPage.pageNumber-2 }"
-							target="/computer-database/dashboard"
-							numPage="${ cpuPage.pageNumber-2 }">
-						</mylib:link></li>
-				</c:if>
-				<c:if test="${ cpuPage.pageNumber gt 2 }">
-					<li><mylib:link link="${ cpuPage.pageNumber-1 }"
-							target="/computer-database/dashboard"
-							numPage="${ cpuPage.pageNumber-1 }">
-						</mylib:link></li>
-				</c:if>
-
-				<li><mylib:link link="${ cpuPage.pageNumber }" target="#">
-					</mylib:link></li>
-
-				<c:if test="${ cpuPage.pageNumber lt totalPages-2 }">
-					<li><mylib:link link="${ cpuPage.pageNumber+1 }"
-							target="/computer-database/dashboard"
-							numPage="${ cpuPage.pageNumber+1 }">
-						</mylib:link></li>
-				</c:if>
-				<c:if test="${ cpuPage.pageNumber lt totalPages-3 }">
-					<li><mylib:link link="${ cpuPage.pageNumber+2 }"
-							target="/computer-database/dashboard"
-							numPage="${ cpuPage.pageNumber+2 }">
-						</mylib:link></li>
-				</c:if>
-				<c:if test="${ cpuPage.pageNumber lt totalPages-6 }">
-					<li><mylib:link link="${ cpuPage.pageNumber+5 }"
-							target="/computer-database/dashboard"
-							numPage="${ cpuPage.pageNumber+5 }">
-						</mylib:link></li>
-				</c:if>
-
-				<c:if test="${ cpuPage.pageNumber lt totalPages }">
-					<li><mylib:link link="${ totalPages }"
-							target="/computer-database/dashboard" numPage="${ totalPages }">
-						</mylib:link></li>
-				</c:if>
-				<c:if test="${ cpuPage.pageNumber lt totalPages }">
-					<li><a
-						href="/computer-database/dashboard?numPage=${ cpuPage.pageNumber+1 }"
-						aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-					</a></li>
-				</c:if>
-			</ul>
-
-			<div class="btn-group btn-group-sm pull-right" role="group">
-				<button type="button" class="btn btn-default"
-					onclick="javascript:window.location='/computer-database/dashboard?limit=10';">10</button>
-				<button type="button" class="btn btn-default"
-					onclick="javascript:window.location='/computer-database/dashboard?limit=50';">50</button>
-				<button type="button" class="btn btn-default"
-					onclick="javascript:window.location='/computer-database/dashboard?limit=100';">100</button>
-			</div>
+					value="${ fn:substringBefore((cpuPage.totalEntries/cpuPage.pageSize), '.') }" />
+			</c:if>
+			<mylib:pagination pageNumber="${ cpuPage.pageNumber }"
+				pageSize="${ cpuPage.pageSize }" totalPages="${ totalPages }"></mylib:pagination>
 		</div>
 	</footer>
 	<script src="/js/jquery.min.js"></script>
