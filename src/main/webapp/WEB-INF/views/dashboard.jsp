@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="mylib" tagdir="/WEB-INF/tags/"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page isELIgnored="false"%>
@@ -17,9 +18,9 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand"
-				href="/computer-database/dashboard?limit=10&numPage=1">
-				Application - Computer Database </a>
+			<mylib:link link="Application - Computer Database"
+				target="/computer-database/dashboard" className="navbar-brand"
+				limit="10" numPage="1"></mylib:link>
 		</div>
 	</header>
 
@@ -81,10 +82,11 @@
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="0"></td>
-							<td><a href="/computer-database/dashboard" onclick="">${ elt.name }</a></td>
-							<td>${ elt.introduced }</td>
-							<td>${ elt.discontinued }</td>
-							<td>${ elt.name_cpn }</td>
+							<td><mylib:link link="${ elt.name }"
+									target="/computer-database/dashboard"></mylib:link></td>
+							<td><c:out value="${ elt.introduced }"></c:out></td>
+							<td><c:out value="${ elt.discontinued }"></c:out></td>
+							<td><c:out value="${ elt.name_cpn }"></c:out></td>
 
 						</tr>
 					</c:forEach>
@@ -110,47 +112,58 @@
 					</a></li>
 				</c:if>
 				<c:if test="${ cpuPage.pageNumber gt 1 }">
-					<li><a href="/computer-database/dashboard?numPage=1">1</a></li>
+					<li><mylib:link link="1" target="/computer-database/dashboard"
+							numPage="1">
+						</mylib:link></li>
 				</c:if>
 
 				<c:if test="${ cpuPage.pageNumber gt 6 }">
-					<li><a
-						href="/computer-database/dashboard?numPage=${ cpuPage.pageNumber-5 }">${ cpuPage.pageNumber-5 }</a></li>
+					<li><mylib:link link="${ cpuPage.pageNumber-5 }"
+							target="/computer-database/dashboard"
+							numPage="${ cpuPage.pageNumber-5 }">
+						</mylib:link></li>
 				</c:if>
 				<c:if test="${ cpuPage.pageNumber gt 3 }">
-					<li><a
-						href="/computer-database/dashboard?numPage=${ cpuPage.pageNumber-2 }">${ cpuPage.pageNumber-2 }</a></li>
+					<li><mylib:link link="${ cpuPage.pageNumber-2 }"
+							target="/computer-database/dashboard"
+							numPage="${ cpuPage.pageNumber-2 }">
+						</mylib:link></li>
 				</c:if>
 				<c:if test="${ cpuPage.pageNumber gt 2 }">
-					<li><a
-						href="/computer-database/dashboard?numPage=${ cpuPage.pageNumber-1 }">${ cpuPage.pageNumber-1 }</a></li>
+					<li><mylib:link link="${ cpuPage.pageNumber-1 }"
+							target="/computer-database/dashboard"
+							numPage="${ cpuPage.pageNumber-1 }">
+						</mylib:link></li>
 				</c:if>
 
-				<li><a href="#">${ cpuPage.pageNumber }</a></li>
+				<li><mylib:link link="${ cpuPage.pageNumber }" target="#">
+					</mylib:link></li>
 
-				<c:if
-					test="${ cpuPage.pageNumber lt totalPages-2 }">
-					<li><a
-						href="/computer-database/dashboard?numPage=${ cpuPage.pageNumber+1 }">${ cpuPage.pageNumber+1 }</a></li>
+				<c:if test="${ cpuPage.pageNumber lt totalPages-2 }">
+					<li><mylib:link link="${ cpuPage.pageNumber+1 }"
+							target="/computer-database/dashboard"
+							numPage="${ cpuPage.pageNumber+1 }">
+						</mylib:link></li>
 				</c:if>
-				<c:if
-					test="${ cpuPage.pageNumber lt totalPages-3 }">
-					<li><a
-						href="/computer-database/dashboard?numPage=${ cpuPage.pageNumber+2 }">${ cpuPage.pageNumber+2 }</a></li>
+				<c:if test="${ cpuPage.pageNumber lt totalPages-3 }">
+					<li><mylib:link link="${ cpuPage.pageNumber+2 }"
+							target="/computer-database/dashboard"
+							numPage="${ cpuPage.pageNumber+2 }">
+						</mylib:link></li>
 				</c:if>
-				<c:if
-					test="${ cpuPage.pageNumber lt totalPages-6 }">
-					<li><a
-						href="/computer-database/dashboard?numPage=${ cpuPage.pageNumber+5 }">${ cpuPage.pageNumber+5 }</a></li>
+				<c:if test="${ cpuPage.pageNumber lt totalPages-6 }">
+					<li><mylib:link link="${ cpuPage.pageNumber+5 }"
+							target="/computer-database/dashboard"
+							numPage="${ cpuPage.pageNumber+5 }">
+						</mylib:link></li>
 				</c:if>
 
-				<c:if
-					test="${ cpuPage.pageNumber lt totalPages }">
-					<li><a
-						href="/computer-database/dashboard?numPage=${ totalPages }">${ totalPages }</a></li>
+				<c:if test="${ cpuPage.pageNumber lt totalPages }">
+					<li><mylib:link link="${ totalPages }"
+							target="/computer-database/dashboard" numPage="${ totalPages }">
+						</mylib:link></li>
 				</c:if>
-				<c:if
-					test="${ cpuPage.pageNumber lt totalPages }">
+				<c:if test="${ cpuPage.pageNumber lt totalPages }">
 					<li><a
 						href="/computer-database/dashboard?numPage=${ cpuPage.pageNumber+1 }"
 						aria-label="Next"> <span aria-hidden="true">&raquo;</span>

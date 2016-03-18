@@ -29,8 +29,6 @@ public class Dashboard extends HttpServlet {
 			paramNb = Integer.parseInt(request.getParameter("numPage"));
 			if(paramNb > 0 && paramNb <= ((cpuServ.getcPage().getTotalEntries()/cpuServ.getcPage().getPageSize())+1)){
 				cpuServ.getcPage().setPageNumber(paramNb);
-			} else {
-				log.info("User tried to change numPage parameter manually to " + request.getParameter("numPage") + ".");
 			}
 		} catch (NumberFormatException e){
 			if (request.getParameter("numPage") != null){
@@ -44,8 +42,6 @@ public class Dashboard extends HttpServlet {
 			if(paramLim == 10 || paramLim == 50 || paramLim == 100){
 				cpuServ.getcPage().setPageNumber(1);
 				cpuServ.getcPage().setPageSize(paramLim);
-			} else {
-				log.info("User tried to change limit parameter manually to " + request.getParameter("limit") + ".");
 			}
 		} catch (NumberFormatException e){
 			if (request.getParameter("limit") != null){

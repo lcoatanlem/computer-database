@@ -63,37 +63,8 @@
 							or <a href="/computer-database/dashboard" class="btn btn-default">Cancel</a>
 						</div>
 					</form>
-					<script>
-							$('#addcomputer').validate({
-								rules : {
-									computerName : {
-										required : true,
-										minlength : 2,
-										noHTML : true
-									},
-									introduced : {
-										dateISO : true
-									},
-									discontinued : {
-										dateISO : true
-									}
-								},
-								messages : {
-									computerName : {
-										required : "Name is required",
-										minlength : "At least two chars"
-									},
-									introduced : {
-										dateISO : "Invalid date format"
-									},
-									discontinued : {
-										dateISO : "Invalid date format"
-									}
-								},
-								error : function(label) {
-									$(this).addClass("error");
-								}
-							});						
+					<script src="js/addComputer.js">
+						
 					</script>
 				</div>
 			</div>
