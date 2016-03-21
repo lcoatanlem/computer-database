@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import com.excilys.computerdatabase.exception.NotSuchCompanyException;
+import com.excilys.computerdatabase.exception.NoSuchCompanyException;
 import com.excilys.computerdatabase.persistence.dto.CompanyDTO;
 import com.excilys.computerdatabase.persistence.dto.ComputerDTO;
 import com.excilys.computerdatabase.service.CompanyService;
@@ -69,7 +69,7 @@ public class AddComputer extends HttpServlet {
 				int newTotalEntries = cpuServ.getcPage().getTotalEntries() + 1;
 				cpuServ.getcPage().setTotalEntries(newTotalEntries);
 				added = true;
-			} catch (NotSuchCompanyException e) {
+			} catch (NoSuchCompanyException e) {
 				log.error("This situation shouldn't happen, company was not found.");
 				throw new RuntimeException(e);
 			}

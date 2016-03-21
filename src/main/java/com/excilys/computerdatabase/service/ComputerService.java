@@ -2,8 +2,9 @@ package com.excilys.computerdatabase.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import com.excilys.computerdatabase.exception.NotSuchCompanyException;
-import com.excilys.computerdatabase.exception.NotSuchComputerException;
+
+import com.excilys.computerdatabase.exception.NoSuchCompanyException;
+import com.excilys.computerdatabase.exception.NoSuchComputerException;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.pagination.impl.ComputerPagination;
@@ -58,9 +59,9 @@ public class ComputerService {
 	 * Method to show the details of only one computer. The fields are displayed iff they are not null.
 	 * @param id
 	 * @return a String containing our pretty printing
-	 * @throws NotSuchComputerException
+	 * @throws NoSuchComputerException
 	 */
-	public ComputerDTO showComputer(Long id) throws NotSuchComputerException{
+	public ComputerDTO showComputer(Long id) throws NoSuchComputerException{
 		Computer cpu = cDAO.find(id);
 		return new ComputerDTO(cpu.getId(), cpu.getName(), cpu.getIntroduced().toString(), cpu.getDiscontinued().toString(), cpu.getManufacturer().getId(), cpu.getManufacturer().getName());
 	}
@@ -71,9 +72,9 @@ public class ComputerService {
 	 * @param introduced
 	 * @param discontinued
 	 * @param id
-	 * @throws NotSuchCompanyException
+	 * @throws NoSuchCompanyException
 	 */
-	public void createComputer(ComputerDTO cDto) throws NotSuchCompanyException{
+	public void createComputer(ComputerDTO cDto) throws NoSuchCompanyException{
 		Company manufacturer = null;
 		if (cDto.getId_cpn() != null){
 			CompanyDAOImpl cpnDAO = new CompanyDAOImpl();
@@ -93,10 +94,10 @@ public class ComputerService {
 	 * @param introduced
 	 * @param discontinued
 	 * @param idcpn
-	 * @throws NotSuchCompanyException
-	 * @throws NotSuchComputerException
+	 * @throws NoSuchCompanyException
+	 * @throws NoSuchComputerException
 	 */
-	public void updateComputer(ComputerDTO cDto) throws NotSuchCompanyException, NotSuchComputerException{
+	public void updateComputer(ComputerDTO cDto) throws NoSuchCompanyException, NoSuchComputerException{
 		Company manufacturer = null;
 		if (cDto.getId_cpn() != null){
 			CompanyDAOImpl cpnDAO = new CompanyDAOImpl();
@@ -112,9 +113,9 @@ public class ComputerService {
 	/**
 	 * Method to delete a computer from a DB.
 	 * @param id
-	 * @throws NotSuchComputerException
+	 * @throws NoSuchComputerException
 	 */
-	public void deleteComputer(Long id) throws NotSuchComputerException{
+	public void deleteComputer(Long id) throws NoSuchComputerException{
 		cDAO.delete(id);
 	}
 

@@ -3,11 +3,13 @@ package com.excilys.computerdatabase.model;
 import java.time.LocalDate;
 
 /**
- * This class is the model for the computers. 
- * Attributes are the id(even if it is auto-incremented in the DB), the name of the computer, 
+ * This class is the model of the computers. 
+ * 
+ * <p>Attributes are the id(even if it is auto-incremented in the DB), the name of the computer, 
  * the date it was introduced, the date it was discontinued, 
  * and the manufacturer (using class Company as soon as there is a foreign key in the DB).
- * The constructors are the one with a name, and the one with no arguments,
+ * 
+ * <p>The constructors are the one with a name, and the one with no arguments,
  * to make this class serializable.
  * @author lcoatanlem
  */
@@ -19,12 +21,17 @@ public class Computer {
   private Company manufacturer;
 
   /**
+   * Empty constructor, used to make this model serializable.
+   */
+  public Computer() {}
+  
+  /**
    * @param name the name of the Computer.
    * @throws IllegalArgumentException iff name is null.
    */
   public Computer(String name) {
     if (name == null) {
-      throw new IllegalArgumentException();
+      throw new IllegalArgumentException("The name of a Computer cannot be null.");
     } else {
       this.name = name;
     }
@@ -48,7 +55,7 @@ public class Computer {
    */
   public void setName(String name) {
     if (name == null) {
-      throw new IllegalArgumentException();
+      throw new IllegalArgumentException("The name of a Computer cannot be null.");
     } else {
       this.name = name;
     }

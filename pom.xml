@@ -21,6 +21,7 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<version>1.4.191</version>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- Logging -->
@@ -43,6 +44,7 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.0.1</version>
+			<scope>provided</scope> <!-- Tomcat has his own implementation of servlets -->
 		</dependency>
 		<!-- JSTL -->
 		<dependency>
@@ -71,12 +73,14 @@
 			<groupId>org.dbunit</groupId>
 			<artifactId>dbunit</artifactId>
 			<version>2.4.9</version>
+			<!-- Cannot be test scope because of DBExportToXML -->
 		</dependency>
 		<!-- Webapp -->
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
 			<version>2.53.0</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

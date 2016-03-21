@@ -9,10 +9,10 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.excilys.computerdatabase.exception.NotSuchCompanyException;
+import com.excilys.computerdatabase.exception.NoSuchCompanyException;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.persistence.ConnectionJDBC;
-import com.excilys.computerdatabase.persistence.dao.DAO;
+import com.excilys.computerdatabase.persistence.dao.Dao;
 import com.excilys.computerdatabase.persistence.mapping.CompanyMapping;
 
 
@@ -21,7 +21,7 @@ import com.excilys.computerdatabase.persistence.mapping.CompanyMapping;
  * interface DAO (CRUD) will raise UnavailableException(message).
  * @author lcoatanlem
  */
-public class CompanyDAOImpl implements DAO<Company> {
+public class CompanyDAOImpl implements Dao<Company> {
 	private ConnectionJDBC connJDBC;
 	
 	Logger log = Logger.getLogger(CompanyDAOImpl.class);
@@ -68,7 +68,7 @@ public class CompanyDAOImpl implements DAO<Company> {
 	}
 
 	@Override
-	public Company find(Long id) throws NotSuchCompanyException{
+	public Company find(Long id) throws NoSuchCompanyException{
 		Company comp = null;
 		if (id != null){
 			try (PreparedStatement stmt = connJDBC.getConnection().prepareStatement("SELECT * FROM company WHERE id = ?")){
@@ -77,7 +77,7 @@ public class CompanyDAOImpl implements DAO<Company> {
 				if (rs.next()){
 					comp = (CompanyMapping.map(rs));
 				} else {
-					throw new NotSuchCompanyException();
+					throw new NoSuchCompanyException();
 				}
 				rs.close();
 			} catch (SQLException e) {

@@ -4,8 +4,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
-import com.excilys.computerdatabase.exception.NotSuchCompanyException;
-import com.excilys.computerdatabase.exception.NotSuchComputerException;
+import com.excilys.computerdatabase.exception.NoSuchCompanyException;
+import com.excilys.computerdatabase.exception.NoSuchComputerException;
 import com.excilys.computerdatabase.persistence.dto.CompanyDTO;
 import com.excilys.computerdatabase.persistence.dto.ComputerDTO;
 import com.excilys.computerdatabase.service.CompanyService;
@@ -171,7 +171,7 @@ public class ComputerLineInterface{
 		} catch (NumberFormatException e){
 			System.out.println("Not a good entry, type a number of type Long!");
 			showComputer();
-		} catch (NotSuchComputerException e) {
+		} catch (NoSuchComputerException e) {
 			System.out.println("This computer does not exists, try again!");
 			showComputer();
 		} finally {
@@ -234,7 +234,7 @@ public class ComputerLineInterface{
 			} catch (NumberFormatException e){
 				System.out.println("Not a good entry, type a number of type Long!");
 				createComputer();
-			} catch (NotSuchCompanyException e) {
+			} catch (NoSuchCompanyException e) {
 				System.out.println("This company does not exists, try again!");
 				createComputer();
 			}
@@ -313,10 +313,10 @@ public class ComputerLineInterface{
 			} catch (NumberFormatException e){
 				System.out.println("Not a good entry, type a number of type Long!");
 				updateComputer();
-			} catch (NotSuchCompanyException e) {
+			} catch (NoSuchCompanyException e) {
 				System.out.println("This company does not exists, try again!");
 				updateComputer();
-			} catch (NotSuchComputerException e){
+			} catch (NoSuchComputerException e){
 				System.out.println("This id doesn't exists, try again!");
 				updateComputer();
 			}
@@ -337,7 +337,7 @@ public class ComputerLineInterface{
 		} catch (NumberFormatException e){
 			System.out.println("Not a good entry, type a number of type Long!");
 			deleteComputer();
-		} catch (NotSuchComputerException e) {
+		} catch (NoSuchComputerException e) {
 			System.out.println("This computer does not exists, try again!");
 			deleteComputer();
 		} finally {

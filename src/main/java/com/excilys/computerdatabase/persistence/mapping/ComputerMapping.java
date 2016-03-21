@@ -4,10 +4,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-import com.excilys.computerdatabase.exception.NotSuchCompanyException;
+import com.excilys.computerdatabase.exception.NoSuchCompanyException;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
-import com.excilys.computerdatabase.persistence.dao.DAO;
+import com.excilys.computerdatabase.persistence.dao.Dao;
 import com.excilys.computerdatabase.persistence.dao.impl.CompanyDAOImpl;
 
 /**
@@ -33,11 +33,11 @@ public class ComputerMapping {
 			Company manufacturer = new Company();
 			if (company_id != null){
 				// We create a DAO to find the company in the DB
-				DAO<Company> companyDao = new CompanyDAOImpl();
+				Dao<Company> companyDao = new CompanyDAOImpl();
 				// We need to create a new company from the given company_id if it is not null
 				try {
 					manufacturer = ((CompanyDAOImpl) companyDao).find(company_id);
-				} catch (NotSuchCompanyException e) {
+				} catch (NoSuchCompanyException e) {
 					company_id = null;
 				}
 			}

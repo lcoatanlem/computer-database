@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.excilys.computerdatabase.exception.NotSuchCompanyException;
+import com.excilys.computerdatabase.exception.NoSuchCompanyException;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.persistence.dao.impl.CompanyDAOImpl;
 import com.excilys.computerdatabase.persistence.DBTesting;
@@ -49,7 +49,7 @@ public class CompanyDAOTest extends DBTesting {
 		Company cpn = new Company();
 		try {
 			cpn = cDao.find(17L);
-		} catch (NotSuchCompanyException e) {
+		} catch (NoSuchCompanyException e) {
 			fail();
 		}
 		assertEquals(cpn.getName(),"Sony");
@@ -64,7 +64,7 @@ public class CompanyDAOTest extends DBTesting {
 		Company cpn = new Company();
 		try {
 			cpn = cDao.find(null);
-		} catch (NotSuchCompanyException e) {
+		} catch (NoSuchCompanyException e) {
 			fail();
 		}
 		assertNull(cpn);
@@ -81,7 +81,7 @@ public class CompanyDAOTest extends DBTesting {
 		try {
 			cpn = cDao.find(150L);
 			fail();
-		} catch (NotSuchCompanyException e) {
+		} catch (NoSuchCompanyException e) {
 			assertEquals(cpn,cpntmp);
 		}
 	}
