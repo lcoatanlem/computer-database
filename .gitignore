@@ -1,5 +1,5 @@
 
-# Created by https://www.gitignore.io/api/linux,maven,eclipse
+# Created by https://www.gitignore.io/api/linux,maven,eclipse and modified
 
 ### Linux ###
 *~
@@ -78,3 +78,5 @@ local.properties
 # Code Recommenders
 .recommenders/
 
+# Modified
+file:/
