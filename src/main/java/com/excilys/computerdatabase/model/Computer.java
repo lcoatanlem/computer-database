@@ -3,14 +3,16 @@ package com.excilys.computerdatabase.model;
 import java.time.LocalDate;
 
 /**
- * This class is the model of the computers. 
+ * This class is the model of the computers.
  * 
- * <p>Attributes are the id(even if it is auto-incremented in the DB), the name of the computer, 
- * the date it was introduced, the date it was discontinued, 
- * and the manufacturer (using class Company as soon as there is a foreign key in the DB).
+ * <p>Attributes are the id(even if it is auto-incremented in the DB), the name of
+ * the computer, the date it was introduced, the date it was discontinued, and
+ * the manufacturer (using class Company as soon as there is a foreign key in
+ * the DB).
  * 
- * <p>The constructors are the one with a name, and the one with no arguments,
- * to make this class serializable.
+ * <p>The constructors are the one with a name, and the one with no arguments, to
+ * make this class serializable.
+ * 
  * @author lcoatanlem
  */
 public class Computer {
@@ -23,11 +25,14 @@ public class Computer {
   /**
    * Empty constructor, used to make this model serializable.
    */
-  public Computer() {}
-  
+  public Computer() {
+  }
+
   /**
-   * @param name the name of the Computer.
-   * @throws IllegalArgumentException iff name is null.
+   * @param name
+   *          the name of the Computer.
+   * @throws IllegalArgumentException
+   *           iff name is null.
    */
   public Computer(String name) {
     if (name == null) {
@@ -40,18 +45,20 @@ public class Computer {
   public Long getId() {
     return id;
   }
-  
+
   public void setId(Long id) {
     this.id = id;
   }
-  
+
   public String getName() {
     return name;
   }
-  
+
   /**
-   * @param name the name of the Computer.
-   * @throws IllegalArgumentException iff name is null.
+   * @param name
+   *          the name of the Computer.
+   * @throws IllegalArgumentException
+   *           iff name is null.
    */
   public void setName(String name) {
     if (name == null) {
@@ -60,27 +67,27 @@ public class Computer {
       this.name = name;
     }
   }
-  
+
   public LocalDate getIntroduced() {
     return introduced;
   }
-  
+
   public void setIntroduced(LocalDate introduced) {
     this.introduced = introduced;
   }
-  
+
   public LocalDate getDiscontinued() {
     return discontinued;
   }
-  
+
   public void setDiscontinued(LocalDate discontinued) {
     this.discontinued = discontinued;
   }
-  
+
   public Company getManufacturer() {
     return manufacturer;
   }
-  
+
   public void setManufacturer(Company manufacturer) {
     this.manufacturer = manufacturer;
   }
@@ -149,12 +156,9 @@ public class Computer {
 
   @Override
   public String toString() {
-    return "Computer [id =" + id
-        + ", name=" + name 
-        + ", introduced=" + introduced 
-        + ", discontinued=" + discontinued 
+    return "Computer [id =" + id + ", name=" + name + ", "
+        + "introduced=" + introduced + ", discontinued=" + discontinued
         + ", manufacturer=" + manufacturer + "]";
   }
-  
-  
+
 }

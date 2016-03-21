@@ -5,11 +5,11 @@ import java.util.List;
 
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.pagination.impl.CompanyPagination;
-import com.excilys.computerdatabase.persistence.dao.impl.CompanyDAOImpl;
-import com.excilys.computerdatabase.persistence.dto.CompanyDTO;
+import com.excilys.computerdatabase.persistence.dao.impl.CompanyDaoImpl;
+import com.excilys.computerdatabase.persistence.dto.CompanyDto;
 
 public class CompanyService {
-	private CompanyDAOImpl cDAO ;
+	private CompanyDaoImpl cDAO ;
 	private CompanyPagination cPage;
 	
 	public final static CompanyService CPNSERV;
@@ -21,8 +21,8 @@ public class CompanyService {
 	 * Instantiates the DAO and the CompanyPage.
 	 */
 	private CompanyService(){
-		cDAO = new CompanyDAOImpl();
-		cPage = new CompanyPagination(1L, 1L, 0, 10, cDAO.sizeTable(), new ArrayList<CompanyDTO>());
+		cDAO = new CompanyDaoImpl();
+		cPage = new CompanyPagination(1L, 1L, 0, 10, cDAO.countEntries(), new ArrayList<CompanyDto>());
 	}
 
 	/**
@@ -32,7 +32,7 @@ public class CompanyService {
 	 * @param pagination
 	 * @return a String containing the pretty printing of the instances we want.
 	 */
-	public List<CompanyDTO> listCompanies(int iterCpn, int paging){
+	public List<CompanyDto> listCompanies(int iterCpn, int paging){
 		if (iterCpn <= cPage.getTotalEntries() && (iterCpn+paging) > 0){
 
 			cPage.setPageSize(paging);
@@ -40,7 +40,7 @@ public class CompanyService {
 			cPage.getList().clear();
 
 			for(Company cpn: cDAO.findAll(iterCpn,paging)){
-				cPage.getList().add(new CompanyDTO(cpn.getId(), cpn.getName()));
+				cPage.getList().add(new CompanyDto(cpn.getId(), cpn.getName()));
 			}
 
 			if(cPage.getList().size() == 0){

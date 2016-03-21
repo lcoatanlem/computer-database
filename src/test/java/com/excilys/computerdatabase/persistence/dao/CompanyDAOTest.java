@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import com.excilys.computerdatabase.exception.NoSuchCompanyException;
 import com.excilys.computerdatabase.model.Company;
-import com.excilys.computerdatabase.persistence.dao.impl.CompanyDAOImpl;
+import com.excilys.computerdatabase.persistence.dao.impl.CompanyDaoImpl;
 import com.excilys.computerdatabase.persistence.DBTesting;
 
 public class CompanyDAOTest extends DBTesting {
@@ -22,7 +22,7 @@ public class CompanyDAOTest extends DBTesting {
 	 * Tests findAll(), normal use.
 	 */
 	public void testFindAll(){
-		CompanyDAOImpl cDao = new CompanyDAOImpl();
+		CompanyDaoImpl cDao = new CompanyDaoImpl();
 		List<Company> liste = cDao.findAll(10,20);
 		for (Company comp : liste){
 			assertNotNull(comp.getId());
@@ -35,7 +35,7 @@ public class CompanyDAOTest extends DBTesting {
 	 * Tests findAll(), using wrong values.
 	 */
 	public void testFindAllInvalid(){
-		CompanyDAOImpl cDao = new CompanyDAOImpl();
+		CompanyDaoImpl cDao = new CompanyDaoImpl();
 		List<Company> liste = cDao.findAll(60,20);
 		assertTrue(liste.size() == 0);
 	}
@@ -45,7 +45,7 @@ public class CompanyDAOTest extends DBTesting {
 	 * Tests findAll(), normal use.
 	 */
 	public void testFind(){
-		CompanyDAOImpl cDao = new CompanyDAOImpl();
+		CompanyDaoImpl cDao = new CompanyDaoImpl();
 		Company cpn = new Company();
 		try {
 			cpn = cDao.find(17L);
@@ -60,7 +60,7 @@ public class CompanyDAOTest extends DBTesting {
 	 * Tests findAll(), with null, should return null.
 	 */
 	public void testFindNull(){
-		CompanyDAOImpl cDao = new CompanyDAOImpl();
+		CompanyDaoImpl cDao = new CompanyDaoImpl();
 		Company cpn = new Company();
 		try {
 			cpn = cDao.find(null);
@@ -75,7 +75,7 @@ public class CompanyDAOTest extends DBTesting {
 	 * Tests findAll(), with an invalid id, should throw an exception.
 	 */
 	public void testFindInvalid(){
-		CompanyDAOImpl cDao = new CompanyDAOImpl();
+		CompanyDaoImpl cDao = new CompanyDaoImpl();
 		Company cpn = new Company();
 		Company cpntmp = cpn;
 		try {

@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.excilys.computerdatabase.exception.NoSuchCompanyException;
-import com.excilys.computerdatabase.persistence.dto.CompanyDTO;
-import com.excilys.computerdatabase.persistence.dto.ComputerDTO;
+import com.excilys.computerdatabase.persistence.dto.CompanyDto;
+import com.excilys.computerdatabase.persistence.dto.ComputerDto;
 import com.excilys.computerdatabase.service.CompanyService;
 import com.excilys.computerdatabase.service.ComputerService;
 
@@ -28,7 +28,7 @@ public class AddComputer extends HttpServlet {
 	private ComputerService cpuServ = ComputerService.CPUSERV;
 
 	private CompanyService cpnServ = CompanyService.CPNSERV;
-	private List<CompanyDTO> listCpn = new ArrayList<CompanyDTO>();
+	private List<CompanyDto> listCpn = new ArrayList<CompanyDto>();
 
 	boolean added = false;
 
@@ -52,7 +52,7 @@ public class AddComputer extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String name = request.getParameter("computerName");
 		if (!name.isEmpty()) {
-			ComputerDTO cDto = new ComputerDTO(null,name,null,null,null,null);
+			ComputerDto cDto = new ComputerDto(null,name,null,null,null,null);
 			if (!request.getParameter("introduced").isEmpty()){
 				cDto.setIntroduced(request.getParameter("introduced"));
 			}
@@ -60,7 +60,7 @@ public class AddComputer extends HttpServlet {
 				cDto.setDiscontinued(request.getParameter("discontinued"));
 			}
 			if (!request.getParameter("company").isEmpty()) {
-				cDto.setId_cpn(Long.parseLong(request.getParameter("company")));
+				cDto.setIdCpn(Long.parseLong(request.getParameter("company")));
 				cDto.setName_cpn(listCpn.get(Integer.parseInt(request.getParameter("company"))).getName());
 			}
 			try {

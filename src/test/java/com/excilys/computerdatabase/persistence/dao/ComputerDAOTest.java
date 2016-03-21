@@ -11,7 +11,7 @@ import com.excilys.computerdatabase.exception.NoSuchCompanyException;
 import com.excilys.computerdatabase.exception.NoSuchComputerException;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
-import com.excilys.computerdatabase.persistence.dao.impl.ComputerDAOImpl;
+import com.excilys.computerdatabase.persistence.dao.impl.ComputerDaoImpl;
 import com.excilys.computerdatabase.persistence.DBTesting;
 
 /**
@@ -26,7 +26,7 @@ public class ComputerDAOTest extends DBTesting {
    * Tests findAll(), normal use.
    */
   public void testFindAll(){
-    ComputerDAOImpl cpuDao = new ComputerDAOImpl();
+    ComputerDaoImpl cpuDao = new ComputerDaoImpl();
     List<Computer> liste = cpuDao.findAll(10,5);
     for (Computer comp : liste) {
       assertNotNull(comp.getId());
@@ -39,7 +39,7 @@ public class ComputerDAOTest extends DBTesting {
    * Tests findAll(), using wrong values.
    */
   public void testFindAllInvalid(){
-    ComputerDAOImpl cDao = new ComputerDAOImpl();
+    ComputerDaoImpl cDao = new ComputerDaoImpl();
     List<Computer> liste = cDao.findAll(60,20);
     assertTrue(liste.size() == 0);
   }
@@ -49,7 +49,7 @@ public class ComputerDAOTest extends DBTesting {
    * Tests find(Long id) in a normal use.
    */
   public void testFind(){
-    ComputerDAOImpl cDao = new ComputerDAOImpl();
+    ComputerDaoImpl cDao = new ComputerDaoImpl();
     Computer comp = new Computer("");
     try {
       comp = cDao.find(12L);
@@ -72,7 +72,7 @@ public class ComputerDAOTest extends DBTesting {
    * Tests find(Long id) in an abnormal use (id not in db).
    */
   public void testFindInvalid(){
-    ComputerDAOImpl cDao = new ComputerDAOImpl();
+    ComputerDaoImpl cDao = new ComputerDaoImpl();
     Computer comp = new Computer("Test");
     Computer comptmp = comp;
     try {
@@ -88,7 +88,7 @@ public class ComputerDAOTest extends DBTesting {
    * Tests create(Computer t) in a normal use, with a computer.
    */
   public void testCreate(){
-    ComputerDAOImpl cDao = new ComputerDAOImpl();
+    ComputerDaoImpl cDao = new ComputerDaoImpl();
     Computer comp = new Computer("Test");
     comp.setIntroduced(LocalDate.parse("1990-11-10"));
     comp.setDiscontinued(LocalDate.parse("2016-03-09"));
@@ -110,7 +110,7 @@ public class ComputerDAOTest extends DBTesting {
    * Tests create(Computer t) in an abnormal, with a wrong company id.
    */
   public void testCreateNSCExc(){
-    ComputerDAOImpl cDao = new ComputerDAOImpl();
+    ComputerDaoImpl cDao = new ComputerDaoImpl();
     Computer comp = new Computer("Mine");
     comp.setIntroduced(LocalDate.parse("1990-11-10"));
     comp.setDiscontinued(LocalDate.parse("2016-03-09"));
@@ -132,7 +132,7 @@ public class ComputerDAOTest extends DBTesting {
    * Tests update(Computer t) in a normal use.
    */
   public void testUpdate(){
-    ComputerDAOImpl cDao = new ComputerDAOImpl();
+    ComputerDaoImpl cDao = new ComputerDaoImpl();
     Computer comp = new Computer("Update");
     comp.setId(35L);
     comp.setIntroduced(LocalDate.parse("1995-11-10"));
@@ -154,7 +154,7 @@ public class ComputerDAOTest extends DBTesting {
    * Tests update(Computer t) in an abnormal use, with a wrong computer id.
    */
   public void testUpdateInvalid(){
-    ComputerDAOImpl cDao = new ComputerDAOImpl();
+    ComputerDaoImpl cDao = new ComputerDaoImpl();
     Computer comp = new Computer("Update");
     comp.setId(1000L);
     comp.setIntroduced(LocalDate.parse("1995-11-10"));
@@ -177,7 +177,7 @@ public class ComputerDAOTest extends DBTesting {
    * Tests update(Computer t) in an abnormal use, with a wrong company id.
    */
   public void testUpdateNSCExc(){
-    ComputerDAOImpl cDao = new ComputerDAOImpl();
+    ComputerDaoImpl cDao = new ComputerDaoImpl();
     Computer comp = new Computer("Update");
     comp.setId(1000L);
     comp.setIntroduced(LocalDate.parse("1995-11-10"));
@@ -200,7 +200,7 @@ public class ComputerDAOTest extends DBTesting {
    * Tests delete(Long id) in a normal use.
    */
   public void testDelete(){
-    ComputerDAOImpl cDao = new ComputerDAOImpl();
+    ComputerDaoImpl cDao = new ComputerDaoImpl();
     try {
       cDao.delete(45L);
     } catch (NoSuchComputerException e) {
@@ -218,7 +218,7 @@ public class ComputerDAOTest extends DBTesting {
    * Tests delete(Long id) in an abnormal use, with a wrong computer id.
    */
   public void testDeleteInvalid(){
-    ComputerDAOImpl cDao = new ComputerDAOImpl();
+    ComputerDaoImpl cDao = new ComputerDaoImpl();
     try {
       cDao.delete(445L);
       fail();

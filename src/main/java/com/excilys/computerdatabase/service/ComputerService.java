@@ -8,12 +8,12 @@ import com.excilys.computerdatabase.exception.NoSuchComputerException;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.pagination.impl.ComputerPagination;
-import com.excilys.computerdatabase.persistence.dao.impl.CompanyDAOImpl;
-import com.excilys.computerdatabase.persistence.dao.impl.ComputerDAOImpl;
-import com.excilys.computerdatabase.persistence.dto.ComputerDTO;
+import com.excilys.computerdatabase.persistence.dao.impl.CompanyDaoImpl;
+import com.excilys.computerdatabase.persistence.dao.impl.ComputerDaoImpl;
+import com.excilys.computerdatabase.persistence.dto.ComputerDto;
 
 public class ComputerService {
-	private ComputerDAOImpl cDAO ;
+	private ComputerDaoImpl cDAO ;
 	private ComputerPagination cPage ;
 	
 	public static final ComputerService CPUSERV;
@@ -25,8 +25,8 @@ public class ComputerService {
 	 * Instantiates the DAO and the list of computers.
 	 */
 	private ComputerService(){
-		cDAO = new ComputerDAOImpl();
-		cPage = new ComputerPagination(1, 10, cDAO.sizeTable(), new ArrayList<ComputerDTO>());
+		cDAO = new ComputerDaoImpl();
+		cPage = new ComputerPagination(1, 10, cDAO.countEntries(), new ArrayList<ComputerDto>());
 	}
 	
 
@@ -47,7 +47,7 @@ public class ComputerService {
 			cPage.getList().clear();
 			
 			for(Computer cpu: cDAO.findAll(begin,paging)){
-				cPage.getList().add(new ComputerDTO(cpu.getId(), cpu.getName(), 
+				cPage.getList().add(new ComputerDto(cpu.getId(), cpu.getName(), 
 						(cpu.getIntroduced() == null ? null : cpu.getIntroduced().toString()), 
 						(cpu.getDiscontinued() == null ? null : cpu.getDiscontinued().toString()), 
 						cpu.getManufacturer().getId(), cpu.getManufacturer().getName()));
@@ -61,9 +61,9 @@ public class ComputerService {
 	 * @return a String containing our pretty printing
 	 * @throws NoSuchComputerException
 	 */
-	public ComputerDTO showComputer(Long id) throws NoSuchComputerException{
+	public ComputerDto showComputer(Long id) throws NoSuchComputerException{
 		Computer cpu = cDAO.find(id);
-		return new ComputerDTO(cpu.getId(), cpu.getName(), cpu.getIntroduced().toString(), cpu.getDiscontinued().toString(), cpu.getManufacturer().getId(), cpu.getManufacturer().getName());
+		return new ComputerDto(cpu.getId(), cpu.getName(), cpu.getIntroduced().toString(), cpu.getDiscontinued().toString(), cpu.getManufacturer().getId(), cpu.getManufacturer().getName());
 	}
 
 	/**
@@ -74,11 +74,11 @@ public class ComputerService {
 	 * @param id
 	 * @throws NoSuchCompanyException
 	 */
-	public void createComputer(ComputerDTO cDto) throws NoSuchCompanyException{
+	public void createComputer(ComputerDto cDto) throws NoSuchCompanyException{
 		Company manufacturer = null;
-		if (cDto.getId_cpn() != null){
-			CompanyDAOImpl cpnDAO = new CompanyDAOImpl();
-			manufacturer = cpnDAO.find(cDto.getId_cpn());
+		if (cDto.getIdCpn() != null){
+			CompanyDaoImpl cpnDAO = new CompanyDaoImpl();
+			manufacturer = cpnDAO.find(cDto.getIdCpn());
 		}
 		Computer cpu = new Computer(cDto.getName());
 		cpu.setIntroduced((cDto.getIntroduced() == null ? null : LocalDate.parse(cDto.getIntroduced())));
@@ -97,11 +97,11 @@ public class ComputerService {
 	 * @throws NoSuchCompanyException
 	 * @throws NoSuchComputerException
 	 */
-	public void updateComputer(ComputerDTO cDto) throws NoSuchCompanyException, NoSuchComputerException{
+	public void updateComputer(ComputerDto cDto) throws NoSuchCompanyException, NoSuchComputerException{
 		Company manufacturer = null;
-		if (cDto.getId_cpn() != null){
-			CompanyDAOImpl cpnDAO = new CompanyDAOImpl();
-			manufacturer = cpnDAO.find(cDto.getId_cpn());
+		if (cDto.getIdCpn() != null){
+			CompanyDaoImpl cpnDAO = new CompanyDaoImpl();
+			manufacturer = cpnDAO.find(cDto.getIdCpn());
 		}
 		Computer cpu = new Computer(cDto.getName());
 		cpu.setIntroduced(LocalDate.parse(cDto.getIntroduced()));

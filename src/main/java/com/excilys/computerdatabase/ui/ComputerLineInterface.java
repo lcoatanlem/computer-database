@@ -6,8 +6,8 @@ import java.util.Scanner;
 
 import com.excilys.computerdatabase.exception.NoSuchCompanyException;
 import com.excilys.computerdatabase.exception.NoSuchComputerException;
-import com.excilys.computerdatabase.persistence.dto.CompanyDTO;
-import com.excilys.computerdatabase.persistence.dto.ComputerDTO;
+import com.excilys.computerdatabase.persistence.dto.CompanyDto;
+import com.excilys.computerdatabase.persistence.dto.ComputerDto;
 import com.excilys.computerdatabase.service.CompanyService;
 import com.excilys.computerdatabase.service.ComputerService;
 
@@ -75,7 +75,7 @@ public class ComputerLineInterface{
 		Scanner sc = new Scanner(System.in);
 		try{
 			cpuController.listComputers(iterCpu, paginationCpu);
-			for (ComputerDTO cpu : cpuController.getcPage().getList()){
+			for (ComputerDto cpu : cpuController.getcPage().getList()){
 				System.out.println(cpu.getName());
 			}
 		} catch (IndexOutOfBoundsException e){
@@ -118,7 +118,7 @@ public class ComputerLineInterface{
 		Scanner sc = new Scanner(System.in);
 
 		try{
-			for (CompanyDTO cpn : cpnController.listCompanies(iterCpn, paginationCpn)){
+			for (CompanyDto cpn : cpnController.listCompanies(iterCpn, paginationCpn)){
 				System.out.println(cpn.getName());
 			}
 		} catch (IndexOutOfBoundsException e){
@@ -228,7 +228,7 @@ public class ComputerLineInterface{
 				} else {
 					resIdCpn = null;
 				}
-				ComputerDTO cpuDto = new ComputerDTO(null, name,introduced.toString(),discontinued.toString(),idCpn, null);
+				ComputerDto cpuDto = new ComputerDto(null, name,introduced.toString(),discontinued.toString(),idCpn, null);
 				cpuController.createComputer(cpuDto);
 				createComputer();
 			} catch (NumberFormatException e){
@@ -307,7 +307,7 @@ public class ComputerLineInterface{
 				} else {
 					resIdCpn = null;
 				}
-				ComputerDTO cpuDto = new ComputerDTO(null, name,introduced.toString(),discontinued.toString(),idCpn, null);
+				ComputerDto cpuDto = new ComputerDto(null, name,introduced.toString(),discontinued.toString(),idCpn, null);
 				cpuController.updateComputer(cpuDto);
 				updateComputer();
 			} catch (NumberFormatException e){
