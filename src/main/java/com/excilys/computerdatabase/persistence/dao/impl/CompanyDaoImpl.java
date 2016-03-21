@@ -3,7 +3,7 @@ package com.excilys.computerdatabase.persistence.dao.impl;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.persistence.ConnectionJdbc;
 import com.excilys.computerdatabase.persistence.dao.Dao;
-import com.excilys.computerdatabase.persistence.mapping.CompanyMapping;
+import com.excilys.computerdatabase.persistence.mapping.RsToCpn;
 import org.apache.log4j.Logger;
 
 import java.sql.PreparedStatement;
@@ -61,7 +61,7 @@ public class CompanyDaoImpl implements Dao<Company> {
       stmt.setInt(2, limit);
       ResultSet rs = stmt.executeQuery();
       while (rs.next()) {
-        list.add(CompanyMapping.map(rs));
+        list.add(RsToCpn.map(rs));
       }
     } catch (SQLException exn) {
       // Database access error / closed connection / closed statement
@@ -80,7 +80,7 @@ public class CompanyDaoImpl implements Dao<Company> {
       stmt.setLong(1, id);
       ResultSet rs = stmt.executeQuery();
       if (rs.next()) {
-        comp = (CompanyMapping.map(rs));
+        comp = (RsToCpn.map(rs));
       }
     } catch (SQLException exn) {
       // Database access error / closed connection / closed statement

@@ -12,10 +12,10 @@ import java.sql.SQLException;
  * @author lcoatanlem
  *
  */
-public class CompanyMapping {
-  private static CompanyMapping INSTANCE = new CompanyMapping();
+public class RsToCpn {
+  private static RsToCpn INSTANCE = new RsToCpn();
   
-  private CompanyMapping() {}
+  private RsToCpn() {}
   
   /**
    * @param rs
@@ -33,7 +33,7 @@ public class CompanyMapping {
     return (comp);
   }
 
-  public static CompanyMapping getInstance() {
+  public static RsToCpn getInstance() {
     return INSTANCE;
   }
 }

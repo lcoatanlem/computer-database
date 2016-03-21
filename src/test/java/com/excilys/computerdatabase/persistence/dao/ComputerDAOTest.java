@@ -16,6 +16,7 @@ import com.excilys.computerdatabase.persistence.DBTesting;
 
 /**
  * ComputerDAO testing.
+ * 
  * @author lcoatanlem
  *
  */
@@ -25,9 +26,9 @@ public class ComputerDAOTest extends DBTesting {
   /**
    * Tests findAll(), normal use.
    */
-  public void testFindAll(){
+  public void testFindAll() {
     ComputerDaoImpl cpuDao = new ComputerDaoImpl();
-    List<Computer> liste = cpuDao.findAll(10,5);
+    List<Computer> liste = cpuDao.findAll(10, 5);
     for (Computer comp : liste) {
       assertNotNull(comp.getId());
     }
@@ -38,9 +39,9 @@ public class ComputerDAOTest extends DBTesting {
   /**
    * Tests findAll(), using wrong values.
    */
-  public void testFindAllInvalid(){
+  public void testFindAllInvalid() {
     ComputerDaoImpl cDao = new ComputerDaoImpl();
-    List<Computer> liste = cDao.findAll(60,20);
+    List<Computer> liste = cDao.findAll(60, 20);
     assertTrue(liste.size() == 0);
   }
 
@@ -48,20 +49,21 @@ public class ComputerDAOTest extends DBTesting {
   /**
    * Tests find(Long id) in a normal use.
    */
-  public void testFind(){
+  public void testFind() {
     ComputerDaoImpl cDao = new ComputerDaoImpl();
     Computer comp = new Computer("");
     try {
       comp = cDao.find(12L);
       Computer same = new Computer("Apple III");
       same.setId(12L);
-      //same.setIntroduced(LocalDate.parse("1980-05-01"));  LES DATES SONT NULLES /!\
-      //same.setDiscontinued(LocalDate.parse("1984-04-01"));
+      // same.setIntroduced(LocalDate.parse("1980-05-01")); LES DATES SONT
+      // NULLES /!\
+      // same.setDiscontinued(LocalDate.parse("1984-04-01"));
       Company cpn = new Company();
       cpn.setId(1L);
       cpn.setName("Apple Inc.");
       same.setManufacturer(cpn);
-      assertEquals(same,comp);
+      assertEquals(same, comp);
     } catch (NoSuchComputerException e) {
       fail();
     }
@@ -71,7 +73,7 @@ public class ComputerDAOTest extends DBTesting {
   /**
    * Tests find(Long id) in an abnormal use (id not in db).
    */
-  public void testFindInvalid(){
+  public void testFindInvalid() {
     ComputerDaoImpl cDao = new ComputerDaoImpl();
     Computer comp = new Computer("Test");
     Computer comptmp = comp;
@@ -79,7 +81,7 @@ public class ComputerDAOTest extends DBTesting {
       comptmp = cDao.find(1000L);
       fail();
     } catch (NoSuchComputerException e) {
-      assertEquals(comp,comptmp);
+      assertEquals(comp, comptmp);
     }
   }
 
@@ -87,7 +89,7 @@ public class ComputerDAOTest extends DBTesting {
   /**
    * Tests create(Computer t) in a normal use, with a computer.
    */
-  public void testCreate(){
+  public void testCreate() {
     ComputerDaoImpl cDao = new ComputerDaoImpl();
     Computer comp = new Computer("Test");
     comp.setIntroduced(LocalDate.parse("1990-11-10"));
@@ -99,7 +101,7 @@ public class ComputerDAOTest extends DBTesting {
     try {
       cDao.create(comp);
       comp.setId(51L);
-      assertEquals(cDao.find(51L),comp);
+      assertEquals(cDao.find(51L), comp);
     } catch (NoSuchCompanyException | NoSuchComputerException e) {
       fail();
     }
@@ -109,7 +111,7 @@ public class ComputerDAOTest extends DBTesting {
   /**
    * Tests create(Computer t) in an abnormal, with a wrong company id.
    */
-  public void testCreateNSCExc(){
+  public void testCreateNSCExc() {
     ComputerDaoImpl cDao = new ComputerDaoImpl();
     Computer comp = new Computer("Mine");
     comp.setIntroduced(LocalDate.parse("1990-11-10"));
@@ -120,7 +122,7 @@ public class ComputerDAOTest extends DBTesting {
     try {
       cDao.create(comp);
       assertEquals(cDao.find(52L).getManufacturer(), null);
-    } catch (NoSuchCompanyException e){
+    } catch (NoSuchCompanyException e) {
       fail();
     } catch (NoSuchComputerException e) {
       fail();
@@ -131,7 +133,7 @@ public class ComputerDAOTest extends DBTesting {
   /**
    * Tests update(Computer t) in a normal use.
    */
-  public void testUpdate(){
+  public void testUpdate() {
     ComputerDaoImpl cDao = new ComputerDaoImpl();
     Computer comp = new Computer("Update");
     comp.setId(35L);
@@ -143,7 +145,7 @@ public class ComputerDAOTest extends DBTesting {
     comp.setManufacturer(cpn);
     try {
       cDao.update(comp);
-      assertEquals(cDao.find(35L),comp);
+      assertEquals(cDao.find(35L), comp);
     } catch (NoSuchComputerException | NoSuchCompanyException e) {
       fail();
     }
@@ -153,7 +155,7 @@ public class ComputerDAOTest extends DBTesting {
   /**
    * Tests update(Computer t) in an abnormal use, with a wrong computer id.
    */
-  public void testUpdateInvalid(){
+  public void testUpdateInvalid() {
     ComputerDaoImpl cDao = new ComputerDaoImpl();
     Computer comp = new Computer("Update");
     comp.setId(1000L);
@@ -168,7 +170,7 @@ public class ComputerDAOTest extends DBTesting {
       cDao.update(comp);
       fail();
     } catch (NoSuchComputerException | NoSuchCompanyException e) {
-      assertEquals(same,comp);
+      assertEquals(same, comp);
     }
   }
 
@@ -176,7 +178,7 @@ public class ComputerDAOTest extends DBTesting {
   /**
    * Tests update(Computer t) in an abnormal use, with a wrong company id.
    */
-  public void testUpdateNSCExc(){
+  public void testUpdateNSCExc() {
     ComputerDaoImpl cDao = new ComputerDaoImpl();
     Computer comp = new Computer("Update");
     comp.setId(1000L);
@@ -191,7 +193,7 @@ public class ComputerDAOTest extends DBTesting {
       cDao.update(comp);
       fail();
     } catch (NoSuchComputerException | NoSuchCompanyException e) {
-      assertEquals(same,comp);
+      assertEquals(same, comp);
     }
   }
 
@@ -199,7 +201,7 @@ public class ComputerDAOTest extends DBTesting {
   /**
    * Tests delete(Long id) in a normal use.
    */
-  public void testDelete(){
+  public void testDelete() {
     ComputerDaoImpl cDao = new ComputerDaoImpl();
     try {
       cDao.delete(45L);
@@ -217,7 +219,7 @@ public class ComputerDAOTest extends DBTesting {
   /**
    * Tests delete(Long id) in an abnormal use, with a wrong computer id.
    */
-  public void testDeleteInvalid(){
+  public void testDeleteInvalid() {
     ComputerDaoImpl cDao = new ComputerDaoImpl();
     try {
       cDao.delete(445L);
@@ -225,6 +227,5 @@ public class ComputerDAOTest extends DBTesting {
     } catch (NoSuchComputerException e) {
     }
   }
-
 
 }

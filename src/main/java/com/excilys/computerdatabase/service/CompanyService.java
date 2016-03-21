@@ -1,60 +1,63 @@
 package com.excilys.computerdatabase.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.pagination.impl.CompanyPagination;
 import com.excilys.computerdatabase.persistence.dao.impl.CompanyDaoImpl;
 import com.excilys.computerdatabase.persistence.dto.CompanyDto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CompanyService {
-	private CompanyDaoImpl cDAO ;
-	private CompanyPagination cPage;
-	
-	public final static CompanyService CPNSERV;
-	static{
-		CPNSERV = new CompanyService();
-	}
+  private CompanyDaoImpl cpnDao;
+  private CompanyPagination cpnPage;
 
-	/**
-	 * Instantiates the DAO and the CompanyPage.
-	 */
-	private CompanyService(){
-		cDAO = new CompanyDaoImpl();
-		cPage = new CompanyPagination(1L, 1L, 0, 10, cDAO.countEntries(), new ArrayList<CompanyDto>());
-	}
+  public static final CompanyService CPNSERV;
 
-	/**
-	 * Method to list all companies. To paginate, it starts with an index and a number of instances we want.
-	 * The method findAll() is called iff the list is empty.
-	 * @param iterCpn
-	 * @param pagination
-	 * @return a String containing the pretty printing of the instances we want.
-	 */
-	public List<CompanyDto> listCompanies(int iterCpn, int paging){
-		if (iterCpn <= cPage.getTotalEntries() && (iterCpn+paging) > 0){
+  static {
+    CPNSERV = new CompanyService();
+  }
 
-			cPage.setPageSize(paging);
+  /**
+   * Instantiates the DAO and the CompanyPage.
+   */
+  private CompanyService() {
+    cpnDao = CompanyDaoImpl.getInstance();
+    cpnPage = new CompanyPagination(0, 10, cpnDao.countEntries(), new ArrayList<CompanyDto>());
+  }
 
-			cPage.getList().clear();
+  /**
+   * Method to list all companies. To paginate, it starts with an index and a
+   * number of instances we want. The method findAll() is called iff the list is
+   * empty.
+   * 
+   * @param offset the beginning of the entries
+   * @param limit the maximum of entries
+   * @return a String containing the pretty printing of the instances we want.
+   */
+  public List<CompanyDto> listCompanies(int offset, int limit) {
+    if (offset <= cpnPage.getTotalEntries() && (offset + limit) > 0) {
 
-			for(Company cpn: cDAO.findAll(iterCpn,paging)){
-				cPage.getList().add(new CompanyDto(cpn.getId(), cpn.getName()));
-			}
+      cpnPage.setPageSize(limit);
 
-			if(cPage.getList().size() == 0){
-				throw new IndexOutOfBoundsException();
-			}
-		}
-		return cPage.getList();
-	}
+      cpnPage.getList().clear();
 
-	public CompanyPagination getcPage() {
-		return cPage;
-	}
+      for (Company cpn : cpnDao.findAll(offset, limit)) {
+        cpnPage.getList().add(new CompanyDto(cpn.getId(), cpn.getName()));
+      }
 
-	public void setcPage(CompanyPagination cPage) {
-		this.cPage = cPage;
-	}	
+      if (cpnPage.getList().size() == 0) {
+        throw new IndexOutOfBoundsException();
+      }
+    }
+    return cpnPage.getList();
+  }
+
+  public CompanyPagination getcPage() {
+    return cpnPage;
+  }
+
+  public void setcPage(CompanyPagination cpnPage) {
+    this.cpnPage = cpnPage;
+  }
 }

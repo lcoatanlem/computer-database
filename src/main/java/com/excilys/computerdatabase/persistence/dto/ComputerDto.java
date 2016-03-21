@@ -9,11 +9,12 @@ public class ComputerDto {
   private Long idCpn;
   private String nameCpn;
 
-  public ComputerDto() {}
-  
+  public ComputerDto() {
+  }
+
   /**
-   * Creates a ComputerDto from all the arguments.
-   * TODO : Mapping from DAO to DTO
+   * Creates a ComputerDto from all the arguments. TODO : Mapping from DAO to
+   * DTO
    */
   public ComputerDto(Long id, String name, String introduced, String discontinued, Long idCpn,
       String nameCpn) {
@@ -71,6 +72,12 @@ public class ComputerDto {
 
   public void setName_cpn(String nameCpn) {
     this.nameCpn = nameCpn;
+  }
+
+  @Override
+  public String toString() {
+    return "ComputerDto [id=" + id + ", name=" + name + ", introduced=" + introduced
+        + ", discontinued=" + discontinued + ", idCpn=" + idCpn + ", nameCpn=" + nameCpn + "]";
   }
 
 }

@@ -1,4 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE project>
 <dataset>
   <company id="1" name="Apple Inc."/>
   <company id="2" name="Thinking Machines"/>

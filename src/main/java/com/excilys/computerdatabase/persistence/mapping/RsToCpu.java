@@ -15,12 +15,12 @@ import java.time.LocalDate;
  * @author lcoatanlem
  *
  */
-public class ComputerMapping {
-  private static final ComputerMapping INSTANCE = new ComputerMapping();
+public class RsToCpu {
+  private static final RsToCpu INSTANCE = new RsToCpu();
 
-  Logger log = Logger.getLogger(ComputerMapping.class);
+  Logger log = Logger.getLogger(RsToCpu.class);
 
-  private ComputerMapping() {
+  private RsToCpu() {
   }
 
   /**
@@ -62,7 +62,7 @@ public class ComputerMapping {
     return cpu;
   }
 
-  public static ComputerMapping getInstance() {
+  public static RsToCpu getInstance() {
     return INSTANCE;
   }
 

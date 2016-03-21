@@ -22,7 +22,6 @@ public class ConnectionJdbc {
   private static Logger log = Logger.getLogger(ConnectionJdbc.class);
 
   private static final ConnectionJdbc INSTANCE;
-  private Connection connDb;
 
   private static final String PROPERTIES_FILE = "connection.properties";
   private String url;
@@ -100,14 +99,13 @@ public class ConnectionJdbc {
    * @return the connection to the db.
    */
   public Connection getConnection() {
-    if (connDb == null) {
-      try {
-        connDb = DriverManager.getConnection(url, user, pwd);
-        log.info("Connection to the db done.");
-      } catch (SQLException exn) {
-        log.error("FATAL : connection to the db refused.");
-        throw new SecurityException("Connection to the db refused.");
-      }
+    Connection connDb = null;
+    try {
+      connDb = DriverManager.getConnection(url, user, pwd);
+      log.info("Connection to the db done.");
+    } catch (SQLException exn) {
+      log.error("FATAL : connection to the db refused.");
+      throw new SecurityException("Connection to the db refused.");
     }
     return connDb;
   }

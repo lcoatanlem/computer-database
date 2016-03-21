@@ -25,9 +25,10 @@ public class AddWithoutDates {
     driver.findElement(By.id("addComputer")).click();
     driver.findElement(By.id("computerName")).clear();
     driver.findElement(By.id("computerName")).sendKeys("Test");
-    new Select(driver.findElement(By.id("companyId"))).selectByVisibleText("Commodore International");
+    new Select(driver.findElement(By.id("companyId")))
+        .selectByVisibleText("Commodore International");
     driver.findElement(By.cssSelector("input.btn.btn-primary")).click();
-    //asserts (message d'erreur si message erreur, page de retour correcte...)
+    // asserts (message d'erreur si message erreur, page de retour correcte...)
   }
 
   @After

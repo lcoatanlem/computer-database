@@ -30,7 +30,8 @@ public class DBTesting {
    */
   protected IDataSet getDataSet() throws Exception {
     // Change for computer-database to run full entries tests.
-    return new FlatXmlDataSetBuilder().build(new FileInputStream("src/test/resources/computer-database-lite.xml"));
+    return new FlatXmlDataSetBuilder()
+        .build(new FileInputStream("src/test/resources/computer-database-lite.xml"));
   }
 
   /**
@@ -64,8 +65,8 @@ public class DBTesting {
    * @throws Exception
    */
   private void cleanlyInsert(IDataSet dataSet) throws Exception {
-    IDatabaseTester databaseTester = new JdbcDatabaseTester(connJDBC_test.getDriver(), connJDBC_test.getUrl(),
-        connJDBC_test.getUser(), connJDBC_test.getPwd());
+    IDatabaseTester databaseTester = new JdbcDatabaseTester(connJDBC_test.getDriver(),
+        connJDBC_test.getUrl(), connJDBC_test.getUser(), connJDBC_test.getPwd());
     databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
     databaseTester.setDataSet(dataSet);
     databaseTester.onSetup();

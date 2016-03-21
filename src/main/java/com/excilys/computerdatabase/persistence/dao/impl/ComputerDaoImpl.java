@@ -3,7 +3,7 @@ package com.excilys.computerdatabase.persistence.dao.impl;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.persistence.ConnectionJdbc;
 import com.excilys.computerdatabase.persistence.dao.Dao;
-import com.excilys.computerdatabase.persistence.mapping.ComputerMapping;
+import com.excilys.computerdatabase.persistence.mapping.RsToCpu;
 import org.apache.log4j.Logger;
 
 import java.sql.Date;
@@ -61,7 +61,7 @@ public class ComputerDaoImpl implements Dao<Computer> {
       stmt.setInt(2, limit);
       ResultSet rs = stmt.executeQuery();
       while (rs.next()) {
-        list.add((ComputerMapping.getInstance().map(rs)));
+        list.add((RsToCpu.getInstance().map(rs)));
       }
 
     } catch (SQLException exn) {
@@ -81,7 +81,7 @@ public class ComputerDaoImpl implements Dao<Computer> {
       stmt.setLong(1, id);
       ResultSet rs = stmt.executeQuery();
       if (rs.next()) {
-        comp = (ComputerMapping.getInstance().map(rs));
+        comp = (RsToCpu.getInstance().map(rs));
       }
     } catch (SQLException exn) {
       // Database access error / closed connection / closed statement
