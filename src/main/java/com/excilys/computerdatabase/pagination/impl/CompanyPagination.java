@@ -1,13 +1,13 @@
 package com.excilys.computerdatabase.pagination.impl;
 
+import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.pagination.Pagination;
-import com.excilys.computerdatabase.persistence.dto.CompanyDto;
 
 import java.util.List;
 
-public class CompanyPagination extends Pagination<CompanyDto> {
+public class CompanyPagination extends Pagination<Company> {
 
-  private List<CompanyDto> list;
+  private List<Company> list;
 
   /**
    * This is the implementation of the Pagination for the Companies. Uses the
@@ -16,13 +16,13 @@ public class CompanyPagination extends Pagination<CompanyDto> {
    * @param list
    *          of Companies
    */
-  public CompanyPagination(int pageNumber, int pageSize, int totalEntries, List<CompanyDto> list) {
+  public CompanyPagination(int pageNumber, int pageSize, int totalEntries, List<Company> list) {
     super(pageNumber, pageSize, totalEntries);
     this.list = list;
   }
 
   @Override
-  public List<CompanyDto> getList() {
+  public List<Company> getList() {
     return list;
   }
 }

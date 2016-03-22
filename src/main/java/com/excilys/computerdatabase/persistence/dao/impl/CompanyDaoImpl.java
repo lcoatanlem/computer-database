@@ -3,7 +3,8 @@ package com.excilys.computerdatabase.persistence.dao.impl;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.persistence.ConnectionJdbc;
 import com.excilys.computerdatabase.persistence.dao.Dao;
-import com.excilys.computerdatabase.persistence.mapping.RsToCpn;
+import com.excilys.computerdatabase.persistence.mapping.rs.RsToCpn;
+
 import org.apache.log4j.Logger;
 
 import java.sql.PreparedStatement;

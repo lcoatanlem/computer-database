@@ -9,7 +9,7 @@ package com.excilys.computerdatabase.exception;
 public class DateFormatException extends RuntimeException {
 
   private static final long serialVersionUID = -1275289109336507002L;
-  private static final String MESSAGE = "This date format is not used in the program.";
+  private static final String MESSAGE = "This date format is not authorized by this program.";
 
   public DateFormatException() {
     super(MESSAGE);

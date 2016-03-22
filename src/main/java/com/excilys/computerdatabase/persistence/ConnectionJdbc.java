@@ -27,6 +27,7 @@ public class ConnectionJdbc {
   private String url;
   private String user;
   private String pwd;
+  private String driver;
 
   /**
    * Private constructor, to make an instance of the class from all properties.
@@ -102,11 +103,26 @@ public class ConnectionJdbc {
     Connection connDb = null;
     try {
       connDb = DriverManager.getConnection(url, user, pwd);
-      log.info("Connection to the db done.");
     } catch (SQLException exn) {
       log.error("FATAL : connection to the db refused.");
       throw new SecurityException("Connection to the db refused.");
     }
     return connDb;
+  }
+
+  protected String getUrl() {
+    return url;
+  }
+
+  protected String getUser() {
+    return user;
+  }
+
+  protected String getPwd() {
+    return pwd;
+  }
+
+  protected String getDriver() {
+    return driver;
   }
 }

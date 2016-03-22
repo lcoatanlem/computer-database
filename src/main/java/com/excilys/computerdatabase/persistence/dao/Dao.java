@@ -1,6 +1,6 @@
 package com.excilys.computerdatabase.persistence.dao;
 
-import com.excilys.computerdatabase.exception.DaoIllegalMethodException;
+import com.excilys.computerdatabase.exception.IllegalMethodException;
 
 import java.util.List;
 
@@ -31,14 +31,14 @@ public interface Dao<T> {
   public int countEntries();
 
   default void create(T comp) {
-    throw new DaoIllegalMethodException();
+    throw new IllegalMethodException();
   }
   
   default void update(T comp) {
-    throw new DaoIllegalMethodException();
+    throw new IllegalMethodException();
   }
   
   default void delete(Long id) {
-    throw new DaoIllegalMethodException();
+    throw new IllegalMethodException();
   }
 }

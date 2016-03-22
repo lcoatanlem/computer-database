@@ -1,7 +1,8 @@
 package com.excilys.computerdatabase.ui;
 
-import com.excilys.computerdatabase.persistence.dto.CompanyDto;
+import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.persistence.dto.ComputerDto;
+import com.excilys.computerdatabase.persistence.mapping.dto.ComputerDtoToDao;
 import com.excilys.computerdatabase.service.CompanyService;
 import com.excilys.computerdatabase.service.ComputerService;
 
@@ -21,8 +22,8 @@ public class ComputerLineInterface {
    * To javadoc.
    */
   public ComputerLineInterface() {
-    cpuController = ComputerService.CPUSERV;
-    cpnController = CompanyService.CPNSERV;
+    cpuController = ComputerService.getInstance();
+    cpnController = CompanyService.getCpnserv();
     iterCpu = 0;
     iterCpn = 0;
   }
@@ -128,7 +129,7 @@ public class ComputerLineInterface {
     Scanner sc = new Scanner(System.in);
 
     try {
-      for (CompanyDto cpn : cpnController.listCompanies(iterCpn, paginationCpn)) {
+      for (Company cpn : cpnController.listCompanies(iterCpn, paginationCpn)) {
         System.out.println(cpn.getName());
       }
     } catch (IndexOutOfBoundsException exn) {
@@ -184,9 +185,6 @@ public class ComputerLineInterface {
     } catch (NumberFormatException exn) {
       System.out.println("Not a good entry, type a number of type Long!");
       showComputer();
-//    } catch (NoSuchComputerException exn) {
-//      System.out.println("This computer does not exists, try again!");
-//      showComputer();
     } finally {
       sc.close();
     }
@@ -243,15 +241,12 @@ public class ComputerLineInterface {
           resIdCpn = null;
         }
         ComputerDto cpuDto = new ComputerDto(null, name, introduced.toString(),
-            discontinued.toString(), idCpn, null);
-        cpuController.createComputer(cpuDto);
+            discontinued.toString(), idCpn.toString(), null);
+        cpuController.createComputer(ComputerDtoToDao.getInstance().map(cpuDto));
         createComputer();
       } catch (NumberFormatException exn) {
         System.out.println("Not a good entry, type a number of type Long!");
         createComputer();
-//      } catch (NoSuchCompanyException exn) {
-//        System.out.println("This company does not exists, try again!");
-//        createComputer();
       }
     }
     sc.close();
@@ -323,19 +318,13 @@ public class ComputerLineInterface {
         } else {
           resIdCpn = null;
         }
-        ComputerDto cpuDto = new ComputerDto(null, name, introduced.toString(),
-            discontinued.toString(), idCpn, null);
-        cpuController.updateComputer(cpuDto);
+        ComputerDto cpuDto = new ComputerDto(idCpu.toString(), name, introduced.toString(),
+            discontinued.toString(), idCpn.toString(), null);
+        cpuController.updateComputer(ComputerDtoToDao.getInstance().map(cpuDto));
         updateComputer();
       } catch (NumberFormatException exn) {
         System.out.println("Not a good entry, type a number of type Long!");
         updateComputer();
-//      } catch (NoSuchCompanyException exn) {
-//        System.out.println("This company does not exists, try again!");
-//        updateComputer();
-//      } catch (NoSuchComputerException exn) {
-//        System.out.println("This id doesn't exists, try again!");
-//        updateComputer();
       }
     }
     sc.close();
@@ -355,9 +344,6 @@ public class ComputerLineInterface {
     } catch (NumberFormatException exn) {
       System.out.println("Not a good entry, type a number of type Long!");
       deleteComputer();
-      // } catch (NoSuchComputerException exn) {
-      // System.out.println("This computer does not exists, try again!");
-      // deleteComputer();
     } finally {
       sc.close();
     }

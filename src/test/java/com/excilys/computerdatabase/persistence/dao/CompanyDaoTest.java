@@ -6,24 +6,23 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.List;
+import com.excilys.computerdatabase.model.Company;
+import com.excilys.computerdatabase.persistence.DbTesting;
+import com.excilys.computerdatabase.persistence.dao.impl.CompanyDaoImpl;
 
 import org.junit.Test;
 
-import com.excilys.computerdatabase.exception.NoSuchCompanyException;
-import com.excilys.computerdatabase.model.Company;
-import com.excilys.computerdatabase.persistence.dao.impl.CompanyDaoImpl;
-import com.excilys.computerdatabase.persistence.DBTesting;
+import java.util.List;
 
-public class CompanyDAOTest extends DBTesting {
+public class CompanyDaoTest extends DbTesting {
 
   @Test
   /**
    * Tests findAll(), normal use.
    */
   public void testFindAll() {
-    CompanyDaoImpl cDao = new CompanyDaoImpl();
-    List<Company> liste = cDao.findAll(10, 20);
+    CompanyDaoImpl cpnDao = CompanyDaoImpl.getInstance();
+    List<Company> liste = cpnDao.findAll(10, 20);
     for (Company comp : liste) {
       assertNotNull(comp.getId());
     }
@@ -35,8 +34,8 @@ public class CompanyDAOTest extends DBTesting {
    * Tests findAll(), using wrong values.
    */
   public void testFindAllInvalid() {
-    CompanyDaoImpl cDao = new CompanyDaoImpl();
-    List<Company> liste = cDao.findAll(60, 20);
+    CompanyDaoImpl cpnDao = CompanyDaoImpl.getInstance();
+    List<Company> liste = cpnDao.findAll(60, 20);
     assertTrue(liste.size() == 0);
   }
 
@@ -45,13 +44,9 @@ public class CompanyDAOTest extends DBTesting {
    * Tests findAll(), normal use.
    */
   public void testFind() {
-    CompanyDaoImpl cDao = new CompanyDaoImpl();
+    CompanyDaoImpl cpnDao = CompanyDaoImpl.getInstance();
     Company cpn = new Company();
-    try {
-      cpn = cDao.find(17L);
-    } catch (NoSuchCompanyException e) {
-      fail();
-    }
+    cpn = cpnDao.find(17L);
     assertEquals(cpn.getName(), "Sony");
   }
 
@@ -60,13 +55,9 @@ public class CompanyDAOTest extends DBTesting {
    * Tests findAll(), with null, should return null.
    */
   public void testFindNull() {
-    CompanyDaoImpl cDao = new CompanyDaoImpl();
+    CompanyDaoImpl cpnDao = CompanyDaoImpl.getInstance();
     Company cpn = new Company();
-    try {
-      cpn = cDao.find(null);
-    } catch (NoSuchCompanyException e) {
-      fail();
-    }
+    cpn = cpnDao.find(null);
     assertNull(cpn);
   }
 
@@ -75,14 +66,11 @@ public class CompanyDAOTest extends DBTesting {
    * Tests findAll(), with an invalid id, should throw an exception.
    */
   public void testFindInvalid() {
-    CompanyDaoImpl cDao = new CompanyDaoImpl();
+    CompanyDaoImpl cpnDao = CompanyDaoImpl.getInstance();
     Company cpn = new Company();
-    Company cpntmp = cpn;
-    try {
-      cpn = cDao.find(150L);
+    cpn = cpnDao.find(150L);
+    if (cpn != null) {
       fail();
-    } catch (NoSuchCompanyException e) {
-      assertEquals(cpn, cpntmp);
     }
   }
 }

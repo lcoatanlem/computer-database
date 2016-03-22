@@ -1,15 +1,13 @@
 package com.excilys.computerdatabase.servlets;
 
-import com.excilys.computerdatabase.persistence.dto.CompanyDto;
+import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.persistence.dto.ComputerDto;
+import com.excilys.computerdatabase.persistence.mapping.dto.ComputerDtoToDao;
 import com.excilys.computerdatabase.service.CompanyService;
 import com.excilys.computerdatabase.service.ComputerService;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,62 +21,77 @@ public class AddComputer extends HttpServlet {
 
   private Logger log = Logger.getLogger(AddComputer.class);
 
-  private ComputerService cpuServ = ComputerService.CPUSERV;
+  private ComputerService cpuServ = ComputerService.getInstance();
 
-  private CompanyService cpnServ = CompanyService.CPNSERV;
-  private List<CompanyDto> listCpn = new ArrayList<CompanyDto>();
+  private CompanyService cpnServ = CompanyService.getCpnserv();
 
   boolean added = false;
 
   /**
-   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-   *      response).
+   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response).
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     added = false;
-    if (listCpn.isEmpty()) {
-      listCpn = cpnServ.listCompanies(0, cpnServ.getcPage().getTotalEntries());
+    // If the company list is empty, we upload it
+    if (cpnServ.getcPage().getList().isEmpty()) {
+      cpnServ.listCompanies(0, cpnServ.getcPage().getTotalEntries());
+
       log.info("Companies list initialisation");
     }
-    request.setAttribute("companies", listCpn);
+    request.setAttribute("companies", cpnServ.getcPage().getList());
     this.getServletContext().getRequestDispatcher("/WEB-INF/views/addComputer.jsp").forward(request,
         response);
   }
 
   /**
-   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-   *      response).
+   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response).
    */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    String name = request.getParameter("computerName");
-    if (!name.isEmpty()) {
-      ComputerDto cpuDto = new ComputerDto(null, name, null, null, null, null);
-      if (!request.getParameter("introduced").isEmpty()) {
-        cpuDto.setIntroduced(request.getParameter("introduced"));
-      }
-      if (!request.getParameter("discontinued").isEmpty()) {
-        cpuDto.setDiscontinued(request.getParameter("discontinued"));
-      }
-      if (!request.getParameter("company").isEmpty()) {
-        cpuDto.setIdCpn(Long.parseLong(request.getParameter("company")));
-        cpuDto
-            .setName_cpn(listCpn.get(Integer.parseInt(request.getParameter("company"))).getName());
-      }
-      cpuServ.createComputer(cpuDto);
-      log.info("Added Computer " + cpuDto.getName());
-      int newTotalEntries = cpuServ.getCpuPage().getTotalEntries() + 1;
-      cpuServ.getCpuPage().setTotalEntries(newTotalEntries);
-      added = true;
+    // We put all parameters into a ComputerDto
+    // if the parameter is empty, value will be null
+    ComputerDto cpuDto = new ComputerDto();
+    log.info("Creation computer");
+
+    // Name
+    String name = (request.getParameter("computerName").isEmpty() ? null
+        : request.getParameter("computerName"));
+    log.error("name = " + name);
+    cpuDto.setName(name);
+
+    // Introduced
+    String introduced = (request.getParameter("introduced").isEmpty() ? null
+        : request.getParameter("introduced"));
+    cpuDto.setIntroduced(introduced);
+
+    // Discontinued
+    String discontinued = (request.getParameter("discontinued").isEmpty() ? null
+        : request.getParameter("discontinued"));
+    cpuDto.setDiscontinued(discontinued);
+
+    // Manufacturer
+    // IdCpn
+    String idCpn = (request.getParameter("company").isEmpty() ? null
+        : request.getParameter("company"));
+    if (idCpn != null) {
+      Company cpn = cpnServ.getcPage().getList().get(Integer.parseInt(idCpn));
+      cpuDto.setIdCpn(cpn.getId().toString());
+      cpuDto.setNameCpn(cpn.getName());
     } else {
-      log.info("The name was null, couldn't create a new Computer in Database.");
+      cpuDto.setIdCpn(null);
+      cpuDto.setNameCpn(null);
     }
-    if (added) {
-      this.getServletContext().getRequestDispatcher("/dashboard").forward(request, response);
-    } else {
-      doGet(request, response);
-    }
+
+    log.error(cpuDto.toString());
+    ////// try ComputerValidator.validate(cpuDto) ..
+
+    cpuServ.createComputer(ComputerDtoToDao.getInstance().map(cpuDto));
+
+    log.info("Added Computer " + cpuDto.getName());
+
+    this.getServletContext().getRequestDispatcher("/dashboard").forward(request, response);
+
   }
 
 }

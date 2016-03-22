@@ -86,7 +86,7 @@
 									target="/computer-database/dashboard"></mylib:link></td>
 							<td><c:out value="${ elt.introduced }"></c:out></td>
 							<td><c:out value="${ elt.discontinued }"></c:out></td>
-							<td><c:out value="${ elt.name_cpn }"></c:out></td>
+							<!-- <td><c:out value="${ elt.nameCpn }"></c:out></td> -->
 
 						</tr>
 					</c:forEach>

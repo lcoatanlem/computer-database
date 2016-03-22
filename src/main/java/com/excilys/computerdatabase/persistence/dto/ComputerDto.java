@@ -2,21 +2,20 @@ package com.excilys.computerdatabase.persistence.dto;
 
 public class ComputerDto {
 
-  private Long id;
+  private String id;
   private String name;
   private String introduced;
   private String discontinued;
-  private Long idCpn;
+  private String idCpn;
   private String nameCpn;
 
   public ComputerDto() {
   }
 
   /**
-   * Creates a ComputerDto from all the arguments. TODO : Mapping from DAO to
-   * DTO
+   * Creates a ComputerDto from all the arguments. TODO : Mapping from DAO to DTO
    */
-  public ComputerDto(Long id, String name, String introduced, String discontinued, Long idCpn,
+  public ComputerDto(String id, String name, String introduced, String discontinued, String idCpn,
       String nameCpn) {
     this.id = id;
     this.name = name;
@@ -26,11 +25,11 @@ public class ComputerDto {
     this.nameCpn = nameCpn;
   }
 
-  public Long getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
   }
 
@@ -58,11 +57,11 @@ public class ComputerDto {
     this.discontinued = discontinued;
   }
 
-  public Long getIdCpn() {
+  public String getIdCpn() {
     return idCpn;
   }
 
-  public void setIdCpn(Long idCpn) {
+  public void setIdCpn(String idCpn) {
     this.idCpn = idCpn;
   }
 
@@ -70,7 +69,7 @@ public class ComputerDto {
     return nameCpn;
   }
 
-  public void setName_cpn(String nameCpn) {
+  public void setNameCpn(String nameCpn) {
     this.nameCpn = nameCpn;
   }
 
