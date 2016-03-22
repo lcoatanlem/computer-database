@@ -19,7 +19,7 @@ public class ComputerLineInterface {
   private CompanyService cpnController;
 
   /**
-   * To javadoc.
+   * TODO : javadoc and total rework.
    */
   public ComputerLineInterface() {
     cpuController = ComputerService.getInstance();

@@ -11,11 +11,7 @@ public class ComputerService {
   private ComputerDaoImpl cpuDao;
   private ComputerPagination cpuPage;
 
-  private static final ComputerService INSTANCE;
-
-  static {
-    INSTANCE = new ComputerService();
-  }
+  private static final ComputerService INSTANCE = new ComputerService();
 
   public static ComputerService getInstance() {
     return INSTANCE;

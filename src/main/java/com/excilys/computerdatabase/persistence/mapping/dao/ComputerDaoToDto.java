@@ -4,13 +4,9 @@ import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.persistence.dto.ComputerDto;
 
 public class ComputerDaoToDto {
-  private static final ComputerDaoToDto INSTANCE;
+  private static final ComputerDaoToDto INSTANCE = new ComputerDaoToDto();
 
   private ComputerDaoToDto() {
-  }
-
-  static {
-    INSTANCE = new ComputerDaoToDto();
   }
 
   public static ComputerDaoToDto getInstance() {

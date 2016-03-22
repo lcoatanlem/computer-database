@@ -7,13 +7,9 @@ import com.excilys.computerdatabase.persistence.dto.ComputerDto;
 import java.time.LocalDate;
 
 public class ComputerDtoToDao {
-  private static final ComputerDtoToDao INSTANCE;
+  private static final ComputerDtoToDao INSTANCE = new ComputerDtoToDao();
 
   private ComputerDtoToDao() {
-  }
-
-  static {
-    INSTANCE = new ComputerDtoToDao();
   }
 
   public static ComputerDtoToDao getInstance() {
