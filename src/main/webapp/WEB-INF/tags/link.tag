@@ -13,8 +13,8 @@
 
 <c:choose>
 	<c:when test="${ target != '#' }">
-		<a href="${ target }?limit=${ limit }&numPage=${ numPage }"
-			class="${ className }"><c:out value="${ link }"></c:out></a>
+		<a href="${ target }?numPage=${ numPage }&limit=${ limit }" class="${ className }"><c:out
+				value="${ link }"></c:out></a>
 	</c:when>
 	<c:otherwise>
 		<a href="#"><c:out value="${ link }"></c:out></a>

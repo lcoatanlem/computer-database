@@ -20,8 +20,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class Dashboard extends HttpServlet {
   private static final long serialVersionUID = 1L;
-  private int numPage = 1;
-  private int pageSize = 10;
 
   private Logger log = Logger.getLogger(Dashboard.class);
 
@@ -39,22 +37,35 @@ public class Dashboard extends HttpServlet {
       cpuServ.setCpuPage(new ComputerPagination(1, 10, cpuServ.countEntries(), new ArrayList<>()));
     }
 
-    // Checking the new numPage and set it in the page iff valid
-    if (Validator.getInstance().numPageIsValid(request.getParameter("numPage"),
-        cpuServ.getCpuPage().getTotalEntries(), pageSize)) {
-      numPage = Integer.parseInt(request.getParameter("numPage"));
+    // Page number checking
+    String numPageRes = Validator.getInstance().numPageIsValid(request.getParameter("numPage"),
+        cpuServ.getCpuPage().getTotalEntries(), cpuServ.getCpuPage().getPageSize());
+    // Limit of entries checking
+    String limitRes = Validator.getInstance().pageSizeIsValid(request.getParameter("limit"));
+    if (numPageRes == null) {
+      // numPage is ok
+      cpuServ.getCpuPage().setPageNumber(Integer.parseInt(request.getParameter("numPage")));
+      if (limitRes == null) {
+        // both are ok
+        cpuServ.getCpuPage().setPageSize(Integer.parseInt(request.getParameter("limit")));
+      } else {
+        // limitRes is wrong
+        log.info(limitRes);
+      }
     } else {
-      log.info("User tried to change numPage parameter manually to "
-          + request.getParameter("numPage") + ".");
+      // numPage is wrong
+      if (limitRes == null) {
+        cpuServ.getCpuPage().setPageSize(Integer.parseInt(request.getParameter("limit")));
+        log.info(numPageRes);
+      } else {
+        // both are wrong
+        log.info(numPageRes);
+        log.info(limitRes);
+      }
     }
-
-    // Checking the new limit and set it in the page iff valid
-    if (Validator.getInstance().pageSizeIsValid(request.getParameter("limit"))) {
-      pageSize = Integer.parseInt(request.getParameter("limit"));
-    } else {
-      log.info("User tried to change limit parameter manually to " + request.getParameter("limit")
-          + ".");
-    }
+    
+    int numPage = cpuServ.getCpuPage().getPageNumber();
+    int pageSize = cpuServ.getCpuPage().getPageSize();
 
     // Cleaning the previous list in Pagination
     cpuServ.getCpuPage().getList().clear();

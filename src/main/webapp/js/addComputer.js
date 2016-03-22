@@ -13,14 +13,14 @@ $('#addcomputer').validate({
 	},
 	messages : {
 		computerName : {
-			required : "Name is required",
-			minlength : "At least two chars"
+			required : "Name is required.",
+			minlength : "At least two chars."
 		},
 		introduced : {
-			dateISO : "Invalid date format"
+			dateISO : "Invalid date format."
 		},
 		discontinued : {
-			dateISO : "Invalid date format"
+			dateISO : "Invalid date format."
 		}
 	},
 	error : function(label) {

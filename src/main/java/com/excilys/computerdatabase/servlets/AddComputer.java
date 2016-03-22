@@ -28,7 +28,8 @@ public class AddComputer extends HttpServlet {
   boolean added = false;
 
   /**
-   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response).
+   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+   *      response).
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
@@ -45,19 +46,20 @@ public class AddComputer extends HttpServlet {
   }
 
   /**
-   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response).
+   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+   *      response).
    */
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     // We put all parameters into a ComputerDto
-    // if the parameter is empty, value will be null
+    // validating every parameter with the Validator (back-end validation)
     ComputerDto cpuDto = new ComputerDto();
     log.info("Creation computer");
 
     // Name
+    
     String name = (request.getParameter("computerName").isEmpty() ? null
         : request.getParameter("computerName"));
-    log.error("name = " + name);
     cpuDto.setName(name);
 
     // Introduced

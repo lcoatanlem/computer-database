@@ -15,47 +15,56 @@ public class Validator {
    * 
    * @return true iff numPage is valid
    */
-  public boolean numPageIsValid(String numPageReq, int totalEntries, int pageSize) {
+  public String numPageIsValid(String numPageReq, int totalEntries, int pageSize) {
     // Testing the null
-    if (numPageReq != null) {
+    if (numPageReq == null) {
+      return "Page number is null, set to its default value : 1.";
+    } else {
       // If not null, must match only integers
-      String pattern = "\\d+";
+      String pattern = "^\\d+$";
       Pattern cpattern = Pattern.compile(pattern);
       Matcher match = cpattern.matcher(numPageReq);
-      if (match.find()) {
+      if (!match.find()) {
+        return "Page number must be an integer.";
+      } else {
         // If matches the pattern, need to check if it isn't out of bounds
         int numPage = Integer.parseInt(numPageReq);
         int maxPages = totalEntries / pageSize + 1;
-        if (numPage > 0 & numPage <= maxPages) {
-          return true;
+        if (numPage < 0 | numPage > maxPages) {
+          return "Page number is out of bounds.";
+        } else {
+          return null;
         }
       }
     }
-    return false;
   }
 
-  
   /**
    * pageSize Validator.
    * 
    * @return true iff pageSize is valid
    */
-  public boolean pageSizeIsValid(String pageSizeReq) {
+  public String pageSizeIsValid(String pageSizeReq) {
     // Testing the null
-    if (pageSizeReq != null) {
+    if (pageSizeReq == null) {
+      return "Page size is null, set to its default value : 10.";
+    } else {
       // If not null, must match only integers
-      String pattern = "\\d+";
+      String pattern = "^\\d+$";
       Pattern cpattern = Pattern.compile(pattern);
       Matcher match = cpattern.matcher(pageSizeReq);
-      if (match.find()) {
-        int pageSize = Integer.parseInt(pageSizeReq);
+      if (!match.find()) {
+        return "Page size must be an integer.";
+      } else {
         // If matches the pattern, need to check its value
-        if (pageSize == 10 | pageSize == 50 | pageSize == 100) {
-          return true;
+        int pageSize = Integer.parseInt(pageSizeReq);
+        if (!(pageSize == 10 | pageSize == 50 | pageSize == 100)) {
+          return "Page size can be 10, 50, or 100.";
+        } else {
+          return null;
         }
       }
     }
-    return false;
-
   }
+
 }
