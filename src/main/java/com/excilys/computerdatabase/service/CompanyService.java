@@ -11,11 +11,7 @@ public class CompanyService {
   private CompanyDaoImpl cpnDao;
   private CompanyPagination cpnPage;
 
-  private static final CompanyService INSTANCE;
-
-  static {
-    INSTANCE = new CompanyService();
-  }
+  private static final CompanyService INSTANCE = new CompanyService();
 
   public static CompanyService getCpnserv() {
     return INSTANCE;
