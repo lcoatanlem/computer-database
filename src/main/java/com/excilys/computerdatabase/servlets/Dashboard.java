@@ -56,6 +56,7 @@ public class Dashboard extends HttpServlet {
       // numPage is wrong
       if (limitRes == null) {
         cpuServ.getCpuPage().setPageSize(Integer.parseInt(request.getParameter("limit")));
+        cpuServ.getCpuPage().setPageNumber(1);
         log.info(numPageRes);
       } else {
         // both are wrong

@@ -24,20 +24,17 @@
 
 	<c:if test="${ pageNumber gt 6 }">
 		<li><mylib:link link="${ pageNumber-5 }"
-				target="/computer-database/dashboard"
-				numPage="${ pageNumber-5 }">
+				target="/computer-database/dashboard" numPage="${ pageNumber-5 }">
 			</mylib:link></li>
 	</c:if>
 	<c:if test="${ pageNumber gt 3 }">
 		<li><mylib:link link="${ pageNumber-2 }"
-				target="/computer-database/dashboard"
-				numPage="${ pageNumber-2 }">
+				target="/computer-database/dashboard" numPage="${ pageNumber-2 }">
 			</mylib:link></li>
 	</c:if>
 	<c:if test="${ pageNumber gt 2 }">
 		<li><mylib:link link="${ pageNumber-1 }"
-				target="/computer-database/dashboard"
-				numPage="${ pageNumber-1 }">
+				target="/computer-database/dashboard" numPage="${ pageNumber-1 }">
 			</mylib:link></li>
 	</c:if>
 
@@ -46,29 +43,26 @@
 
 	<c:if test="${ pageNumber lt totalPages-2 }">
 		<li><mylib:link link="${ pageNumber+1 }"
-				target="/computer-database/dashboard"
-				numPage="${ pageNumber+1 }">
+				target="/computer-database/dashboard" numPage="${ pageNumber+1 }">
 			</mylib:link></li>
 	</c:if>
 	<c:if test="${ pageNumber lt totalPages-3 }">
 		<li><mylib:link link="${ pageNumber+2 }"
-				target="/computer-database/dashboard"
-				numPage="${ pageNumber+2 }">
+				target="/computer-database/dashboard" numPage="${ pageNumber+2 }">
 			</mylib:link></li>
 	</c:if>
 	<c:if test="${ pageNumber lt totalPages-6 }">
 		<li><mylib:link link="${ pageNumber+5 }"
-				target="/computer-database/dashboard"
-				numPage="${ pageNumber+5 }">
+				target="/computer-database/dashboard" numPage="${ pageNumber+5 }">
 			</mylib:link></li>
 	</c:if>
-
-	<c:if test="${ pageNumber lt totalPages }">
+	<c:if test="${ (pageNumber-totalPages) lt 0}">
 		<li><mylib:link link="${ totalPages }"
 				target="/computer-database/dashboard" numPage="${ totalPages }">
 			</mylib:link></li>
+
 	</c:if>
-	<c:if test="${ pageNumber lt totalPages }">
+	<c:if test="${ (pageNumber-totalPages) lt 0 }">
 		<li><a
 			href="/computer-database/dashboard?numPage=${ pageNumber+1 }"
 			aria-label="Next"> <span aria-hidden="true">&raquo;</span>

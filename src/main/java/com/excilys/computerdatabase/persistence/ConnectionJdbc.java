@@ -105,7 +105,7 @@ public class ConnectionJdbc {
       connDb = DriverManager.getConnection(url, user, pwd);
     } catch (SQLException exn) {
       log.error("FATAL : connection to the db refused.");
-      throw new SecurityException("Connection to the db refused.");
+      throw new SecurityException("Connection to the db refused." + exn.getMessage());
     }
     return connDb;
   }

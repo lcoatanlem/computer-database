@@ -98,7 +98,7 @@
 	<footer class="navbar-fixed-bottom">
 		<div class="container text-center">
 			<c:set var="totalPages"
-				value="${ fn:substringBefore((cpuPage.totalEntries/cpuPage.pageSize +1), '.') }" />
+				value="${ fn:substringBefore(((cpuPage.totalEntries/cpuPage.pageSize) +1), '.') }" />
 			<c:if test="${ (cpuPage.totalEntries mod cpuPage.pageSize) eq 0 }">
 				<c:set var="totalPages"
 					value="${ fn:substringBefore((cpuPage.totalEntries/cpuPage.pageSize), '.') }" />
