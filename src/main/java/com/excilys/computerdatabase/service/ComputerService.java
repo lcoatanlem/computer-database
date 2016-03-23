@@ -75,16 +75,18 @@ public class ComputerService {
   public void createComputer(Computer cpu) {
     // Validating the name
     String name = cpu.getName();
-    if (name == null | name.length() <= 2) {
+    if (name == null) {
       throw new IllegalArgumentException("Name cannot be null.");
+    }
+    if (name.length() < 2) {
+      throw new IllegalArgumentException("Name cannot be less than 2 chars.");
     }
 
     // Validating the manufacturer
-    if (cpu.getManufacturer() != null) {
+    if (cpu.getManufacturer() != null && cpu.getManufacturer().getId() != null) {
       // must be valid
       CompanyDaoImpl cpnDao = CompanyDaoImpl.getInstance();
-      if (cpu.getManufacturer().getId() == null
-          | cpnDao.find(cpu.getManufacturer().getId()) == null) {
+      if (cpnDao.find(cpu.getManufacturer().getId()) == null) {
         throw new IllegalArgumentException("This company doesn't exists.");
       }
     }
@@ -115,7 +117,7 @@ public class ComputerService {
     }
 
     // Validating the manufacturer
-    if (cpu.getManufacturer() != null) {
+    if (cpu.getManufacturer() != null || cpu.getManufacturer().getId() != null) {
       // must be valid
       CompanyDaoImpl cpnDao = CompanyDaoImpl.getInstance();
       if (cpnDao.find(cpu.getManufacturer().getId()) == null) {

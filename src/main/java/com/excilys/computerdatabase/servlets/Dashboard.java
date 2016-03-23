@@ -4,7 +4,7 @@ import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.pagination.impl.ComputerPagination;
 import com.excilys.computerdatabase.persistence.mapping.dao.ComputerDaoToDto;
 import com.excilys.computerdatabase.service.ComputerService;
-import com.excilys.computerdatabase.validation.Validator;
+import com.excilys.computerdatabase.validation.PaginationValidator;
 
 import org.apache.log4j.Logger;
 
@@ -30,7 +30,7 @@ public class Dashboard extends HttpServlet {
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    
+
     // Pagination initialization
     if (cpuServ.getCpuPage() == null) {
       // New Pagination with the empty list
@@ -38,10 +38,12 @@ public class Dashboard extends HttpServlet {
     }
 
     // Page number checking
-    String numPageRes = Validator.getInstance().numPageIsValid(request.getParameter("numPage"),
-        cpuServ.getCpuPage().getTotalEntries(), cpuServ.getCpuPage().getPageSize());
+    String numPageRes = PaginationValidator.getInstance().numPageIsValid(
+        request.getParameter("numPage"), cpuServ.getCpuPage().getTotalEntries(),
+        cpuServ.getCpuPage().getPageSize());
     // Limit of entries checking
-    String limitRes = Validator.getInstance().pageSizeIsValid(request.getParameter("limit"));
+    String limitRes = PaginationValidator.getInstance()
+        .pageSizeIsValid(request.getParameter("limit"));
     if (numPageRes == null) {
       // numPage is ok
       cpuServ.getCpuPage().setPageNumber(Integer.parseInt(request.getParameter("numPage")));
@@ -64,7 +66,7 @@ public class Dashboard extends HttpServlet {
         log.info(limitRes);
       }
     }
-    
+
     int numPage = cpuServ.getCpuPage().getPageNumber();
     int pageSize = cpuServ.getCpuPage().getPageSize();
 

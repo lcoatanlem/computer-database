@@ -3,10 +3,10 @@ package com.excilys.computerdatabase.validation;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Validator {
-  private static final Validator INSTANCE = new Validator();
+public class PaginationValidator {
+  private static final PaginationValidator INSTANCE = new PaginationValidator();
 
-  public static Validator getInstance() {
+  public static PaginationValidator getInstance() {
     return INSTANCE;
   }
 
@@ -21,7 +21,7 @@ public class Validator {
       return "Page number is null, set to its default value : 1.";
     } else {
       // If not null, must match only integers
-      String pattern = "^\\d+$";
+      String pattern = "^(\\d+)$";
       Pattern cpattern = Pattern.compile(pattern);
       Matcher match = cpattern.matcher(numPageReq);
       if (!match.find()) {
@@ -50,7 +50,7 @@ public class Validator {
       return "Page size is null, set to its default value : 10.";
     } else {
       // If not null, must match only integers
-      String pattern = "^\\d+$";
+      String pattern = "^(\\d+)$";
       Pattern cpattern = Pattern.compile(pattern);
       Matcher match = cpattern.matcher(pageSizeReq);
       if (!match.find()) {

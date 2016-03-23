@@ -33,20 +33,23 @@
 					<form action="addcomputer" method="POST" id="addcomputer">
 						<fieldset>
 							<div class="form-group">
-								<label for="computerName">Computer name</label> <input
-									name="computerName" type="text" class="form-control"
-									id="computerName" placeholder="Computer name"
-									value="${fn:escapeXml(param.computerName)}">
+								<label for="name">Computer name</label> <input name="name"
+									type="text" class="form-control" id="name"
+									placeholder="${ nameInput }"
+									value="${fn:escapeXml(param.computerName)}"> <span
+									id="nameError"><b>${ nameError }</b></span>
 							</div>
 							<div class="form-group">
-								<label for="introduced">Introduced date</label> <input
+								<label for="introduced">Introduced date "yyyy-mm-dd"</label> <input
 									name="introduced" type="date" class="form-control"
-									id="introduced" placeholder="Introduced date">
+									id="introduced" placeholder="${ introducedInput }"> <span
+									id="introducedError"><b>${ introducedError }</b></span>
 							</div>
 							<div class="form-group">
-								<label for="discontinued">Discontinued date</label> <input
+								<label for="discontinued">Discontinued date "yyyy-mm-dd"</label> <input
 									name="discontinued" type="date" class="form-control"
-									id="discontinued" placeholder="Discontinued date">
+									id="discontinued" placeholder="${ nameInput }"> <span
+									id="discontinuedError"><b>${ discontinuedError }</b></span>
 							</div>
 							<div class="form-group">
 								<label for="companyId">Company</label> <select
@@ -63,9 +66,8 @@
 							or <a href="/computer-database/dashboard" class="btn btn-default">Cancel</a>
 						</div>
 					</form>
-					<script src="js/addComputer.js">
-						
-					</script>
+					<!-- Desativate to try back-end validation -->
+					<script src="js/addComputer.js"></script>
 				</div>
 			</div>
 		</div>
