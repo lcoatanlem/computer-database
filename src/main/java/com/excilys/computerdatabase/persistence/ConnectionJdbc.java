@@ -1,20 +1,20 @@
 package com.excilys.computerdatabase.persistence;
 
+import com.jolbox.bonecp.BoneCP;
+import com.jolbox.bonecp.BoneCPConfig;
 import org.apache.log4j.Logger;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
 /**
- * This class is singleton and contains an unique instance, which itself
- * contains a connection to the base. Using properties file to get connection
- * informations, this file exists in two exemplars : one for the normal DB,
- * another one for DBUnit.
+ * This class is singleton and contains an unique instance, which itself contains a connection to
+ * the base. Using properties file to get connection informations, this file exists in two exemplars
+ * : one for the normal DB, another one for DBUnit.
  * 
  * @author lcoatanlem
  */
@@ -22,6 +22,7 @@ public class ConnectionJdbc {
   private static Logger log = Logger.getLogger(ConnectionJdbc.class);
 
   private static final ConnectionJdbc INSTANCE;
+  private static final BoneCP connectionPool;
 
   private static final String PROPERTIES_FILE = "connection.properties";
   private String url;
@@ -57,7 +58,7 @@ public class ConnectionJdbc {
     InputStream propertiesFile = classLoader.getResourceAsStream(PROPERTIES_FILE);
 
     if (propertiesFile == null) {
-      throw new RuntimeException("The properties file " + PROPERTIES_FILE + " can't be found");
+      throw new RuntimeException("The properties file " + PROPERTIES_FILE + " can't be found.");
     }
 
     try {
@@ -67,8 +68,9 @@ public class ConnectionJdbc {
       user = properties.getProperty("user");
       pwd = properties.getProperty("pwd");
     } catch (IOException exn) {
-      log.error("Fail loading the properties file " + PROPERTIES_FILE);
-      throw new RuntimeException("FATAL : Fail loading the properties file " + PROPERTIES_FILE);
+      log.error("Fail loading the properties file " + PROPERTIES_FILE + ".");
+      throw new RuntimeException(
+          "FATAL : Fail loading the properties file " + PROPERTIES_FILE + ". " + exn.getMessage());
     }
     try {
       Class.forName(driver);
@@ -77,12 +79,34 @@ public class ConnectionJdbc {
       throw new RuntimeException(exn);
     }
 
+    // Param still usefull because of DBUnit
     INSTANCE = new ConnectionJdbc(url, user, pwd);
+
+    // The config of BoneCP
+    BoneCPConfig config = new BoneCPConfig();
+    // Url, user and pwd
+    config.setJdbcUrl(url);
+    config.setUsername(user);
+    config.setPassword(pwd);
+    // Start doing min connections per partition and increase
+    config.setMinConnectionsPerPartition(2);
+    // Max per connection
+    config.setMaxConnectionsPerPartition(5);
+    // Reduce lock contention, incoming connection request
+    // picks off a connection from a pool that has thread-affinity
+    config.setPartitionCount(3);
+    // setup the connection pool
+    try {
+      connectionPool = new BoneCP(config);
+    } catch (SQLException exn) {
+      log.error("FATAL : Error when doing pool of connections.");
+      throw new RuntimeException("Error creating pool of connections. " + exn.getMessage());
+    }
   }
 
   /**
-   * Method returning the instance of the connection using properties file,
-   * creating it if it does not exists.
+   * Method returning the instance of the connection using properties file, creating it if it does
+   * not exists.
    * 
    * @return Connection
    * @throws FileNotFoundException
@@ -94,18 +118,18 @@ public class ConnectionJdbc {
   }
 
   /**
-   * Method to get the connection to the db, raises a Runtime Exception if we
-   * can't connect to the db.
+   * Method to get the connection to the db, raises a Runtime Exception if we can't connect to the
+   * db.
    * 
    * @return the connection to the db.
    */
   public Connection getConnection() {
     Connection connDb = null;
     try {
-      connDb = DriverManager.getConnection(url, user, pwd);
+      connDb = connectionPool.getConnection();
     } catch (SQLException exn) {
       log.error("FATAL : connection to the db refused.");
-      throw new SecurityException("Connection to the db refused." + exn.getMessage());
+      throw new SecurityException("Connection to the db refused. " + exn.getMessage());
     }
     return connDb;
   }
