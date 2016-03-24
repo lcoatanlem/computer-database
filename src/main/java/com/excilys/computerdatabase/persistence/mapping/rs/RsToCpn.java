@@ -1,6 +1,7 @@
 package com.excilys.computerdatabase.persistence.mapping.rs;
 
 import com.excilys.computerdatabase.model.Company;
+import com.excilys.computerdatabase.model.Company.CompanyBuilder;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,14 +24,14 @@ public class RsToCpn {
    * @return Company
    */
   public static Company map(ResultSet rs) {
-    Company comp = new Company();
+    CompanyBuilder cpnB = new CompanyBuilder();
     try {
-      comp.setId(rs.getLong("id"));
-      comp.setName(rs.getString("name"));
+      cpnB.id(rs.getLong("id"));
+      cpnB.name(rs.getString("name"));
     } catch (SQLException exn) {
       throw new RuntimeException(exn);
     }
-    return (comp);
+    return (cpnB.build());
   }
 
   public static RsToCpn getInstance() {

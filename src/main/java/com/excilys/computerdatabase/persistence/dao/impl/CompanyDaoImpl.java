@@ -1,5 +1,6 @@
 package com.excilys.computerdatabase.persistence.dao.impl;
 
+import com.excilys.computerdatabase.exception.DaoException;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.persistence.ConnectionJdbc;
 import com.excilys.computerdatabase.persistence.dao.Dao;
@@ -45,11 +46,12 @@ public class CompanyDaoImpl implements Dao<Company> {
       if (rs.next()) {
         size = rs.getInt(1);
       }
+      stmt.close();
     } catch (SQLException exn) {
       // Database access error / closed connection / closed statement
       // returning something else than a ResultSet / timeout have been reached
       log.error("FATAL : " + exn);
-      throw new RuntimeException(exn);
+      throw new DaoException(exn);
     }
     return size;
   }
@@ -65,11 +67,12 @@ public class CompanyDaoImpl implements Dao<Company> {
       while (rs.next()) {
         list.add(RsToCpn.map(rs));
       }
+      stmt.close();
     } catch (SQLException exn) {
       // Database access error / closed connection / closed statement
       // returning something else than a ResultSet / timeout have been reached
       log.error("FATAL : " + exn);
-      throw new RuntimeException(exn);
+      throw new DaoException(exn);
     }
     return list;
   }
@@ -84,11 +87,12 @@ public class CompanyDaoImpl implements Dao<Company> {
       if (rs.next()) {
         comp = (RsToCpn.map(rs));
       }
+      stmt.close();
     } catch (SQLException exn) {
       // Database access error / closed connection / closed statement
       // returning something else than a ResultSet / timeout have been reached
       log.error("FATAL : " + exn);
-      throw new RuntimeException(exn);
+      throw new DaoException(exn);
     }
     return comp;
   }

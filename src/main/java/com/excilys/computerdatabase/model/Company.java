@@ -1,29 +1,25 @@
 package com.excilys.computerdatabase.model;
 
 /**
- * This class is the model of the companies. Attributes are id and name, with
- * basic getters and setters.
+ * This class is the model of the companies. It is immutable (for example). There is a builder.
  * 
  * @author lcoatanlem
  */
 public class Company {
-  private Long id;
-  private String name;
+  private final Long id;
+  private final String name;
+
+  private Company(final Long id, final String name) {
+    this.id = id;
+    this.name = name;
+  }
 
   public Long getId() {
     return id;
   }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
-
   public String getName() {
     return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
   }
 
   @Override
@@ -69,4 +65,31 @@ public class Company {
     return "Company [id=" + id + ", name=" + name + "]";
   }
 
+  /**
+   * Builder for Companies.
+   * 
+   * @author lcoatanlem
+   *
+   */
+  public static class CompanyBuilder {
+    private Long id;
+    private String name;
+
+    public CompanyBuilder() {
+    }
+
+    public CompanyBuilder id(final Long id) {
+      this.id = id;
+      return this;
+    }
+
+    public CompanyBuilder name(final String name) {
+      this.name = name;
+      return this;
+    }
+    
+    public Company build() {
+      return new Company(id, name);
+    }
+  }
 }

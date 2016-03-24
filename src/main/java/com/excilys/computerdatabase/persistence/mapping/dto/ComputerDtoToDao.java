@@ -1,6 +1,7 @@
 package com.excilys.computerdatabase.persistence.mapping.dto;
 
 import com.excilys.computerdatabase.model.Company;
+import com.excilys.computerdatabase.model.Company.CompanyBuilder;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.persistence.dto.ComputerDto;
 
@@ -48,9 +49,7 @@ public class ComputerDtoToDao {
     // Id and name of the Company
     Long idCpn = (cpuDto.getIdCpn() == null ? null : Long.parseLong(cpuDto.getIdCpn()));
     String nameCpn = cpuDto.getNameCpn();
-    Company cpn = new Company();
-    cpn.setId(idCpn);
-    cpn.setName(nameCpn);
+    Company cpn = new CompanyBuilder().id(idCpn).name(nameCpn).build();
     cpu.setManufacturer(cpn);
 
     return cpu;

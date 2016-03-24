@@ -1,5 +1,6 @@
 package com.excilys.computerdatabase.persistence.dao.impl;
 
+import com.excilys.computerdatabase.exception.DaoException;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.persistence.ConnectionJdbc;
 import com.excilys.computerdatabase.persistence.dao.Dao;
@@ -46,11 +47,12 @@ public class ComputerDaoImpl implements Dao<Computer> {
       if (rs.next()) {
         size = rs.getInt(1);
       }
+      stmt.close();
     } catch (SQLException exn) {
       // Database access error / closed connection / closed statement
       // returning something else than a ResultSet / timeout have been reached
       log.error("FATAL : " + exn);
-      throw new RuntimeException(exn);
+      throw new DaoException(exn);
     }
     return size;
   }
@@ -66,12 +68,12 @@ public class ComputerDaoImpl implements Dao<Computer> {
       while (rs.next()) {
         list.add((RsToCpu.getInstance().map(rs)));
       }
-
+      stmt.close();
     } catch (SQLException exn) {
       // Database access error / closed connection / closed statement
       // returning something else than a ResultSet / timeout have been reached
       log.error("FATAL : " + exn);
-      throw new RuntimeException(exn);
+      throw new DaoException(exn);
     }
     return list;
   }
@@ -86,11 +88,12 @@ public class ComputerDaoImpl implements Dao<Computer> {
       if (rs.next()) {
         comp = (RsToCpu.getInstance().map(rs));
       }
+      stmt.close();
     } catch (SQLException exn) {
       // Database access error / closed connection / closed statement
       // returning something else than a ResultSet / timeout have been reached
       log.error("FATAL : " + exn);
-      throw new RuntimeException(exn);
+      throw new DaoException(exn);
     }
     return comp;
   }
@@ -111,11 +114,12 @@ public class ComputerDaoImpl implements Dao<Computer> {
         stmt.setLong(4, idCpn);
       }
       stmt.executeUpdate();
+      stmt.close();
     } catch (SQLException exn) {
       log.error("FATAL : " + exn);
       // Database access error / closed connection / closed statement
       // returning something else than a ResultSet / timeout have been reached
-      throw new RuntimeException(exn);
+      throw new DaoException(exn);
     }
   }
 
@@ -137,11 +141,12 @@ public class ComputerDaoImpl implements Dao<Computer> {
       }
       stmt.setLong(5, cpu.getId());
       stmt.executeUpdate();
+      stmt.close();
     } catch (SQLException exn) {
       // Database access error / closed connection / closed statement
       // returning something else than a ResultSet / timeout have been reached
       log.error("FATAL : " + exn);
-      throw new RuntimeException(exn);
+      throw new DaoException(exn);
     }
   }
 
@@ -152,11 +157,12 @@ public class ComputerDaoImpl implements Dao<Computer> {
       find(id);
       stmt.setLong(1, id);
       stmt.executeUpdate();
+      stmt.close();
     } catch (SQLException exn) {
       // Database access error / closed connection / closed statement
       // returning something else than a ResultSet / timeout have been reached
       log.error("FATAL : " + exn);
-      throw new RuntimeException(exn);
+      throw new DaoException(exn);
     }
   }
 }

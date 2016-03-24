@@ -89,12 +89,12 @@ public class ConnectionJdbc {
     config.setUsername(user);
     config.setPassword(pwd);
     // Start doing min connections per partition and increase
-    config.setMinConnectionsPerPartition(2);
+    config.setMinConnectionsPerPartition(5);
     // Max per connection
-    config.setMaxConnectionsPerPartition(5);
+    config.setMaxConnectionsPerPartition(30);
     // Reduce lock contention, incoming connection request
     // picks off a connection from a pool that has thread-affinity
-    config.setPartitionCount(3);
+    config.setPartitionCount(5);
     // setup the connection pool
     try {
       connectionPool = new BoneCP(config);

@@ -30,6 +30,8 @@ public class AddComputer extends HttpServlet {
 
   private CompanyService cpnServ = CompanyService.getCpnserv();
 
+  private static final String ATTR_COMPANIES = "companies";
+
   /**
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response).
    */
@@ -45,7 +47,7 @@ public class AddComputer extends HttpServlet {
     }
 
     // Attributes
-    request.setAttribute("companies", cpnServ.getcPage().getList());
+    request.setAttribute(ATTR_COMPANIES, cpnServ.getcPage().getList());
     request.setAttribute("nameInput", "Computer name");
     request.setAttribute("introducedInput", "Introduced date");
     request.setAttribute("discontinuedInput", "Discontinued date");
