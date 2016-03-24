@@ -10,13 +10,67 @@
 	description="The limit of computers per page"%>
 <%@ attribute name="numPage" required="false" type="java.lang.String"
 	description="The number of the actual page"%>
+<%@ attribute name="cpuId" required="false" type="java.lang.String"
+	description="The id of the computer to edit"%>
 
 <c:choose>
+
 	<c:when test="${ target != '#' }">
-		<a href="${ target }?numPage=${ numPage }&limit=${ limit }" class="${ className }"><c:out
-				value="${ link }"></c:out></a>
+
+		<c:choose>
+		
+			<c:when test="${ not empty cpuId }">
+				<a href="${ target }?cpuId=${ cpuId }" class="${ className }"><c:out
+						value="${ link }"></c:out></a>
+			</c:when>
+			
+			<c:when test="${ empty numPage }">
+			
+				<c:choose>
+				
+					<c:when test="${ empty limit }">
+						<a href="${ target }" class="${ className }"><c:out
+								value="${ link }"></c:out></a>
+					</c:when>
+					
+					<c:otherwise>
+						<a href="${ target }?limit=${ limit }" class="${ className }"><c:out
+								value="${ link }"></c:out></a>
+					</c:otherwise>
+					
+				</c:choose>
+				
+			</c:when>
+			
+			<c:when test="${ empty limit }">
+
+				<c:choose>
+				
+					<c:when test="${ empty numPage }">
+						<a href="${ target }" class="${ className }"><c:out
+								value="${ link }"></c:out></a>
+					</c:when>
+					
+					<c:otherwise>
+						<a href="${ target }?numPage=${ numPage }" class="${ className }"><c:out
+								value="${ link }"></c:out></a>
+					</c:otherwise>
+					
+				</c:choose>
+
+			</c:when>
+			
+			<c:otherwise>
+				<a href="${ target }?numPage=${ numPage }&limit=${ limit }"
+					class="${ className }"><c:out value="${ link }"></c:out></a>
+			</c:otherwise>
+
+		</c:choose>
+
 	</c:when>
+	
 	<c:otherwise>
 		<a href="#"><c:out value="${ link }"></c:out></a>
 	</c:otherwise>
+	
 </c:choose>

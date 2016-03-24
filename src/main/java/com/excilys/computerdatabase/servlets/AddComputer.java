@@ -30,14 +30,11 @@ public class AddComputer extends HttpServlet {
 
   private CompanyService cpnServ = CompanyService.getCpnserv();
 
-  boolean added = false;
-
   /**
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response).
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    added = false;
     // Uploading the companies' list
     cpnServ.listCompanies(0, cpnServ.getcPage().getTotalEntries());
     log.info("Companies list initialisation");

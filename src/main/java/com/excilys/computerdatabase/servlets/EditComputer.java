@@ -13,13 +13,6 @@ public class EditComputer extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
   /**
-   * @see HttpServlet#HttpServlet().
-   */
-  public EditComputer() {
-    super();
-  }
-
-  /**
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse.
    *      response)
    */
