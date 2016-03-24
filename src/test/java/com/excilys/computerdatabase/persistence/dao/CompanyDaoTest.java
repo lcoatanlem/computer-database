@@ -45,7 +45,7 @@ public class CompanyDaoTest extends DbTesting {
    */
   public void testFind() {
     CompanyDaoImpl cpnDao = CompanyDaoImpl.getInstance();
-    Company cpn = new Company();
+    Company cpn = Company.builder().build();
     cpn = cpnDao.find(17L);
     assertEquals(cpn.getName(), "Sony");
   }
@@ -56,7 +56,7 @@ public class CompanyDaoTest extends DbTesting {
    */
   public void testFindNull() {
     CompanyDaoImpl cpnDao = CompanyDaoImpl.getInstance();
-    Company cpn = new Company();
+    Company cpn = Company.builder().build();
     cpn = cpnDao.find(null);
     assertNull(cpn);
   }
@@ -67,7 +67,7 @@ public class CompanyDaoTest extends DbTesting {
    */
   public void testFindInvalid() {
     CompanyDaoImpl cpnDao = CompanyDaoImpl.getInstance();
-    Company cpn = new Company();
+    Company cpn = Company.builder().build();
     cpn = cpnDao.find(150L);
     if (cpn != null) {
       fail();

@@ -6,20 +6,26 @@ package com.excilys.computerdatabase.model;
  * @author lcoatanlem
  */
 public class Company {
-  private final Long id;
-  private final String name;
+  private Long id;
+  private String name;
 
-  private Company(final Long id, final String name) {
-    this.id = id;
-    this.name = name;
+  public Company() {
   }
 
   public Long getId() {
     return id;
   }
 
+  public void setId(Long id) {
+    this.id = id;
+  }
+
   public String getName() {
     return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
   @Override
@@ -65,31 +71,28 @@ public class Company {
     return "Company [id=" + id + ", name=" + name + "]";
   }
 
-  /**
-   * Builder for Companies.
-   * 
-   * @author lcoatanlem
-   *
-   */
-  public static class CompanyBuilder {
-    private Long id;
-    private String name;
+  public static Builder builder() {
+    return new Company.Builder();
+  }
 
-    public CompanyBuilder() {
+  public static class Builder {
+    private Company cpn = new Company();
+
+    public Builder() {
     }
 
-    public CompanyBuilder id(final Long id) {
-      this.id = id;
+    public Builder id(Long id) {
+      this.cpn.id = id;
       return this;
     }
 
-    public CompanyBuilder name(final String name) {
-      this.name = name;
+    public Builder name(String name) {
+      this.cpn.name = name;
       return this;
     }
-    
+
     public Company build() {
-      return new Company(id, name);
+      return this.cpn;
     }
   }
 }

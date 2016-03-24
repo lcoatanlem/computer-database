@@ -1,7 +1,6 @@
 package com.excilys.computerdatabase.persistence.mapping.dto;
 
 import com.excilys.computerdatabase.model.Company;
-import com.excilys.computerdatabase.model.Company.CompanyBuilder;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.persistence.dto.ComputerDto;
 
@@ -26,32 +25,26 @@ public class ComputerDtoToDao {
    */
   public Computer map(ComputerDto cpuDto) {
 
-    Computer cpu = new Computer();
-
     // Id
     Long id = (cpuDto.getId() == null ? null : Long.parseLong(cpuDto.getId()));
-    cpu.setId(id);
 
     // Name
     String name = cpuDto.getName();
-    cpu.setName(name);
 
     // Introduced
     LocalDate introduced = (cpuDto.getIntroduced() == null ? null
         : LocalDate.parse(cpuDto.getIntroduced()));
-    cpu.setIntroduced(introduced);
 
     // Discontinued
     LocalDate discontinued = (cpuDto.getDiscontinued() == null ? null
         : LocalDate.parse(cpuDto.getDiscontinued()));
-    cpu.setDiscontinued(discontinued);
 
     // Id and name of the Company
     Long idCpn = (cpuDto.getIdCpn() == null ? null : Long.parseLong(cpuDto.getIdCpn()));
     String nameCpn = cpuDto.getNameCpn();
-    Company cpn = new CompanyBuilder().id(idCpn).name(nameCpn).build();
-    cpu.setManufacturer(cpn);
-
-    return cpu;
+    Company cpn = new Company.Builder().id(idCpn).name(nameCpn).build();
+    
+    return Computer.builder(name).id(id).introduced(introduced)
+        .discontinued(discontinued).manufacturer(cpn).build();
   }
 }

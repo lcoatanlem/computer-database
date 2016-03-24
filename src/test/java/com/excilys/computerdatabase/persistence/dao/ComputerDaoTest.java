@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.excilys.computerdatabase.model.Company;
+import com.excilys.computerdatabase.model.Company.CompanyBuilder;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.persistence.DbTesting;
 import com.excilys.computerdatabase.persistence.dao.impl.ComputerDaoImpl;
@@ -59,9 +60,7 @@ public class ComputerDaoTest extends DbTesting {
     // same.setIntroduced(LocalDate.parse("1980-05-01")); LES DATES SONT
     // NULLES /!\
     // same.setDiscontinued(LocalDate.parse("1984-04-01"));
-    Company cpn = new Company();
-    cpn.setId(1L);
-    cpn.setName("Apple Inc.");
+    Company cpn = new CompanyBuilder().id(1L).name("Apple Inc.").build();
     same.setManufacturer(cpn);
     assertEquals(same, comp);
   }
@@ -84,9 +83,7 @@ public class ComputerDaoTest extends DbTesting {
     Computer comp = new Computer("Test");
     comp.setIntroduced(LocalDate.parse("1990-11-10"));
     comp.setDiscontinued(LocalDate.parse("2016-03-09"));
-    Company cpn = new Company();
-    cpn.setId(2L);
-    cpn.setName("Thinking Machines");
+    Company cpn = new CompanyBuilder().id(2L).name("Thinking Machines").build();
     comp.setManufacturer(cpn);
     ComputerDaoImpl cpuDao = ComputerDaoImpl.getInstance();
     cpuDao.create(comp);
@@ -103,8 +100,7 @@ public class ComputerDaoTest extends DbTesting {
     Computer comp = new Computer("Mine");
     comp.setIntroduced(LocalDate.parse("1990-11-10"));
     comp.setDiscontinued(LocalDate.parse("2016-03-09"));
-    Company cpn = new Company();
-    cpn.setId(100L);
+    Company cpn = new CompanyBuilder().id(100L).build();
     comp.setManufacturer(cpn);
     ComputerDaoImpl cpuDao = ComputerDaoImpl.getInstance();
     cpuDao.create(comp);
@@ -120,9 +116,7 @@ public class ComputerDaoTest extends DbTesting {
     comp.setId(35L);
     comp.setIntroduced(LocalDate.parse("1995-11-10"));
     comp.setDiscontinued(LocalDate.parse("2020-03-09"));
-    Company cpn = new Company();
-    cpn.setId(34L);
-    cpn.setName("OMRON");
+    Company cpn = new CompanyBuilder().id(34L).name("OMRON").build();
     comp.setManufacturer(cpn);
     ComputerDaoImpl cpuDao = ComputerDaoImpl.getInstance();
     cpuDao.update(comp);
@@ -138,9 +132,7 @@ public class ComputerDaoTest extends DbTesting {
     comp.setId(1000L);
     comp.setIntroduced(LocalDate.parse("1995-11-10"));
     comp.setDiscontinued(LocalDate.parse("2020-03-09"));
-    Company cpn = new Company();
-    cpn.setId(34L);
-    cpn.setName("OMRON");
+    Company cpn = new CompanyBuilder().id(34L).name("OMRON").build();
     comp.setManufacturer(cpn);
     ComputerDaoImpl cpuDao = ComputerDaoImpl.getInstance();
     cpuDao.update(comp);
@@ -157,9 +149,7 @@ public class ComputerDaoTest extends DbTesting {
     comp.setId(1000L);
     comp.setIntroduced(LocalDate.parse("1995-11-10"));
     comp.setDiscontinued(LocalDate.parse("2020-03-09"));
-    Company cpn = new Company();
-    cpn.setId(150L);
-    cpn.setName("OMRON");
+    Company cpn = new CompanyBuilder().id(150L).name("OMRON").build();
     comp.setManufacturer(cpn);
     ComputerDaoImpl cpuDao = ComputerDaoImpl.getInstance();
     cpuDao.update(comp);

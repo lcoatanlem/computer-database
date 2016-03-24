@@ -34,8 +34,8 @@ public class RsToCpu {
   public Computer map(ResultSet rs) {
     Computer cpu = null;
     try {
-      // The name
-      cpu = new Computer(rs.getString("name"));
+      // The name TODO : add builder
+      cpu = Computer.builder(rs.getString("name")).build();
       // The id
       cpu.setId(rs.getLong("id"));
       // The time it was introduced

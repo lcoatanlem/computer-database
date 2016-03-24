@@ -3,15 +3,11 @@ package com.excilys.computerdatabase.model;
 import java.time.LocalDate;
 
 /**
- * This class is the model of the computers.
- * 
- * <p>Attributes are the id(even if it is auto-incremented in the DB), the name of
- * the computer, the date it was introduced, the date it was discontinued, and
- * the manufacturer (using class Company as soon as there is a foreign key in
- * the DB).
- * 
- * <p>The constructors are the one with a name, and the one with no arguments, to
- * make this class serializable.
+ * This class is the model of the computers. Attributes are the id(even if it is auto-incremented in
+ * the DB), the name of the computer, the date it was introduced, the date it was discontinued, and
+ * the manufacturer (using class Company as soon as there is a foreign key in the DB). The
+ * constructors are the one with a name, and the one with no arguments, to make this class
+ * serializable.
  * 
  * @author lcoatanlem
  */
@@ -22,24 +18,7 @@ public class Computer {
   private LocalDate discontinued;
   private Company manufacturer;
 
-  /**
-   * Empty constructor, used to make this model serializable.
-   */
   public Computer() {
-  }
-
-  /**
-   * @param name
-   *          the name of the Computer.
-   * @throws IllegalArgumentException
-   *           iff name is null.
-   */
-  public Computer(String name) {
-    if (name == null) {
-      throw new IllegalArgumentException("The name of a Computer cannot be null.");
-    } else {
-      this.name = name;
-    }
   }
 
   public Long getId() {
@@ -156,9 +135,53 @@ public class Computer {
 
   @Override
   public String toString() {
-    return "Computer [id =" + id + ", name=" + name + ", "
-        + "introduced=" + introduced + ", discontinued=" + discontinued
-        + ", manufacturer=" + manufacturer + "]";
+    return "Computer [id =" + id + ", name=" + name + ", " + "introduced=" + introduced
+        + ", discontinued=" + discontinued + ", manufacturer=" + manufacturer + "]";
   }
 
+  public static Builder builder(String name) {
+    return new Computer.Builder(name);
+  }
+
+  public static class Builder {
+    private Computer cpu = new Computer();
+
+    /**
+     * Set the name of a Computer, must be not null.
+     * 
+     * @param name
+     *          not null
+     */
+    public Builder(String name) {
+      if (name == null) {
+        throw new IllegalArgumentException("The name of a Computer cannot be null.");
+      } else {
+        this.cpu.name = name;
+      }
+    }
+
+    public Builder id(Long id) {
+      this.cpu.id = id;
+      return this;
+    }
+
+    public Builder introduced(LocalDate introduced) {
+      this.cpu.introduced = introduced;
+      return this;
+    }
+
+    public Builder discontinued(LocalDate discontinued) {
+      this.cpu.discontinued = discontinued;
+      return this;
+    }
+
+    public Builder manufacturer(Company manufacturer) {
+      this.cpu.manufacturer = manufacturer;
+      return this;
+    }
+
+    public Computer build() {
+      return this.cpu;
+    }
+  }
 }
