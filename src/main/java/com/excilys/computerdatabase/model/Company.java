@@ -9,9 +9,6 @@ public class Company {
   private Long id;
   private String name;
 
-  public Company() {
-  }
-
   public Long getId() {
     return id;
   }
@@ -77,9 +74,6 @@ public class Company {
 
   public static class Builder {
     private Company cpn = new Company();
-
-    public Builder() {
-    }
 
     public Builder id(Long id) {
       this.cpn.id = id;

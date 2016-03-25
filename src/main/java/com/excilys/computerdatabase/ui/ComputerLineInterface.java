@@ -1,6 +1,7 @@
 package com.excilys.computerdatabase.ui;
 
 import com.excilys.computerdatabase.model.Company;
+import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.persistence.dto.ComputerDto;
 import com.excilys.computerdatabase.persistence.mapping.dto.ComputerDtoToDao;
 import com.excilys.computerdatabase.service.CompanyService;
@@ -83,7 +84,7 @@ public class ComputerLineInterface {
     Scanner sc = new Scanner(System.in);
     try {
       cpuController.listComputers(iterCpu, paginationCpu);
-      for (ComputerDto cpu : cpuController.getCpuPage().getList()) {
+      for (Computer cpu : cpuController.getPage().getCpuList()) {
         System.out.println(cpu.getName());
       }
     } catch (IndexOutOfBoundsException exn) {
@@ -129,7 +130,8 @@ public class ComputerLineInterface {
     Scanner sc = new Scanner(System.in);
 
     try {
-      for (Company cpn : cpnController.listCompanies(iterCpn, paginationCpn)) {
+      cpnController.listCompanies(iterCpn, paginationCpn);
+      for (Company cpn : cpnController.getPage().getCpnList()) {
         System.out.println(cpn.getName());
       }
     } catch (IndexOutOfBoundsException exn) {

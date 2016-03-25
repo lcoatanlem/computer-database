@@ -1,7 +1,7 @@
 package com.excilys.computerdatabase.service;
 
 import com.excilys.computerdatabase.model.Computer;
-import com.excilys.computerdatabase.pagination.impl.ComputerPagination;
+import com.excilys.computerdatabase.pagination.Pagination;
 import com.excilys.computerdatabase.persistence.dao.impl.CompanyDaoImpl;
 import com.excilys.computerdatabase.persistence.dao.impl.ComputerDaoImpl;
 
@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ComputerService {
   private ComputerDaoImpl cpuDao;
-  private ComputerPagination cpuPage;
+  private Pagination page;
 
   private static final ComputerService INSTANCE = new ComputerService();
 
@@ -18,22 +18,22 @@ public class ComputerService {
   }
 
   /**
-   * Instantiates the DAO and the list of computers.
+   * Instantiates the DAO and the page.
    */
   private ComputerService() {
     cpuDao = ComputerDaoImpl.getInstance();
-    // TODO :cpuPage = new ComputerPagination(1, 1, cpuDao.countEntries(), new
-    // ArrayList<ComputerDto>());
   }
 
+  /**
+   * Count the number of rows in the database.
+   */
   public int countEntries() {
     return cpuDao.countEntries();
   }
 
   /**
    * Method to list all computers. To paginate, it starts with an index and a number of instances we
-   * want. The method findAll() is called iff the list is empty. Will return the id and the name
-   * only.
+   * want.
    * 
    * @param offset
    *          the beginning of the list
@@ -45,24 +45,14 @@ public class ComputerService {
   }
 
   /**
-   * Method to show the details of only one computer. The fields are displayed iff they are not
-   * null.
+   * Method to get the computer from his id.
    * 
    * @param id
    *          the id of the computer to show
    * @return a String containing our pretty printing
    */
   public Computer showComputer(Long id) {
-
-    Computer cpu = cpuDao.find(id);
-
-    // Validating the id
-    if (cpu == null) {
-      throw new IllegalArgumentException("This computer doesn't exists.");
-    }
-
-    // If everything's fine...
-    return cpu;
+    return cpuDao.find(id);
   }
 
   /**
@@ -92,9 +82,9 @@ public class ComputerService {
     }
 
     // If everything's fine...
-    int totalEntries = cpuPage.getTotalEntries();
+    int totalEntries = page.getCpuTotalEntries();
     cpuDao.create(cpu);
-    cpuPage.setTotalEntries(totalEntries++);
+    page.setCpuTotalEntries(totalEntries++);
   }
 
   /**
@@ -112,8 +102,11 @@ public class ComputerService {
 
     // Validating the name
     String name = cpu.getName();
-    if (name == null | name.length() <= 2) {
+    if (name == null) {
       throw new IllegalArgumentException("Name cannot be null.");
+    }
+    if (name.length() < 2) {
+      throw new IllegalArgumentException("Name cannot be less than 2 chars.");
     }
 
     // Validating the manufacturer
@@ -142,16 +135,16 @@ public class ComputerService {
     }
 
     // If everything's fine...
-    int totalEntries = cpuPage.getTotalEntries();
+    int totalEntries = page.getCpuTotalEntries();
     cpuDao.delete(id);
-    cpuPage.setTotalEntries(totalEntries--);
+    page.setCpuTotalEntries(totalEntries--);
   }
 
-  public ComputerPagination getCpuPage() {
-    return cpuPage;
+  public Pagination getPage() {
+    return page;
   }
 
-  public void setCpuPage(ComputerPagination cpuPage) {
-    this.cpuPage = cpuPage;
+  public void setPage(Pagination page) {
+    this.page = page;
   }
 }

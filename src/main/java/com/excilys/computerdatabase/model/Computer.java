@@ -18,9 +18,6 @@ public class Computer {
   private LocalDate discontinued;
   private Company manufacturer;
 
-  public Computer() {
-  }
-
   public Long getId() {
     return id;
   }
@@ -144,7 +141,7 @@ public class Computer {
   }
 
   public static class Builder {
-    private Computer cpu = new Computer();
+    private Computer cpu;
 
     /**
      * Set the name of a Computer, must be not null.
@@ -156,6 +153,7 @@ public class Computer {
       if (name == null) {
         throw new IllegalArgumentException("The name of a Computer cannot be null.");
       } else {
+        this.cpu = new Computer();
         this.cpu.name = name;
       }
     }
