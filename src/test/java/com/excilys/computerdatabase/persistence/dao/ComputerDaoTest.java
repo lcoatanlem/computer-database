@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.excilys.computerdatabase.model.Company;
-import com.excilys.computerdatabase.model.Company.CompanyBuilder;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.persistence.DbTesting;
 import com.excilys.computerdatabase.persistence.dao.impl.ComputerDaoImpl;
@@ -53,14 +52,14 @@ public class ComputerDaoTest extends DbTesting {
    */
   public void testFind() {
     ComputerDaoImpl cpuDao = ComputerDaoImpl.getInstance();
-    Computer comp = new Computer("");
+    Computer comp = Computer.builder("").build();
     comp = cpuDao.find(12L);
-    Computer same = new Computer("Apple III");
+    Computer same = Computer.builder("Apple III").build();
     same.setId(12L);
     // same.setIntroduced(LocalDate.parse("1980-05-01")); LES DATES SONT
     // NULLES /!\
     // same.setDiscontinued(LocalDate.parse("1984-04-01"));
-    Company cpn = new CompanyBuilder().id(1L).name("Apple Inc.").build();
+    Company cpn = Company.builder().id(1L).name("Apple Inc.").build();
     same.setManufacturer(cpn);
     assertEquals(same, comp);
   }
@@ -80,10 +79,10 @@ public class ComputerDaoTest extends DbTesting {
    * Tests create(Computer t) in a normal use, with a computer.
    */
   public void testCreate() {
-    Computer comp = new Computer("Test");
-    comp.setIntroduced(LocalDate.parse("1990-11-10"));
-    comp.setDiscontinued(LocalDate.parse("2016-03-09"));
-    Company cpn = new CompanyBuilder().id(2L).name("Thinking Machines").build();
+
+    Company cpn = Company.builder().id(2L).name("Thinking Machines").build();
+    Computer comp = Computer.builder("Test").introduced(LocalDate.parse("1990-11-10"))
+        .discontinued(LocalDate.parse("2016-03-09")).manufacturer(cpn).build();
     comp.setManufacturer(cpn);
     ComputerDaoImpl cpuDao = ComputerDaoImpl.getInstance();
     cpuDao.create(comp);
@@ -97,11 +96,9 @@ public class ComputerDaoTest extends DbTesting {
    * Tests create(Computer t) in an abnormal, with a wrong company id.
    */
   public void testCreateNscExc() {
-    Computer comp = new Computer("Mine");
-    comp.setIntroduced(LocalDate.parse("1990-11-10"));
-    comp.setDiscontinued(LocalDate.parse("2016-03-09"));
-    Company cpn = new CompanyBuilder().id(100L).build();
-    comp.setManufacturer(cpn);
+    Company cpn = Company.builder().id(100L).build();
+    Computer comp = Computer.builder("Mine").introduced(LocalDate.parse("1990-11-10"))
+        .discontinued(LocalDate.parse("2016-03-09")).manufacturer(cpn).build();
     ComputerDaoImpl cpuDao = ComputerDaoImpl.getInstance();
     cpuDao.create(comp);
     assertEquals(cpuDao.find(52L).getManufacturer(), null);
@@ -112,12 +109,9 @@ public class ComputerDaoTest extends DbTesting {
    * Tests update(Computer t) in a normal use.
    */
   public void testUpdate() {
-    Computer comp = new Computer("Update");
-    comp.setId(35L);
-    comp.setIntroduced(LocalDate.parse("1995-11-10"));
-    comp.setDiscontinued(LocalDate.parse("2020-03-09"));
-    Company cpn = new CompanyBuilder().id(34L).name("OMRON").build();
-    comp.setManufacturer(cpn);
+    Company cpn = Company.builder().id(34L).name("OMRON").build();
+    Computer comp = Computer.builder("Update").id(35L).introduced(LocalDate.parse("1995-11-10"))
+        .discontinued(LocalDate.parse("2020-03-09")).manufacturer(cpn).build();
     ComputerDaoImpl cpuDao = ComputerDaoImpl.getInstance();
     cpuDao.update(comp);
     assertEquals(cpuDao.find(35L), comp);
@@ -128,12 +122,9 @@ public class ComputerDaoTest extends DbTesting {
    * Tests update(Computer t) in an abnormal use, with a wrong computer id.
    */
   public void testUpdateInvalid() {
-    Computer comp = new Computer("Update");
-    comp.setId(1000L);
-    comp.setIntroduced(LocalDate.parse("1995-11-10"));
-    comp.setDiscontinued(LocalDate.parse("2020-03-09"));
-    Company cpn = new CompanyBuilder().id(34L).name("OMRON").build();
-    comp.setManufacturer(cpn);
+    Company cpn = Company.builder().id(34L).name("OMRON").build();
+    Computer comp = Computer.builder("Update").id(1000L).introduced(LocalDate.parse("1995-11-10"))
+        .discontinued(LocalDate.parse("2020-03-09")).manufacturer(cpn).build();
     ComputerDaoImpl cpuDao = ComputerDaoImpl.getInstance();
     cpuDao.update(comp);
     fail();
@@ -145,12 +136,9 @@ public class ComputerDaoTest extends DbTesting {
    * Tests update(Computer t) in an abnormal use, with a wrong company id.
    */
   public void testUpdateNscExc() {
-    Computer comp = new Computer("Update");
-    comp.setId(1000L);
-    comp.setIntroduced(LocalDate.parse("1995-11-10"));
-    comp.setDiscontinued(LocalDate.parse("2020-03-09"));
-    Company cpn = new CompanyBuilder().id(150L).name("OMRON").build();
-    comp.setManufacturer(cpn);
+    Company cpn = Company.builder().id(150L).name("OMRON").build();
+    Computer comp = Computer.builder("Update").id(35L).introduced(LocalDate.parse("1995-11-10"))
+        .discontinued(LocalDate.parse("2020-03-09")).manufacturer(cpn).build();
     ComputerDaoImpl cpuDao = ComputerDaoImpl.getInstance();
     cpuDao.update(comp);
     fail();

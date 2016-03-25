@@ -19,7 +19,7 @@ public class ComputerModelTest {
    * Tests Computer(name), should work.
    */
   public void testConstr() {
-    new Computer("Test");
+    Computer.builder("Test").build();
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -27,7 +27,7 @@ public class ComputerModelTest {
    * Tests Computer(null), should throw a RuntimeException.
    */
   public void testConstrException() {
-    new Computer(null);
+    Computer.builder(null);
   }
 
   @Test
@@ -35,7 +35,7 @@ public class ComputerModelTest {
    * Tests setName(name), should work.
    */
   public void testSetName() {
-    Computer cpuTest = new Computer("Test");
+    Computer cpuTest = Computer.builder("Test").build();
     cpuTest.setName("Tested");
   }
 
@@ -44,7 +44,7 @@ public class ComputerModelTest {
    * Tests setName(null), should throw a RuntimeException.
    */
   public void testSetNameException() {
-    Computer cpuTest = new Computer("Test");
+    Computer cpuTest = Computer.builder("Test").build();
     cpuTest.setName(null);
   }
 }

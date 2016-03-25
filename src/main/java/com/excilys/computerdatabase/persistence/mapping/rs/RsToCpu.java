@@ -2,6 +2,7 @@ package com.excilys.computerdatabase.persistence.mapping.rs;
 
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
+import com.excilys.computerdatabase.model.Computer.Builder;
 import com.excilys.computerdatabase.persistence.dao.impl.CompanyDaoImpl;
 import org.apache.log4j.Logger;
 
@@ -32,20 +33,20 @@ public class RsToCpu {
    */
 
   public Computer map(ResultSet rs) {
-    Computer cpu = null;
+    Builder cpuB;
     try {
       // The name TODO : add builder
-      cpu = Computer.builder(rs.getString("name")).build();
+      cpuB = Computer.builder(rs.getString("name"));
       // The id
-      cpu.setId(rs.getLong("id"));
+      cpuB.id(rs.getLong("id"));
       // The time it was introduced
       LocalDate introduced = (rs.getDate("introduced") == null) ? null
           : rs.getDate("introduced").toLocalDate();
-      cpu.setIntroduced(introduced);
+      cpuB.introduced(introduced);
       // The time it was discontinued
       LocalDate discontinued = (rs.getDate("discontinued") == null) ? null
           : rs.getDate("discontinued").toLocalDate();
-      cpu.setDiscontinued(discontinued);
+      cpuB.discontinued(discontinued);
       // The manufacturer
       Long cpnId = rs.getLong("company_id");
       Company manufacturer = null;
@@ -53,13 +54,13 @@ public class RsToCpu {
         // We retrieve the company from the db
         manufacturer = CompanyDaoImpl.getInstance().find(cpnId);
       }
-      cpu.setManufacturer(manufacturer);
+      cpuB.manufacturer(manufacturer);
     } catch (SQLException exn) {
       // Problem with the ResultSet
       log.error("FATAL : " + exn);
       throw new RuntimeException(exn);
     }
-    return cpu;
+    return cpuB.build();
   }
 
   public static RsToCpu getInstance() {
