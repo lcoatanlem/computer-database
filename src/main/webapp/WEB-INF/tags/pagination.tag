@@ -2,69 +2,74 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="mylib" tagdir="/WEB-INF/tags"%>
 
-<%@ attribute name="pageNumber" required="true" type="java.lang.String"
-	description="The current page"%>
-<%@ attribute name="pageSize" required="true" type="java.lang.String"
-	description="The number of elements per page"%>
-<%@ attribute name="totalPages" required="true" type="java.lang.String"
-	description="The total number of pages"%>
+<%@ attribute name="page" required="true"
+	type="com.excilys.computerdatabase.pagination.Pagination"
+	description="The pagination"%>
 
 <ul class="pagination">
-	<c:if test="${ pageNumber gt 1 }">
+	<c:if test="${ page.cpuPageNumber gt 1 }">
 		<li><a
-			href="/computer-database/dashboard?numPage=${ pageNumber-1 }"
+			href="/computer-database/dashboard?numPage=${ page.cpuPageNumber-1 }&limit=${ page.cpuPageSize }"
 			aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 		</a></li>
 	</c:if>
-	<c:if test="${ pageNumber gt 1 }">
+	<c:if test="${ page.cpuPageNumber gt 1 }">
 		<li><mylib:link link="1" target="/computer-database/dashboard"
-				numPage="1">
+				numPage="1" limit="${ page.cpuPageSize }">
 			</mylib:link></li>
 	</c:if>
 
-	<c:if test="${ pageNumber gt 6 }">
-		<li><mylib:link link="${ pageNumber-5 }"
-				target="/computer-database/dashboard" numPage="${ pageNumber-5 }">
+	<c:if test="${ page.cpuPageNumber gt 6 }">
+		<li><mylib:link link="${ page.cpuPageNumber-5 }"
+				target="/computer-database/dashboard"
+				numPage="${ page.cpuPageNumber-5 }" limit="${ page.cpuPageSize }">
 			</mylib:link></li>
 	</c:if>
-	<c:if test="${ pageNumber gt 3 }">
-		<li><mylib:link link="${ pageNumber-2 }"
-				target="/computer-database/dashboard" numPage="${ pageNumber-2 }">
+	<c:if test="${ page.cpuPageNumber gt 3 }">
+		<li><mylib:link link="${ page.cpuPageNumber-2 }"
+				target="/computer-database/dashboard"
+				numPage="${ page.cpuPageNumber-2 }" limit="${ page.cpuPageSize }">
 			</mylib:link></li>
 	</c:if>
-	<c:if test="${ pageNumber gt 2 }">
-		<li><mylib:link link="${ pageNumber-1 }"
-				target="/computer-database/dashboard" numPage="${ pageNumber-1 }">
+	<c:if test="${ page.cpuPageNumber gt 2 }">
+		<li><mylib:link link="${ page.cpuPageNumber-1 }"
+				target="/computer-database/dashboard"
+				numPage="${ page.cpuPageNumber-1 }" limit="${ page.cpuPageSize }">
 			</mylib:link></li>
 	</c:if>
 
-	<li><mylib:link link="${ pageNumber }" target="#">
+	<li><mylib:link link="${ page.cpuPageNumber }" target="#"
+			limit="${ page.cpuPageSize }">
 		</mylib:link></li>
 
-	<c:if test="${ pageNumber lt totalPages-2 }">
-		<li><mylib:link link="${ pageNumber+1 }"
-				target="/computer-database/dashboard" numPage="${ pageNumber+1 }">
+	<c:if test="${ page.cpuPageNumber lt page.cpuNbPages-2 }">
+		<li><mylib:link link="${ page.cpuPageNumber+1 }"
+				target="/computer-database/dashboard"
+				numPage="${ page.cpuPageNumber+1 }" limit="${ page.cpuPageSize }">
 			</mylib:link></li>
 	</c:if>
-	<c:if test="${ pageNumber lt totalPages-3 }">
-		<li><mylib:link link="${ pageNumber+2 }"
-				target="/computer-database/dashboard" numPage="${ pageNumber+2 }">
+	<c:if test="${ page.cpuPageNumber lt page.cpuNbPages-3 }">
+		<li><mylib:link link="${ page.cpuPageNumber+2 }"
+				target="/computer-database/dashboard"
+				numPage="${ page.cpuPageNumber+2 }" limit="${ page.cpuPageSize }">
 			</mylib:link></li>
 	</c:if>
-	<c:if test="${ pageNumber lt totalPages-6 }">
-		<li><mylib:link link="${ pageNumber+5 }"
-				target="/computer-database/dashboard" numPage="${ pageNumber+5 }">
+	<c:if test="${ page.cpuPageNumber lt page.cpuNbPages-6 }">
+		<li><mylib:link link="${ page.cpuPageNumber+5 }"
+				target="/computer-database/dashboard"
+				numPage="${ page.cpuPageNumber+5 }" limit="${ page.cpuPageSize }">
 			</mylib:link></li>
 	</c:if>
-	<c:if test="${ (pageNumber-totalPages) lt 0}">
-		<li><mylib:link link="${ totalPages }"
-				target="/computer-database/dashboard" numPage="${ totalPages }">
+	<c:if test="${ (page.cpuPageNumber-page.cpuNbPages) lt 0}">
+		<li><mylib:link link="${ page.cpuNbPages }"
+				target="/computer-database/dashboard" numPage="${ page.cpuNbPages }"
+				limit="${ page.cpuPageSize }">
 			</mylib:link></li>
 
 	</c:if>
-	<c:if test="${ (pageNumber-totalPages) lt 0 }">
+	<c:if test="${ (page.cpuPageNumber-page.cpuNbPages) lt 0 }">
 		<li><a
-			href="/computer-database/dashboard?numPage=${ pageNumber+1 }"
+			href="/computer-database/dashboard?numPage=${ page.cpuPageNumber+1 }&limit=${ page.cpuPageSize }"
 			aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 		</a></li>
 	</c:if>

@@ -29,8 +29,7 @@ public class PaginationValidator {
       } else {
         // If matches the pattern, need to check if it isn't out of bounds
         int numPage = Integer.parseInt(numPageReq);
-        int maxPages = nbPages;
-        if (numPage < 0 | numPage >= maxPages) {
+        if (numPage < 0 | numPage > nbPages) {
           return "Page number is out of bounds.";
         } else {
           return null;

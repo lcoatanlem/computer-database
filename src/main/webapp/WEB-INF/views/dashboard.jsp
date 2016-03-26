@@ -27,7 +27,7 @@
 	<section id="main">
 		<div class="container">
 			<h1 id="homeTitle">
-				<c:out value="${ cpuPage.totalEntries }" />
+				<c:out value="${ page.cpuTotalEntries }" />
 				Computers found
 			</h1>
 			<div id="actions" class="form-horizontal">
@@ -78,7 +78,7 @@
 				</thead>
 				<!-- Browse attribute computers -->
 				<tbody id="results">
-					<c:forEach items="${ cpuPage.list }" var="elt">
+					<c:forEach items="${ page.cpuList }" var="elt">
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="0"></td>
@@ -97,14 +97,7 @@
 
 	<footer class="navbar-fixed-bottom">
 		<div class="container text-center">
-			<c:set var="totalPages"
-				value="${ fn:substringBefore(((cpuPage.totalEntries/cpuPage.pageSize) +1), '.') }" />
-			<c:if test="${ (cpuPage.totalEntries mod cpuPage.pageSize) eq 0 }">
-				<c:set var="totalPages"
-					value="${ fn:substringBefore((cpuPage.totalEntries/cpuPage.pageSize), '.') }" />
-			</c:if>
-			<mylib:pagination pageNumber="${ cpuPage.pageNumber }"
-				pageSize="${ cpuPage.pageSize }" totalPages="${ totalPages }"></mylib:pagination>
+			<mylib:pagination page="${ page }"></mylib:pagination>
 		</div>
 	</footer>
 	<script src="/js/jquery.min.js"></script>

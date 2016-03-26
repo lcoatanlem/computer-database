@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * Servlet implementation class Dashboard.
  */
@@ -18,25 +17,17 @@ public class Dashboard extends HttpServlet {
   private static final String ATTR_PAGE = "page";
 
   /**
-   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response).
+   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+   *      response).
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     // Get the page from the request
     Pagination page = PageRequestMapper.map(request);
-    // Setting new CpuPage as attribute and dispatching to the dashboard again
+    // Setting page as attribute
     request.setAttribute(ATTR_PAGE, page);
     // Dispatching to the dashboard
     this.getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request,
         response);
   }
-
-//  /**
-//   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse. response)
-//   */
-//  protected void doPost(HttpServletRequest request, HttpServletResponse response)
-//      throws ServletException, IOException {
-//    doGet(request, response);
-//  }
-
 }

@@ -35,7 +35,7 @@ public class RsToCpu {
   public Computer map(ResultSet rs) {
     Builder cpuB;
     try {
-      // The name TODO : add builder
+      // The name
       cpuB = Computer.builder(rs.getString("name"));
       // The id
       cpuB.id(rs.getLong("id"));
