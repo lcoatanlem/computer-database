@@ -30,18 +30,18 @@
 			<div class="row">
 				<div class="col-xs-8 col-xs-offset-2 box">
 					<h1>Add Computer</h1>
-					<form action="addcomputer" method="POST" id="addcomputer">
+					<form action="addcomputer" method="POST" id="computer">
 						<fieldset>
 							<div class="form-group">
 								<label for="computerName">Computer name</label>
 								<c:choose>
 									<c:when test="${ empty errors }">
-										<input name="computerName" type="text" class="form-control"
+										<input name="name" type="text" class="form-control"
 											id="name" placeholder="Computer name"
 											value="${fn:escapeXml(cpuDto.name)}">
 									</c:when>
 									<c:otherwise>
-										<input name="computerName" type="text" class="form-control"
+										<input name="name" type="text" class="form-control"
 											id="name" placeholder="Computer name"
 											value="${fn:escapeXml(cpuDto.name)}">
 										<span id="nameError"><b>${ errors['name'] }</b></span>
@@ -97,7 +97,7 @@
 						</div>
 					</form>
 					<!-- Desativate to try back-end validation -->
-					<script src="js/addComputer.js"></script>
+					<script src="js/computer.js"></script>
 				</div>
 			</div>
 		</div>

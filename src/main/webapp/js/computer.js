@@ -1,4 +1,4 @@
-$('#addcomputer').validate({
+$('#computer').validate({
 	rules : {
 		name : {
 			required : true,

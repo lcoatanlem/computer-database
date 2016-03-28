@@ -83,7 +83,7 @@
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="0"></td>
 							<td><mylib:link link="${ elt.name }"
-									target="/computer-database/editcomputer" cpuId="${ elt.id }"></mylib:link></td>
+									target="/computer-database/editcomputer" id="${ elt.id }"></mylib:link></td>
 							<td><c:out value="${ elt.introduced }"></c:out></td>
 							<td><c:out value="${ elt.discontinued }"></c:out></td>
 							<td><c:out value="${ elt.nameCpn }"></c:out></td>

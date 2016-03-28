@@ -10,7 +10,7 @@
 	description="The limit of computers per page"%>
 <%@ attribute name="numPage" required="false" type="java.lang.String"
 	description="The number of the actual page"%>
-<%@ attribute name="cpuId" required="false" type="java.lang.String"
+<%@ attribute name="id" required="false" type="java.lang.String"
 	description="The id of the computer to edit"%>
 
 <c:choose>
@@ -19,8 +19,8 @@
 
 		<c:choose>
 		
-			<c:when test="${ not empty cpuId }">
-				<a href="${ target }?cpuId=${ cpuId }" class="${ className }"><c:out
+			<c:when test="${ not empty id }">
+				<a href="${ target }?id=${ id }" class="${ className }"><c:out
 						value="${ link }"></c:out></a>
 			</c:when>
 			

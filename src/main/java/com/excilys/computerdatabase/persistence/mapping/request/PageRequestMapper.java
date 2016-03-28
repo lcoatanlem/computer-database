@@ -112,9 +112,7 @@ public class PageRequestMapper {
   }
 
   /**
-   * Mapper for the request from dashboard. If the parameters are null,
-   * initialize the map. Else, try to validate values, and return a new page
-   * with it.
+   * Mapper for the request from addComputer.
    * 
    * @param request
    *          from the jsp
@@ -131,5 +129,25 @@ public class PageRequestMapper {
 
     return page;
   }
+  
+  /**
+   * Mapper for the request from editComputer. 
+   * 
+   * @param request
+   *          from the jsp
+   * @return a new page to transmit to the jsp
+   */
+  public static Pagination fromEdit(HttpServletRequest request) {
+    // Get the service instance
+    CompanyService cpnServ = CompanyService.getInstance();
+    // Uploading the companies' list
+    int countEntries = cpnServ.countEntries();
+
+    Pagination page = Pagination.builder().cpnList(cpnServ.listCompanies(0, countEntries)).build();
+
+    return page;
+  }
+  
+  
 
 }

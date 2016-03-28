@@ -26,7 +26,6 @@ public class AddComputer extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
   private Logger log = Logger.getLogger(AddComputer.class);
-  // TODO logs and check holders / attributes / parameters
 
   // Params and attributes for AddComputer
   private static final String ATTR_COMPANIES = "companies";
@@ -41,9 +40,9 @@ public class AddComputer extends HttpServlet {
       throws ServletException, IOException {
     // Get the page from the request
     Pagination page = PageRequestMapper.fromAdd(request);
-    // Setting page as attribute
+    // Setting companies as attribute
     request.setAttribute(ATTR_COMPANIES, page.getCpnList());
-    // Dispatching to the dashboard
+    // Dispatching to the addcomputer's view
     this.getServletContext().getRequestDispatcher("/WEB-INF/views/addComputer.jsp").forward(request,
         response);
   }
@@ -63,7 +62,7 @@ public class AddComputer extends HttpServlet {
     ComputerValidator.validate(cpuDto, errors);
     if (!errors.isEmpty()) {
       // If there are errors, set the cpuDto and the list of errors as attributes
-      log.debug("Name is not valid, launched addcomputer view again with errors.");
+      log.debug("There are errors, launched addcomputer view again with errors.");
       request.setAttribute(ATTR_ERRORS, errors);
       request.setAttribute(ATTR_CPUDTO, cpuDto);
       doGet(request, response);

@@ -42,39 +42,37 @@ public class ComputerLineInterface {
     try {
       choix = Integer.valueOf(sc.nextLine());
     } catch (NumberFormatException exn) {
-      System.out.println(
-          "Not a good entry, "
+      System.out.println("Not a good entry, "
           + "type an integer between 1 and 6 corresponding to your choice, -1 to exit!");
       menu();
     }
     switch (Integer.valueOf(choix)) {
-      case 1:
-        listCompanies();
-        break;
-      case 2:
-        listComputers();
-        break;
-      case 3:
-        showComputer();
-        break;
-      case 4:
-        createComputer();
-        break;
-      case 5:
-        updateComputer();
-        break;
-      case 6:
-        deleteComputer();
-        break;
-      case -1:
-        exitApplication();
-        break;
-      default:
-        System.out.println(
-            "Not a good entry, "
-            + "type an integer between 1 and 6 corresponding to your choice, -1 to exit!");
-        menu();
-        break;
+    case 1:
+      listCompanies();
+      break;
+    case 2:
+      listComputers();
+      break;
+    case 3:
+      showComputer();
+      break;
+    case 4:
+      createComputer();
+      break;
+    case 5:
+      updateComputer();
+      break;
+    case 6:
+      deleteComputer();
+      break;
+    case -1:
+      exitApplication();
+      break;
+    default:
+      System.out.println("Not a good entry, "
+          + "type an integer between 1 and 6 corresponding to your choice, -1 to exit!");
+      menu();
+      break;
     }
     sc.close();
   }
@@ -83,8 +81,7 @@ public class ComputerLineInterface {
     int choix = 0;
     Scanner sc = new Scanner(System.in);
     try {
-      cpuController.listComputers(iterCpu, paginationCpu);
-      for (Computer cpu : cpuController.getPage().getCpuList()) {
+      for (Computer cpu : cpuController.listComputers(iterCpu, paginationCpu)) {
         System.out.println(cpu.getName());
       }
     } catch (IndexOutOfBoundsException exn) {
@@ -105,22 +102,22 @@ public class ComputerLineInterface {
       menu();
     }
     switch (Integer.valueOf(choix)) {
-      case 0:
-        menu();
-        break;
-      case 1:
-        iterCpu -= paginationCpu;
-        listComputers();
-        break;
-      case 2:
-        iterCpu += paginationCpu;
-        listComputers();
-        break;
-      default:
-        System.out.println(
-            "Not a good entry, type an integer between 0 and 2 corresponding to your choice!");
-        listComputers();
-        break;
+    case 0:
+      menu();
+      break;
+    case 1:
+      iterCpu -= paginationCpu;
+      listComputers();
+      break;
+    case 2:
+      iterCpu += paginationCpu;
+      listComputers();
+      break;
+    default:
+      System.out.println(
+          "Not a good entry, type an integer between 0 and 2 corresponding to your choice!");
+      listComputers();
+      break;
     }
     sc.close();
   }
@@ -130,8 +127,7 @@ public class ComputerLineInterface {
     Scanner sc = new Scanner(System.in);
 
     try {
-      cpnController.listCompanies(iterCpn, paginationCpn);
-      for (Company cpn : cpnController.getPage().getCpnList()) {
+      for (Company cpn : cpnController.listCompanies(iterCpn, paginationCpn)) {
         System.out.println(cpn.getName());
       }
     } catch (IndexOutOfBoundsException exn) {
@@ -153,22 +149,22 @@ public class ComputerLineInterface {
     }
 
     switch (Integer.valueOf(choix)) {
-      case 0:
-        menu();
-        break;
-      case 1:
-        iterCpn -= paginationCpn;
-        listCompanies();
-        break;
-      case 2:
-        iterCpn += paginationCpn;
-        listCompanies();
-        break;
-      default:
-        System.out.println(
-            "Not a good entry, type an integer between 0 and 2 corresponding to your choice!");
-        listCompanies();
-        break;
+    case 0:
+      menu();
+      break;
+    case 1:
+      iterCpn -= paginationCpn;
+      listCompanies();
+      break;
+    case 2:
+      iterCpn += paginationCpn;
+      listCompanies();
+      break;
+    default:
+      System.out.println(
+          "Not a good entry, type an integer between 0 and 2 corresponding to your choice!");
+      listCompanies();
+      break;
     }
     sc.close();
   }
@@ -242,8 +238,7 @@ public class ComputerLineInterface {
         } else {
           resIdCpn = null;
         }
-        ComputerDto cpuDto = new ComputerDto(null, name, introduced.toString(),
-            discontinued.toString(), idCpn.toString(), null);
+        ComputerDto cpuDto = ComputerDto.builder().build(); // to change
         cpuController.createComputer(ComputerDtoToDao.getInstance().map(cpuDto));
         createComputer();
       } catch (NumberFormatException exn) {
@@ -320,8 +315,7 @@ public class ComputerLineInterface {
         } else {
           resIdCpn = null;
         }
-        ComputerDto cpuDto = new ComputerDto(idCpu.toString(), name, introduced.toString(),
-            discontinued.toString(), idCpn.toString(), null);
+        ComputerDto cpuDto = ComputerDto.builder().build(); // to change
         cpuController.updateComputer(ComputerDtoToDao.getInstance().map(cpuDto));
         updateComputer();
       } catch (NumberFormatException exn) {

@@ -27,60 +27,78 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-xs-8 col-xs-offset-2 box">
-					<div class="label label-default pull-right">id: ${ cpuId }</div>
+					<div class="label label-default pull-right">id: ${ cpuDto.id }</div>
 					<h1>Edit Computer</h1>
 
-					<form action="editComputer" method="POST">
-						<input type="hidden" value="0" />
+					<form action="editcomputer" method="POST" id="computer">
+						<input type="hidden" name="id" id="id" value=${ cpuDto.id } />
 						<fieldset>
 							<div class="form-group">
-								<label for="computerName">Computer name</label> <input
-									type="text" class="form-control" id="computerName"
-									value="${ nameInput }">
-							</div>
-							<div class="form-group">
-								<label for="introduced">Introduced date</label>
+								<label for="computerName">Computer name</label>
 								<c:choose>
-									<c:when test="${ introducedInput == '' }">
-										<input type="text" class="form-control" id="introduced"
-											placeHolder="Introduced date">
+									<c:when test="${ empty errors }">
+										<input name="name" type="text" class="form-control"
+											id="name" placeholder="Computer name"
+											value="${ fn:escapeXml(cpuDto.name) }">
 									</c:when>
 									<c:otherwise>
-										<input type="date" class="form-control" id="introduced"
-											value="${ introducedInput }">
+										<input name="name" type="text" class="form-control"
+											id="name" placeholder="Computer name"
+											value="${fn:escapeXml(cpuDto.name)}">
+										<span id="nameError"><b>${ errors['name'] }</b></span>
 									</c:otherwise>
 								</c:choose>
 							</div>
 							<div class="form-group">
-								<label for="discontinued">Discontinued date</label>
+								<label for="introduced">Introduced date "yyyy-mm-dd"</label>
 								<c:choose>
-									<c:when test="${ discontinuedInput == '' }">
-										<input type="text" class="form-control" id="discontinued"
-											placeHolder="Discontinued date">
+									<c:when test="${ empty errors }">
+										<input name="introduced" type="date" class="form-control"
+											id="introduced" placeholder="Introduced date"
+											value="${ cpuDto.introduced }">
 									</c:when>
 									<c:otherwise>
-										<input type="date" class="form-control" id="discontinued"
-											value="${ discontinuedInput }">
+										<input name="introduced" type="date" class="form-control"
+											id="introduced" placeholder="Introduced date"
+											value="${ cpuDto.introduced }">
+										<span id="introducedError"><b>${ errors['introduced'] }</b></span>
 									</c:otherwise>
 								</c:choose>
 							</div>
 							<div class="form-group">
-								<label for="companyId">Company</label> <select
-									class="form-control" id="companyId" name="company">
+								<label for="discontinued">Discontinued date "yyyy-mm-dd"</label>
+								<c:choose>
+									<c:when test="${ empty errors }">
+										<input name="discontinued" type="date" class="form-control"
+											id="discontinued" placeholder="Discontinued date"
+											value="${ cpuDto.discontinued }">
+									</c:when>
+									<c:otherwise>
+										<input name="discontinued" type="date" class="form-control"
+											id="discontinued" placeholder="Discontinued date"
+											value="${ cpuDto.discontinued }">
+										<span id="discontinuedError"><b>${ errors['discontinued'] }</b></span>
+									</c:otherwise>
+								</c:choose>
+							</div>
+							<div class="form-group">
+								<label for="idCpn">Company</label> <select class="form-control"
+									id="idCpn" name="idCpn">
 									<option value=${ '' }>-------------------</option>
 									<c:forEach items="${ companies }" var="company">
-										<option value="${company.id}"
-											${ company.id == cpnId ? 'selected="selected"' : '' } >${company.name}</option>
+										<option value="${ company.id }"
+											${ company.id == cpuDto.idCpn ? 'selected="selected"' : '' }>${ company.name }</option>
 									</c:forEach>
 								</select>
 							</div>
 						</fieldset>
 						<div class="actions pull-right">
 							<input type="submit" value="Edit" class="btn btn-primary">
-							or <a href="dashboard.html" class="btn btn-default">Cancel</a>
+							<a href="/computer-database/dashboard" class="btn btn-default">Cancel</a>
 						</div>
 					</form>
-					<script src="js/addComputer.js"></script>
+					<!-- Desativate to try back-end validation -->
+					<script src="js/computer.js"></script>
 				</div>
 			</div>
 		</div>
