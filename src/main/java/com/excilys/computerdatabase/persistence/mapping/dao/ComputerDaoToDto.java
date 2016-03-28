@@ -21,23 +21,22 @@ public class ComputerDaoToDto {
    * @return a new Computer
    */
   public ComputerDto map(Computer cpu) {
-    ComputerDto cpuDto = new ComputerDto(
-        // id
-        (cpu.getId() == null ? null : cpu.getId().toString()),
-        // name
-        cpu.getName(),
-        // introduced
-        (cpu.getIntroduced() == null ? null : cpu.getIntroduced().toString()),
-        // discontinued
-        (cpu.getDiscontinued() == null ? null : cpu.getDiscontinued().toString()),
-        // idCpn
-        (cpu.getManufacturer() == null ? null
-            : (cpu.getManufacturer().getId() == null ? null
-                : cpu.getManufacturer().getId().toString())),
-        // nameCpn
-        (cpu.getManufacturer() == null ? null
-            : (cpu.getManufacturer().getName() == null ? null : cpu.getManufacturer().getName())));
-    return cpuDto;
+    // Id
+    Long id = (cpu.getId() == null ? null : cpu.getId());
+    // name
+    String name = cpu.getName();
+    // introduced (string)
+    String introduced = (cpu.getIntroduced() == null ? null : cpu.getIntroduced().toString());
+    // discontinued (string)
+    String discontinued = (cpu.getDiscontinued() == null ? null : cpu.getDiscontinued().toString());
+    // idCpn
+    Long idCpn = (cpu.getManufacturer() == null ? null
+        : (cpu.getManufacturer().getId() == null ? null : cpu.getManufacturer().getId()));
+    // nameCpn
+    String nameCpn = (cpu.getManufacturer() == null ? null
+        : (cpu.getManufacturer().getName() == null ? null : cpu.getManufacturer().getName()));
+    return ComputerDto.builder().id(id).name(name).introduced(introduced).discontinued(discontinued)
+        .idCpn(idCpn).nameCpn(nameCpn).build();
   }
 
 }

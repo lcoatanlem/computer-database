@@ -24,7 +24,7 @@ public class ComputerLineInterface {
    */
   public ComputerLineInterface() {
     cpuController = ComputerService.getInstance();
-    cpnController = CompanyService.getCpnserv();
+    cpnController = CompanyService.getInstance();
     iterCpu = 0;
     iterCpn = 0;
   }

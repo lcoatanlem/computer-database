@@ -33,30 +33,30 @@
 					<form action="addcomputer" method="POST" id="addcomputer">
 						<fieldset>
 							<div class="form-group">
-								<label for="name">Computer name</label> <input name="name"
+								<label for="computerName">Computer name</label> <input name="computerName"
 									type="text" class="form-control" id="name"
-									placeholder="${ nameInput }"
+									placeholder="${ name }"
 									value="${fn:escapeXml(param.computerName)}"> <span
 									id="nameError"><b>${ nameError }</b></span>
 							</div>
 							<div class="form-group">
 								<label for="introduced">Introduced date "yyyy-mm-dd"</label> <input
 									name="introduced" type="date" class="form-control"
-									id="introduced" placeholder="${ introducedInput }"> <span
+									id="introduced" placeholder="${ introduced }"> <span
 									id="introducedError"><b>${ introducedError }</b></span>
 							</div>
 							<div class="form-group">
-								<label for="discontinued">Discontinued date "yyyy-mm-dd"</label> <input
-									name="discontinued" type="date" class="form-control"
-									id="discontinued" placeholder="${ nameInput }"> <span
+								<label for="discontinued">Discontinued date "yyyy-mm-dd"</label>
+								<input name="discontinued" type="date" class="form-control"
+									id="discontinued" placeholder="${ discontinued }"> <span
 									id="discontinuedError"><b>${ discontinuedError }</b></span>
 							</div>
 							<div class="form-group">
-								<label for="companyId">Company</label> <select
-									class="form-control" id="companyId" name="company">
+								<label for="idCpn">Company</label> <select class="form-control"
+									id="idCpn" name="idCpn">
 									<option value=${ '' }>-------------------</option>
 									<c:forEach items="${ companies }" var="company">
-										<option value="${company.id}">${company.name}</option>
+										<option value="${ company.id }">${ company.name }</option>
 									</c:forEach>
 								</select>
 							</div>

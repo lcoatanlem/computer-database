@@ -26,7 +26,7 @@ public class ComputerDtoToDao {
   public Computer map(ComputerDto cpuDto) {
 
     // Id
-    Long id = (cpuDto.getId() == null ? null : Long.parseLong(cpuDto.getId()));
+    Long id = cpuDto.getId();
 
     // Name
     String name = cpuDto.getName();
@@ -40,7 +40,7 @@ public class ComputerDtoToDao {
         : LocalDate.parse(cpuDto.getDiscontinued()));
 
     // Id and name of the Company
-    Long idCpn = (cpuDto.getIdCpn() == null ? null : Long.parseLong(cpuDto.getIdCpn()));
+    Long idCpn = cpuDto.getIdCpn();
     String nameCpn = cpuDto.getNameCpn();
     Company cpn = new Company.Builder().id(idCpn).name(nameCpn).build();
     

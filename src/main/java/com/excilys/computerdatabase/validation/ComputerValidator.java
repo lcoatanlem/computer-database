@@ -1,27 +1,58 @@
 package com.excilys.computerdatabase.validation;
 
+import com.excilys.computerdatabase.persistence.dto.ComputerDto;
+
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ComputerValidator {
-  private static final ComputerValidator INSTANCE = new ComputerValidator();
 
-  public static ComputerValidator getInstance() {
-    return INSTANCE;
+  private static final String KEY_NAME = "name";
+  private static final String KEY_INTRODUCED = "introduced";
+  private static final String KEY_DISCONTINUED = "discontinued";
+
+  /**
+   * Method to validate a computer, returns a map of errors.
+   * 
+   * @param cpuDto
+   *          the computer to validate
+   * @param errors
+   *          the map to fill
+   * @return the map errors filled
+   */
+  public static Map<String, String> validate(ComputerDto cpuDto, Map<String, String> errors) {
+    // Name Validation
+    String nameVal = nameIsValid(cpuDto.getName());
+    if (nameVal != null) {
+      errors.put(KEY_NAME, nameVal);
+    }
+    // Introduced date Validation
+    String introducedVal = introducedIsValid(cpuDto.getIntroduced());
+    if (introducedVal != null) {
+      errors.put(KEY_INTRODUCED, introducedVal);
+    }
+    // Disctontinued date Validation
+    String discontinuedVal = discontinuedIsValid(cpuDto.getDiscontinued(), cpuDto.getIntroduced());
+    if (discontinuedVal != null) {
+      errors.put(KEY_DISCONTINUED, discontinuedVal);
+    }
+    // Return the map of errors
+    return errors;
   }
 
   /**
    * name Validator.
    * 
-   * @return true iff name is valid
+   * @return null if the name is valid, or the error
    */
-  public String nameIsValid(String nameReq) {
-    // Testing the null or empty (white spaces doesn't count)
+  private static String nameIsValid(String nameReq) {
+    // Name cannot be null
     if (nameReq == null || nameReq.trim().isEmpty()) {
       return "Name is required.";
     } else {
-      // If not null, must 2 chars at least
+      // Name must 2 chars at least
       String pattern = "^(.(.+))$";
       Pattern cpattern = Pattern.compile(pattern);
       Matcher match = cpattern.matcher(nameReq.trim());
@@ -38,7 +69,7 @@ public class ComputerValidator {
    * 
    * @return true iff introduced is valid
    */
-  public String introducedIsValid(String introducedReq) {
+  private static String introducedIsValid(String introducedReq) {
     // Can be null or empty
     if (introducedReq == null || introducedReq.trim().isEmpty()) {
       return null;
@@ -71,7 +102,7 @@ public class ComputerValidator {
    * 
    * @return true iff discontinued is valid
    */
-  public String discontinuedIsValid(String discontinuedRes, String introducedRes) {
+  private static String discontinuedIsValid(String discontinuedRes, String introducedRes) {
     // Can be null or empty
     if (discontinuedRes == null || discontinuedRes.trim().isEmpty()) {
       return null;

@@ -1,7 +1,7 @@
 package com.excilys.computerdatabase.model;
 
 /**
- * This class is the model of the companies. It is immutable (for example). There is a builder.
+ * This class is the model of the companies, contains its builder.
  * 
  * @author lcoatanlem
  */

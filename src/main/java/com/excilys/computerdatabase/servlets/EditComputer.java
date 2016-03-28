@@ -26,7 +26,7 @@ public class EditComputer extends HttpServlet {
 
   private ComputerService cpuServ = ComputerService.getInstance();
 
-  private CompanyService cpnServ = CompanyService.getCpnserv();
+  private CompanyService cpnServ = CompanyService.getInstance();
 
   /**
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse. response)

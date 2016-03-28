@@ -3,6 +3,7 @@ package com.excilys.computerdatabase.persistence.mapping.request;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.pagination.Pagination;
 import com.excilys.computerdatabase.persistence.mapping.dao.ComputerDaoToDto;
+import com.excilys.computerdatabase.service.CompanyService;
 import com.excilys.computerdatabase.service.ComputerService;
 import com.excilys.computerdatabase.validation.PaginationValidator;
 import org.apache.log4j.Logger;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class PageRequestMapper {
 
+  // Params for Dashboard
   private static final String PARAM_NUMPAGE = "numPage";
   private static final String PARAM_LIMIT = "limit";
   private static final int INIT_NUMPAGE = 1;
@@ -21,14 +23,15 @@ public class PageRequestMapper {
   private static Logger log = Logger.getLogger(PageRequestMapper.class);
 
   /**
-   * Mapper for the request. If the parameters are null, initialize the map.
-   * Else, try to validate values, and return a new page with it.
+   * Mapper for the request from dashboard. If the parameters are null,
+   * initialize the map. Else, try to validate values, and return a new page
+   * with it.
    * 
    * @param request
    *          from the jsp
    * @return a new page to transmit to the jsp
    */
-  public static Pagination map(HttpServletRequest request) {
+  public static Pagination fromDashboard(HttpServletRequest request) {
 
     // Get the service instance
     ComputerService cpuServ = ComputerService.getInstance();
@@ -41,7 +44,9 @@ public class PageRequestMapper {
     int countEntries = cpuServ.countEntries();
 
     Pagination page = Pagination.builder().cpuPageNumber(INIT_NUMPAGE).cpuPageSize(INIT_LIMIT)
-        .cpuTotalEntries(countEntries).cpuNbPages((int) Math.floor(countEntries / INIT_LIMIT) + 1)
+        .cpuTotalEntries(countEntries)
+        .cpuNbPages(
+            (int) Math.floor(countEntries / INIT_LIMIT) + (countEntries % INIT_LIMIT == 0 ? 0 : 1))
         .cpuList(new ArrayList<>()).build();
 
     // Page number checking
@@ -61,12 +66,14 @@ public class PageRequestMapper {
         int limit = Integer.parseInt(limitReq);
         page.setCpuPageSize(limit);
         // actualize nbPages
-        page.setCpuNbPages((int) Math.floor(page.getCpuTotalEntries() / limit) + 1);
+        page.setCpuNbPages((int) Math.floor(page.getCpuTotalEntries() / limit)
+            + (page.getCpuTotalEntries() % limit == 0 ? 0 : 1));
       } else {
         // limit is wrong
         page.setCpuPageSize(INIT_LIMIT);
         // actualize nbPages
-        page.setCpuNbPages((int) Math.floor(page.getCpuTotalEntries() / INIT_LIMIT) + 1);
+        page.setCpuNbPages((int) Math.floor(page.getCpuTotalEntries() / INIT_LIMIT)
+            + (page.getCpuTotalEntries() % INIT_LIMIT == 0 ? 0 : 1));
         log.info(limitRes);
       }
     } else {
@@ -77,13 +84,15 @@ public class PageRequestMapper {
         int limit = Integer.parseInt(limitReq);
         page.setCpuPageSize(limit);
         // actualize nbPages
-        page.setCpuNbPages((int) Math.floor(page.getCpuTotalEntries() / limit) + 1);
+        page.setCpuNbPages((int) Math.floor(page.getCpuTotalEntries() / limit)
+            + (page.getCpuTotalEntries() % limit == 0 ? 0 : 1));
         log.info("Limit has changed, page number has been reset : 1.");
       } else {
         // both are wrong
         page.setCpuPageSize(INIT_LIMIT);
         // actualize nbPages
-        page.setCpuNbPages((int) Math.floor(page.getCpuTotalEntries() / INIT_LIMIT) + 1);
+        page.setCpuNbPages((int) Math.floor(page.getCpuTotalEntries() / INIT_LIMIT)
+            + (page.getCpuTotalEntries() % INIT_LIMIT == 0 ? 0 : 1));
         log.info(numPageRes);
         log.info(limitRes);
       }
@@ -99,6 +108,27 @@ public class PageRequestMapper {
     for (Computer cpu : cpuServ.listComputers(offset, pageSize)) {
       page.getCpuList().add(ComputerDaoToDto.getInstance().map(cpu));
     }
+    return page;
+  }
+
+  /**
+   * Mapper for the request from dashboard. If the parameters are null,
+   * initialize the map. Else, try to validate values, and return a new page
+   * with it.
+   * 
+   * @param request
+   *          from the jsp
+   * @return a new page to transmit to the jsp
+   */
+  public static Pagination fromAdd(HttpServletRequest request) {
+    // Get the service instance
+    CompanyService cpnServ = CompanyService.getInstance();
+
+    // Uploading the companies' list
+    int countEntries = cpnServ.countEntries();
+
+    Pagination page = Pagination.builder().cpnList(cpnServ.listCompanies(0, countEntries)).build();
+
     return page;
   }
 

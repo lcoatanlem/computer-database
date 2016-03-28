@@ -23,7 +23,7 @@ public class Dashboard extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     // Get the page from the request
-    Pagination page = PageRequestMapper.map(request);
+    Pagination page = PageRequestMapper.fromDashboard(request);
     // Setting page as attribute
     request.setAttribute(ATTR_PAGE, page);
     // Dispatching to the dashboard

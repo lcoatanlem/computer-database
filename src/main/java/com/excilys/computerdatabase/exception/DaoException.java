@@ -1,7 +1,7 @@
 package com.excilys.computerdatabase.exception;
 
 /**
- * Runtime Exception when someone tries to use a wrong date format.
+ * Runtime Exception when there is a problem with the database.
  * 
  * @author lcoatanlem
  *

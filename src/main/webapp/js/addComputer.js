@@ -1,6 +1,6 @@
 $('#addcomputer').validate({
 	rules : {
-		computerName : {
+		name : {
 			required : true,
 			minlength : "2",
 		},
@@ -15,7 +15,7 @@ $('#addcomputer').validate({
 		}
 	},
 	messages : {
-		computerName : {
+		name : {
 			required : "Name is required.",
 			minlength : "At least two chars."
 		},

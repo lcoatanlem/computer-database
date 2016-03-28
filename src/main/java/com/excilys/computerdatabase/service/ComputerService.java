@@ -1,7 +1,6 @@
 package com.excilys.computerdatabase.service;
 
 import com.excilys.computerdatabase.model.Computer;
-import com.excilys.computerdatabase.pagination.Pagination;
 import com.excilys.computerdatabase.persistence.dao.impl.CompanyDaoImpl;
 import com.excilys.computerdatabase.persistence.dao.impl.ComputerDaoImpl;
 
@@ -9,7 +8,6 @@ import java.util.List;
 
 public class ComputerService {
   private ComputerDaoImpl cpuDao;
-  private Pagination page;
 
   private static final ComputerService INSTANCE = new ComputerService();
 
@@ -32,8 +30,8 @@ public class ComputerService {
   }
 
   /**
-   * Method to list all computers. To paginate, it starts with an index and a number of instances we
-   * want.
+   * Method to list all computers. To paginate, it starts with an index and a
+   * number of instances we want.
    * 
    * @param offset
    *          the beginning of the list
@@ -56,8 +54,8 @@ public class ComputerService {
   }
 
   /**
-   * Method to create a new computer in DB. Calls CompanyDAO and findCompany(id) to check if the id
-   * exists (not null).
+   * Method to create a new computer in DB. Calls CompanyDAO and findCompany(id)
+   * to check if the id exists (not null).
    * 
    * @param cpu
    *          the computer you to create
@@ -82,14 +80,12 @@ public class ComputerService {
     }
 
     // If everything's fine...
-    int totalEntries = page.getCpuTotalEntries();
     cpuDao.create(cpu);
-    page.setCpuTotalEntries(totalEntries++);
   }
 
   /**
-   * Method to update a new computer in DB. Calls CompanyDAO and findCompany(id) to check if the id
-   * exists (not null).
+   * Method to update a new computer in DB. Calls CompanyDAO and findCompany(id)
+   * to check if the id exists (not null).
    * 
    * @param cpu
    *          the computer to update
@@ -133,18 +129,8 @@ public class ComputerService {
     if (cpuDao.find(id) == null) {
       throw new IllegalArgumentException("This computer doesn't exists.");
     }
-
+    
     // If everything's fine...
-    int totalEntries = page.getCpuTotalEntries();
     cpuDao.delete(id);
-    page.setCpuTotalEntries(totalEntries--);
-  }
-
-  public Pagination getPage() {
-    return page;
-  }
-
-  public void setPage(Pagination page) {
-    this.page = page;
   }
 }
