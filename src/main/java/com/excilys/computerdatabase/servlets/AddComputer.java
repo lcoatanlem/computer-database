@@ -25,20 +25,13 @@ import javax.servlet.http.HttpServletResponse;
 public class AddComputer extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
-  private Logger log = Logger.getLogger(AddComputer.class); 
+  private Logger log = Logger.getLogger(AddComputer.class);
   // TODO logs and check holders / attributes / parameters
 
   // Params and attributes for AddComputer
   private static final String ATTR_COMPANIES = "companies";
-  private static final String ATTR_NAME = "name";
-  private static final String ATTR_INTRODUCED = "introduced";
-  private static final String ATTR_DISCONTINUED = "discontinued";
+  private static final String ATTR_CPUDTO = "cpuDto";
   private static final String ATTR_ERRORS = "errors";
-
-  // Init values
-  private static final String NAME_INIT = "Computer name";
-  private static final String INTRODUCED_INIT = "Introduced date";
-  private static final String DISCONTINUED_INIT = "Discontinued date";
 
   /**
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -50,9 +43,6 @@ public class AddComputer extends HttpServlet {
     Pagination page = PageRequestMapper.fromAdd(request);
     // Setting page as attribute
     request.setAttribute(ATTR_COMPANIES, page.getCpnList());
-    request.setAttribute(ATTR_NAME, NAME_INIT);
-    request.setAttribute(ATTR_INTRODUCED, INTRODUCED_INIT);
-    request.setAttribute(ATTR_DISCONTINUED, DISCONTINUED_INIT);
     // Dispatching to the dashboard
     this.getServletContext().getRequestDispatcher("/WEB-INF/views/addComputer.jsp").forward(request,
         response);
@@ -67,14 +57,15 @@ public class AddComputer extends HttpServlet {
     // We put all parameters into a ComputerDto
     ComputerDto cpuDto = ComputerRequestMapper.toDto(request,
         PageRequestMapper.fromAdd(request).getCpnList());
-    // We create a Map of errors
+    // We create a Map of errors, to link errors with their cause
     Map<String, String> errors = new HashMap<>();
     // Validating the dto, if there is errors will be in errors map
     ComputerValidator.validate(cpuDto, errors);
-    // If there are errors
     if (!errors.isEmpty()) {
+      // If there are errors, set the cpuDto and the list of errors as attributes
       log.debug("Name is not valid, launched addcomputer view again with errors.");
       request.setAttribute(ATTR_ERRORS, errors);
+      request.setAttribute(ATTR_CPUDTO, cpuDto);
       doGet(request, response);
       return;
     }

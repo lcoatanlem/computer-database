@@ -1,7 +1,6 @@
 package com.excilys.computerdatabase.servlets;
 
 import com.excilys.computerdatabase.model.Computer;
-import com.excilys.computerdatabase.pagination.impl.ComputerPagination;
 import com.excilys.computerdatabase.persistence.dto.ComputerDto;
 import com.excilys.computerdatabase.persistence.mapping.dao.ComputerDaoToDto;
 import com.excilys.computerdatabase.service.CompanyService;

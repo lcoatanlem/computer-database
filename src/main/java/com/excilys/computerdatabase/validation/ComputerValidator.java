@@ -33,7 +33,7 @@ public class ComputerValidator {
     if (introducedVal != null) {
       errors.put(KEY_INTRODUCED, introducedVal);
     }
-    // Disctontinued date Validation
+    // Discontinued date Validation
     String discontinuedVal = discontinuedIsValid(cpuDto.getDiscontinued(), cpuDto.getIntroduced());
     if (discontinuedVal != null) {
       errors.put(KEY_DISCONTINUED, discontinuedVal);
@@ -49,13 +49,13 @@ public class ComputerValidator {
    */
   private static String nameIsValid(String nameReq) {
     // Name cannot be null
-    if (nameReq == null || nameReq.trim().isEmpty()) {
+    if (nameReq == null || nameReq.isEmpty()) {
       return "Name is required.";
     } else {
       // Name must 2 chars at least
       String pattern = "^(.(.+))$";
       Pattern cpattern = Pattern.compile(pattern);
-      Matcher match = cpattern.matcher(nameReq.trim());
+      Matcher match = cpattern.matcher(nameReq);
       if (!match.matches()) {
         return "At least two chars.";
       } else {
@@ -71,21 +71,37 @@ public class ComputerValidator {
    */
   private static String introducedIsValid(String introducedReq) {
     // Can be null or empty
-    if (introducedReq == null || introducedReq.trim().isEmpty()) {
+    if (introducedReq == null || introducedReq.isEmpty()) {
       return null;
     } else {
       // Else must be a parseable local date string
       String pattern = "^(\\d{4})-(\\d{2})-(\\d{2})$";
       Pattern cpattern = Pattern.compile(pattern);
-      Matcher match = cpattern.matcher(introducedReq.trim());
+      Matcher match = cpattern.matcher(introducedReq);
       if (match.matches()) {
-        String[] results = introducedReq.trim().split("-");
-        // Testing the validity of months and days (not total)
-        if (Integer.parseInt(results[1]) > 12 || Integer.parseInt(results[2]) > 31) {
+        String[] results = introducedReq.split("-");
+        int year = Integer.parseInt(results[0]);
+        int month = Integer.parseInt(results[1]);
+        int day = Integer.parseInt(results[2]);
+        // Testing the validity of the date
+        // February of leap years
+        if (year % 4 == 0 && month == 2 && day == 29) {
+          return null;
+        } else if (month == 2 && day > 28) {
+          // February of other years
           return "Please enter a valid date.";
-        }
-        // Must be after 1970
-        if (LocalDate.parse(introducedReq).isAfter(LocalDate.parse("1970-01-01"))) {
+        } else if ((month == 1 || month == 3 || month == 5 || month == 7 || month == 8
+            || month == 10 || month == 12) && day > 31) {
+          // Months with 31 days
+          return "Please enter a valid date.";
+        } else if ((month == 4 || month == 6 || month == 9 || month == 11) && day > 30) {
+          // Months with 30 days
+          return "Please enter a valid date.";
+        } else if (month > 12) {
+          // Month cannot be > 12
+          return "Please enter a valid date.";
+        } else if (LocalDate.parse(introducedReq).isAfter(LocalDate.parse("1970-01-01"))) {
+          // Is after 1970-01-01
           return null;
         } else {
           return "Must be after 1970-01-02.";
@@ -94,7 +110,6 @@ public class ComputerValidator {
         return "Invalid date format.";
       }
     }
-
   }
 
   /**
@@ -104,26 +119,41 @@ public class ComputerValidator {
    */
   private static String discontinuedIsValid(String discontinuedRes, String introducedRes) {
     // Can be null or empty
-    if (discontinuedRes == null || discontinuedRes.trim().isEmpty()) {
+    if (discontinuedRes == null || discontinuedRes.isEmpty()) {
       return null;
     } else {
       // Must be a parseable to local date string
       String pattern = "^(\\d{4})-(\\d{2})-(\\d{2})$";
       Pattern cpattern = Pattern.compile(pattern);
-      Matcher match = cpattern.matcher(discontinuedRes.trim());
+      Matcher match = cpattern.matcher(discontinuedRes);
       if (match.matches()) {
-        String[] results = discontinuedRes.trim().split("-");
-        // Testing the validity of months and days (not total)
-        if (Integer.parseInt(results[1]) > 12 || Integer.parseInt(results[2]) > 31) {
+        String[] results = discontinuedRes.split("-");
+        int year = Integer.parseInt(results[0]);
+        int month = Integer.parseInt(results[1]);
+        int day = Integer.parseInt(results[2]);
+        // Testing the validity of the date
+        // February of leap years
+        if (year % 4 == 0 && month == 2 && day == 29) {
+          return null;
+        } else if (month == 2 && day > 28) {
+          // February of other years
           return "Please enter a valid date.";
-        }
-        // Must be after 1970
-        if (LocalDate.parse(discontinuedRes.trim()).isAfter(LocalDate.parse("1970-01-01"))) {
-          // Introduced is valid, not null
+        } else if ((month == 1 || month == 3 || month == 5 || month == 7 || month == 8
+            || month == 10 || month == 12) && day > 31) {
+          // Months with 31 days
+          return "Please enter a valid date.";
+        } else if ((month == 4 || month == 6 || month == 9 || month == 11) && day > 30) {
+          // Months with 30 days
+          return "Please enter a valid date.";
+        } else if (month > 12) {
+          // Month cannot be > 12
+          return "Please enter a valid date.";
+        } else if (LocalDate.parse(discontinuedRes).isAfter(LocalDate.parse("1970-01-01"))) {
+          // Is after 1970
           if (introducedIsValid(introducedRes) == null && (introducedRes != null)) {
-            // Check if the discontinued date is after introduced
-            if (LocalDate.parse(discontinuedRes.trim())
-                .isAfter(LocalDate.parse(introducedRes.trim()))) {
+            // Introduced is valid, not null
+            if (LocalDate.parse(discontinuedRes).isAfter(LocalDate.parse(introducedRes))) {
+              // The discontinued date is after introduced
               return null;
             } else {
               return "Discontinued date must be after introduced date.";

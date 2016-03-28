@@ -33,37 +33,67 @@
 					<form action="addcomputer" method="POST" id="addcomputer">
 						<fieldset>
 							<div class="form-group">
-								<label for="computerName">Computer name</label> <input name="computerName"
-									type="text" class="form-control" id="name"
-									placeholder="${ name }"
-									value="${fn:escapeXml(param.computerName)}"> <span
-									id="nameError"><b>${ nameError }</b></span>
+								<label for="computerName">Computer name</label>
+								<c:choose>
+									<c:when test="${ empty errors }">
+										<input name="computerName" type="text" class="form-control"
+											id="name" placeholder="Computer name"
+											value="${fn:escapeXml(cpuDto.name)}">
+									</c:when>
+									<c:otherwise>
+										<input name="computerName" type="text" class="form-control"
+											id="name" placeholder="Computer name"
+											value="${fn:escapeXml(cpuDto.name)}">
+										<span id="nameError"><b>${ errors['name'] }</b></span>
+									</c:otherwise>
+								</c:choose>
 							</div>
 							<div class="form-group">
-								<label for="introduced">Introduced date "yyyy-mm-dd"</label> <input
-									name="introduced" type="date" class="form-control"
-									id="introduced" placeholder="${ introduced }"> <span
-									id="introducedError"><b>${ introducedError }</b></span>
+								<label for="introduced">Introduced date "yyyy-mm-dd"</label>
+								<c:choose>
+									<c:when test="${ empty errors }">
+										<input name="introduced" type="date" class="form-control"
+											id="introduced" placeholder="Introduced date"
+											value="${ cpuDto.introduced }">
+									</c:when>
+									<c:otherwise>
+										<input name="introduced" type="date" class="form-control"
+											id="introduced" placeholder="Introduced date"
+											value="${ cpuDto.introduced }">
+										<span id="introducedError"><b>${ errors['introduced'] }</b></span>
+									</c:otherwise>
+								</c:choose>
 							</div>
 							<div class="form-group">
 								<label for="discontinued">Discontinued date "yyyy-mm-dd"</label>
-								<input name="discontinued" type="date" class="form-control"
-									id="discontinued" placeholder="${ discontinued }"> <span
-									id="discontinuedError"><b>${ discontinuedError }</b></span>
+								<c:choose>
+									<c:when test="${ empty errors }">
+										<input name="discontinued" type="date" class="form-control"
+											id="discontinued" placeholder="Discontinued date"
+											value="${ cpuDto.discontinued }">
+									</c:when>
+									<c:otherwise>
+										<input name="discontinued" type="date" class="form-control"
+											id="discontinued" placeholder="Discontinued date"
+											value="${ cpuDto.discontinued }">
+										<span id="discontinuedError"><b>${ errors['discontinued'] }</b></span>
+									</c:otherwise>
+								</c:choose>
 							</div>
 							<div class="form-group">
 								<label for="idCpn">Company</label> <select class="form-control"
 									id="idCpn" name="idCpn">
 									<option value=${ '' }>-------------------</option>
 									<c:forEach items="${ companies }" var="company">
-										<option value="${ company.id }">${ company.name }</option>
+										<option value="${ company.id }"
+											${ company.id == cpuDto.idCpn ? 'selected="selected"' : '' }>${ company.name }</option>
 									</c:forEach>
 								</select>
 							</div>
 						</fieldset>
 						<div class="actions pull-right">
 							<input type="submit" value="Add" class="btn btn-primary">
-							or <a href="/computer-database/dashboard" class="btn btn-default">Cancel</a>
+							<a href="/computer-database/dashboard" class="btn btn-default">Cancel</a>
 						</div>
 					</form>
 					<!-- Desativate to try back-end validation -->
