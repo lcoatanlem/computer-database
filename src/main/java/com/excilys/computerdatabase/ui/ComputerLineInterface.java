@@ -4,6 +4,7 @@ import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.persistence.dto.ComputerDto;
 import com.excilys.computerdatabase.persistence.mapping.dto.ComputerDtoToDao;
+import com.excilys.computerdatabase.persistence.mapping.query.Query;
 import com.excilys.computerdatabase.service.CompanyService;
 import com.excilys.computerdatabase.service.ComputerService;
 
@@ -47,32 +48,32 @@ public class ComputerLineInterface {
       menu();
     }
     switch (Integer.valueOf(choix)) {
-    case 1:
-      listCompanies();
-      break;
-    case 2:
-      listComputers();
-      break;
-    case 3:
-      showComputer();
-      break;
-    case 4:
-      createComputer();
-      break;
-    case 5:
-      updateComputer();
-      break;
-    case 6:
-      deleteComputer();
-      break;
-    case -1:
-      exitApplication();
-      break;
-    default:
-      System.out.println("Not a good entry, "
-          + "type an integer between 1 and 6 corresponding to your choice, -1 to exit!");
-      menu();
-      break;
+      case 1:
+        listCompanies();
+        break;
+      case 2:
+        listComputers();
+        break;
+      case 3:
+        showComputer();
+        break;
+      case 4:
+        createComputer();
+        break;
+      case 5:
+        updateComputer();
+        break;
+      case 6:
+        deleteComputer();
+        break;
+      case -1:
+        exitApplication();
+        break;
+      default:
+        System.out.println("Not a good entry, "
+            + "type an integer between 1 and 6 corresponding to your choice, -1 to exit!");
+        menu();
+        break;
     }
     sc.close();
   }
@@ -80,8 +81,9 @@ public class ComputerLineInterface {
   private void listComputers() {
     int choix = 0;
     Scanner sc = new Scanner(System.in);
+    Query query = Query.builder().offset(iterCpu).limit(paginationCpu).build();
     try {
-      for (Computer cpu : cpuController.listComputers(iterCpu, paginationCpu)) {
+      for (Computer cpu : cpuController.listComputers(query)) {
         System.out.println(cpu.getName());
       }
     } catch (IndexOutOfBoundsException exn) {
@@ -102,22 +104,22 @@ public class ComputerLineInterface {
       menu();
     }
     switch (Integer.valueOf(choix)) {
-    case 0:
-      menu();
-      break;
-    case 1:
-      iterCpu -= paginationCpu;
-      listComputers();
-      break;
-    case 2:
-      iterCpu += paginationCpu;
-      listComputers();
-      break;
-    default:
-      System.out.println(
-          "Not a good entry, type an integer between 0 and 2 corresponding to your choice!");
-      listComputers();
-      break;
+      case 0:
+        menu();
+        break;
+      case 1:
+        iterCpu -= paginationCpu;
+        listComputers();
+        break;
+      case 2:
+        iterCpu += paginationCpu;
+        listComputers();
+        break;
+      default:
+        System.out.println(
+            "Not a good entry, type an integer between 0 and 2 corresponding to your choice!");
+        listComputers();
+        break;
     }
     sc.close();
   }
@@ -125,9 +127,9 @@ public class ComputerLineInterface {
   private void listCompanies() {
     int choix = 0;
     Scanner sc = new Scanner(System.in);
-
+    Query query = Query.builder().offset(iterCpn).limit(paginationCpn).build();
     try {
-      for (Company cpn : cpnController.listCompanies(iterCpn, paginationCpn)) {
+      for (Company cpn : cpnController.listCompanies(query)) {
         System.out.println(cpn.getName());
       }
     } catch (IndexOutOfBoundsException exn) {
@@ -149,22 +151,22 @@ public class ComputerLineInterface {
     }
 
     switch (Integer.valueOf(choix)) {
-    case 0:
-      menu();
-      break;
-    case 1:
-      iterCpn -= paginationCpn;
-      listCompanies();
-      break;
-    case 2:
-      iterCpn += paginationCpn;
-      listCompanies();
-      break;
-    default:
-      System.out.println(
-          "Not a good entry, type an integer between 0 and 2 corresponding to your choice!");
-      listCompanies();
-      break;
+      case 0:
+        menu();
+        break;
+      case 1:
+        iterCpn -= paginationCpn;
+        listCompanies();
+        break;
+      case 2:
+        iterCpn += paginationCpn;
+        listCompanies();
+        break;
+      default:
+        System.out.println(
+            "Not a good entry, type an integer between 0 and 2 corresponding to your choice!");
+        listCompanies();
+        break;
     }
     sc.close();
   }
@@ -178,7 +180,7 @@ public class ComputerLineInterface {
       if (choix == -1L) {
         menu();
       }
-      System.out.println(cpuController.showComputer(choix));
+      System.out.println(cpuController.find(choix));
       showComputer();
     } catch (NumberFormatException exn) {
       System.out.println("Not a good entry, type a number of type Long!");

@@ -3,6 +3,7 @@ package com.excilys.computerdatabase.persistence.mapping.request;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.pagination.Pagination;
 import com.excilys.computerdatabase.persistence.mapping.dao.ComputerDaoToDto;
+import com.excilys.computerdatabase.persistence.mapping.query.Query;
 import com.excilys.computerdatabase.service.CompanyService;
 import com.excilys.computerdatabase.service.ComputerService;
 import com.excilys.computerdatabase.validation.PaginationValidator;
@@ -19,13 +20,18 @@ public class PageRequestMapper {
   private static final String PARAM_LIMIT = "limit";
   private static final int INIT_NUMPAGE = 1;
   private static final int INIT_LIMIT = 10;
+  private static final String PARAM_DELETE = "selection";
+  private static final String PARAM_SEARCH = "search";
+  private static final String PARAM_ORDERNAME = "ordName";
+  private static final String PARAM_ORDERINTRODUCED = "ordIntr";
+  private static final String PARAM_ORDERDISCONTINUED = "ordDisc";
+  private static final String PARAM_ORDERCOMPANY = "ordCpn";
 
   private static Logger log = Logger.getLogger(PageRequestMapper.class);
 
   /**
-   * Mapper for the request from dashboard. If the parameters are null,
-   * initialize the map. Else, try to validate values, and return a new page
-   * with it.
+   * Mapper for the request from dashboard. If the parameters are null, initialize the map. Else,
+   * try to validate values, and return a new page with it.
    * 
    * @param request
    *          from the jsp
@@ -104,8 +110,17 @@ public class PageRequestMapper {
     int pageSize = page.getCpuPageSize();
     // Offset
     int offset = (numPage - 1) * pageSize;
+    // Parameters of research and ordering
+    String filter = request.getParameter(PARAM_SEARCH);
+    String orderName = request.getParameter(PARAM_ORDERNAME);
+    String orderIntroduced = request.getParameter(PARAM_ORDERINTRODUCED);
+    String orderDiscontinued = request.getParameter(PARAM_ORDERDISCONTINUED);
+    String orderCompany = request.getParameter(PARAM_ORDERCOMPANY);
     // Mapping from cpu to cpuDto for all results from service
-    for (Computer cpu : cpuServ.listComputers(offset, pageSize)) {
+    Query query = Query.builder().filter(filter).orderName(orderName)
+        .orderIntroduced(orderIntroduced).orderDiscontinued(orderDiscontinued)
+        .orderCompany(orderCompany).offset(offset).limit(pageSize).build();
+    for (Computer cpu : cpuServ.listComputers(query)) {
       page.getCpuList().add(ComputerDaoToDto.getInstance().map(cpu));
     }
     return page;
@@ -124,14 +139,14 @@ public class PageRequestMapper {
 
     // Uploading the companies' list
     int countEntries = cpnServ.countEntries();
-
-    Pagination page = Pagination.builder().cpnList(cpnServ.listCompanies(0, countEntries)).build();
+    Query query = Query.builder().offset(0).limit(countEntries).build();
+    Pagination page = Pagination.builder().cpnList(cpnServ.listCompanies(query)).build();
 
     return page;
   }
-  
+
   /**
-   * Mapper for the request from editComputer. 
+   * Mapper for the request from editComputer.
    * 
    * @param request
    *          from the jsp
@@ -142,12 +157,26 @@ public class PageRequestMapper {
     CompanyService cpnServ = CompanyService.getInstance();
     // Uploading the companies' list
     int countEntries = cpnServ.countEntries();
-
-    Pagination page = Pagination.builder().cpnList(cpnServ.listCompanies(0, countEntries)).build();
+    Query query = Query.builder().offset(0).limit(countEntries).build();
+    Pagination page = Pagination.builder().cpnList(cpnServ.listCompanies(query)).build();
 
     return page;
   }
-  
-  
+
+  /**
+   * Mapper for the request from dashboard when deleting.
+   * 
+   * @param request
+   *          from the jsp
+   */
+  public static void delete(HttpServletRequest request) {
+    // Get the service instance
+    ComputerService cpuServ = ComputerService.getInstance();
+    // Getting the list of computers to delete
+    String[] deleteIds = request.getParameter(PARAM_DELETE).split(",");
+    for (String idReq : deleteIds) {
+      cpuServ.deleteComputer(Long.parseLong(idReq));
+    }
+  }
 
 }

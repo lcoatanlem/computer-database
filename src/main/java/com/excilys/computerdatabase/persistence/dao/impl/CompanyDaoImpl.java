@@ -4,6 +4,7 @@ import com.excilys.computerdatabase.exception.DaoException;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.persistence.ConnectionJdbc;
 import com.excilys.computerdatabase.persistence.dao.Dao;
+import com.excilys.computerdatabase.persistence.mapping.query.Query;
 import com.excilys.computerdatabase.persistence.mapping.rs.RsToCpn;
 
 import org.apache.log4j.Logger;
@@ -57,12 +58,10 @@ public class CompanyDaoImpl implements Dao<Company> {
   }
 
   @Override
-  public List<Company> findAll(int offset, int limit) {
+  public List<Company> findAll(Query query) {
     List<Company> list = new ArrayList<Company>();
     try (Connection conn = connJdbc.getConnection()) {
-      PreparedStatement stmt = conn.prepareStatement("SELECT * FROM company LIMIT ?, ?");
-      stmt.setInt(1, offset);
-      stmt.setInt(2, limit);
+      PreparedStatement stmt = conn.prepareStatement(query.toString());
       ResultSet rs = stmt.executeQuery();
       while (rs.next()) {
         list.add(RsToCpn.map(rs));

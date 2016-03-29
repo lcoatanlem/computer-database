@@ -4,6 +4,8 @@ import com.excilys.computerdatabase.exception.DaoException;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.persistence.ConnectionJdbc;
 import com.excilys.computerdatabase.persistence.dao.Dao;
+import com.excilys.computerdatabase.persistence.mapping.query.Query;
+import com.excilys.computerdatabase.persistence.mapping.query.QueryMapper;
 import com.excilys.computerdatabase.persistence.mapping.rs.RsToCpu;
 
 import org.apache.log4j.Logger;
@@ -58,13 +60,12 @@ public class ComputerDaoImpl implements Dao<Computer> {
   }
 
   @Override
-  public List<Computer> findAll(int offset, int limit) {
+  public List<Computer> findAll(Query query) {
     List<Computer> list = new ArrayList<Computer>();
     try (Connection conn = connJdbc.getConnection()) {
-      PreparedStatement stmt = conn.prepareStatement("SELECT * FROM computer LIMIT ?, ?");
-      stmt.setInt(1, offset);
-      stmt.setInt(2, limit);
-      ResultSet rs = stmt.executeQuery();
+      Statement stmt = conn.createStatement();
+      ResultSet rs = stmt.executeQuery(QueryMapper.toCpuFindAll(query));
+      System.out.println(QueryMapper.toCpuFindAll(query));
       while (rs.next()) {
         list.add((RsToCpu.getInstance().map(rs)));
       }

@@ -30,4 +30,12 @@ public class Dashboard extends HttpServlet {
     this.getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request,
         response);
   }
+  
+  protected void doPost(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
+    // Delete the computers
+    PageRequestMapper.delete(request);
+    // Call for doGet to get the view again
+    doGet(request,response);
+  }
 }

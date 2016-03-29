@@ -81,7 +81,7 @@
 					<c:forEach items="${ page.cpuList }" var="elt">
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
-								class="cb" value="0"></td>
+								class="cb" value="${ elt.id }" ></td>
 							<td><mylib:link link="${ elt.name }"
 									target="/computer-database/editcomputer" id="${ elt.id }"></mylib:link></td>
 							<td><c:out value="${ elt.introduced }"></c:out></td>
@@ -100,9 +100,9 @@
 			<mylib:pagination page="${ page }"></mylib:pagination>
 		</div>
 	</footer>
-	<script src="/js/jquery.min.js"></script>
-	<script src="/js/bootstrap.min.js"></script>
-	<script src="/js/dashboard.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/dashboard.js"></script>
 
 </body>
 </html>

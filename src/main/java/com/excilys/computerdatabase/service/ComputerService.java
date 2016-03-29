@@ -3,6 +3,7 @@ package com.excilys.computerdatabase.service;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.persistence.dao.impl.CompanyDaoImpl;
 import com.excilys.computerdatabase.persistence.dao.impl.ComputerDaoImpl;
+import com.excilys.computerdatabase.persistence.mapping.query.Query;
 
 import java.util.List;
 
@@ -32,14 +33,9 @@ public class ComputerService {
   /**
    * Method to list all computers. To paginate, it starts with an index and a
    * number of instances we want.
-   * 
-   * @param offset
-   *          the beginning of the list
-   * @param limit
-   *          the maximum of elements in the list
    */
-  public List<Computer> listComputers(int offset, int limit) {
-    return cpuDao.findAll(offset, limit);
+  public List<Computer> listComputers(Query query) {
+    return cpuDao.findAll(query);
   }
 
   /**
@@ -49,7 +45,7 @@ public class ComputerService {
    *          the id of the computer to show
    * @return a String containing our pretty printing
    */
-  public Computer showComputer(Long id) {
+  public Computer find(Long id) {
     return cpuDao.find(id);
   }
 

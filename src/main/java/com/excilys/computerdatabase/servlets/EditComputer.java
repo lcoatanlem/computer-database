@@ -45,7 +45,7 @@ public class EditComputer extends HttpServlet {
     // Get the cpuDto from the request
     ComputerDto cpuDto = ComputerRequestMapper.toDto(request, page.getCpnList());
     // Get the computer from database corresponding to the id
-    Computer cpu = ComputerService.getInstance().showComputer(cpuDto.getId());
+    Computer cpu = ComputerService.getInstance().find(cpuDto.getId());
     // And map it to a cpuDto
     cpuDto = ComputerDaoToDto.getInstance().map(cpu);
     // Setting companies and cpuDto as attributes
@@ -65,7 +65,6 @@ public class EditComputer extends HttpServlet {
     // We put all parameters into a ComputerDto
     ComputerDto cpuDto = ComputerRequestMapper.toDto(request,
         PageRequestMapper.fromEdit(request).getCpnList());
-    System.out.println(cpuDto);
     // We create a Map of errors, to link errors with their cause
     Map<String, String> errors = new HashMap<>();
     // Validating the dto, if there is errors will be in errors map
