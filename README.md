@@ -9,9 +9,9 @@ Training: computer-database
 ##3 Git repository: done.
 
 ##4 Start coding:
-###4.1 Layout:
+### 4.1 Layout:
 	- Check the constraints/privileges of DB.
-###4.2 Command line interface client:
+### 4.2 Command line interface client:
 ####	- 4.2.1 Start:
 	- Organization of the packages.
 	- Models for Companies and Computers.
