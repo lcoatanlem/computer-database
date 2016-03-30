@@ -9,6 +9,7 @@ import static org.junit.Assert.fail;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.persistence.DbTesting;
 import com.excilys.computerdatabase.persistence.dao.impl.CompanyDaoImpl;
+import com.excilys.computerdatabase.persistence.mapping.query.Query;
 
 import org.junit.Test;
 
@@ -22,7 +23,8 @@ public class CompanyDaoTest extends DbTesting {
    */
   public void testFindAll() {
     CompanyDaoImpl cpnDao = CompanyDaoImpl.getInstance();
-    List<Company> liste = cpnDao.findAll(10, 20);
+    Query query = Query.builder().offset(10).limit(20).build();
+    List<Company> liste = cpnDao.findAll(query);
     for (Company comp : liste) {
       assertNotNull(comp.getId());
     }
@@ -35,7 +37,8 @@ public class CompanyDaoTest extends DbTesting {
    */
   public void testFindAllInvalid() {
     CompanyDaoImpl cpnDao = CompanyDaoImpl.getInstance();
-    List<Company> liste = cpnDao.findAll(60, 20);
+    Query query = Query.builder().offset(60).limit(20).build();
+    List<Company> liste = cpnDao.findAll(query);
     assertTrue(liste.size() == 0);
   }
 

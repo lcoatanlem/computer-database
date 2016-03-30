@@ -5,6 +5,7 @@ import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.persistence.ConnectionJdbc;
 import com.excilys.computerdatabase.persistence.dao.Dao;
 import com.excilys.computerdatabase.persistence.mapping.query.Query;
+import com.excilys.computerdatabase.persistence.mapping.query.QueryMapper;
 import com.excilys.computerdatabase.persistence.mapping.rs.RsToCpn;
 
 import org.apache.log4j.Logger;
@@ -61,7 +62,7 @@ public class CompanyDaoImpl implements Dao<Company> {
   public List<Company> findAll(Query query) {
     List<Company> list = new ArrayList<Company>();
     try (Connection conn = connJdbc.getConnection()) {
-      PreparedStatement stmt = conn.prepareStatement(query.toString());
+      PreparedStatement stmt = conn.prepareStatement(QueryMapper.toCpnFindAll(query));
       ResultSet rs = stmt.executeQuery();
       while (rs.next()) {
         list.add(RsToCpn.map(rs));

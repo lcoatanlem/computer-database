@@ -9,6 +9,7 @@ import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.persistence.DbTesting;
 import com.excilys.computerdatabase.persistence.dao.impl.ComputerDaoImpl;
+import com.excilys.computerdatabase.persistence.mapping.query.Query;
 
 import org.junit.Test;
 
@@ -29,7 +30,8 @@ public class ComputerDaoTest extends DbTesting {
    */
   public void testFindAll() {
     ComputerDaoImpl cpuDao = ComputerDaoImpl.getInstance();
-    List<Computer> liste = cpuDao.findAll(10, 5);
+    Query query = Query.builder().offset(10).limit(5).build();
+    List<Computer> liste = cpuDao.findAll(query);
     for (Computer comp : liste) {
       assertNotNull(comp.getId());
     }
@@ -42,7 +44,8 @@ public class ComputerDaoTest extends DbTesting {
    */
   public void testFindAllInvalid() {
     ComputerDaoImpl cpuDao = ComputerDaoImpl.getInstance();
-    List<Computer> liste = cpuDao.findAll(60, 20);
+    Query query = Query.builder().offset(60).limit(20).build();
+    List<Computer> liste = cpuDao.findAll(query);
     assertTrue(liste.size() == 0);
   }
 

@@ -62,4 +62,25 @@ public class QueryMapper {
     System.out.println(queryStr);
     return queryStr;
   }
+  
+  /**
+   * Mapping for findAll companies.
+   * 
+   * @return the sql request as a String
+   */
+  public static String toCpnFindAll(Query query) {
+    // Basic one
+    String queryStr = "SELECT * FROM company";
+    // Limit
+    if (query.getLimit() > 0) {
+      queryStr += " LIMIT " + query.getLimit();
+    }
+    // Offset
+    if (query.getOffset() > 0) {
+      queryStr += " OFFSET " + query.getOffset();
+    }
+    // using LIMIT X OFFSET X because it is compatible MySql and others DBGS
+    System.out.println(queryStr);
+    return queryStr;
+  }
 }
