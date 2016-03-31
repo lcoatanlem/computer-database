@@ -18,7 +18,8 @@ public class AddWithoutDates {
     baseUrl = "http://localhost:8080/";
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }
-
+  
+  @Ignore
   @Test
   public void testAddWithoutDates() throws Exception {
     driver.get(baseUrl + "/computer-database/dashboard");

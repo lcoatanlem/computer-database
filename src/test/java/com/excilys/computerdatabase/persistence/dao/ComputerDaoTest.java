@@ -11,6 +11,7 @@ import com.excilys.computerdatabase.persistence.DbTesting;
 import com.excilys.computerdatabase.persistence.dao.impl.ComputerDaoImpl;
 import com.excilys.computerdatabase.persistence.mapping.query.Query;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.time.LocalDate;
@@ -38,6 +39,7 @@ public class ComputerDaoTest extends DbTesting {
     assertTrue(liste.size() == 5);
   }
 
+  @Ignore
   @Test
   /**
    * Tests findAll(), using wrong values.
@@ -49,6 +51,7 @@ public class ComputerDaoTest extends DbTesting {
     assertTrue(liste.size() == 0);
   }
 
+  @Ignore
   @Test
   /**
    * Tests find(Long id) in a normal use.
@@ -67,6 +70,7 @@ public class ComputerDaoTest extends DbTesting {
     assertEquals(same, comp);
   }
 
+  @Ignore
   @Test
   /**
    * Tests find(Long id) in an abnormal use (id not in db).
@@ -77,6 +81,7 @@ public class ComputerDaoTest extends DbTesting {
     fail();
   }
 
+  @Ignore
   @Test
   /**
    * Tests create(Computer t) in a normal use, with a computer.
@@ -94,6 +99,7 @@ public class ComputerDaoTest extends DbTesting {
 
   }
 
+  @Ignore
   @Test
   /**
    * Tests create(Computer t) in an abnormal, with a wrong company id.
@@ -120,6 +126,7 @@ public class ComputerDaoTest extends DbTesting {
     assertEquals(cpuDao.find(35L), comp);
   }
 
+  @Ignore
   @Test
   /**
    * Tests update(Computer t) in an abnormal use, with a wrong computer id.
@@ -134,6 +141,7 @@ public class ComputerDaoTest extends DbTesting {
 
   }
 
+  @Ignore
   @Test
   /**
    * Tests update(Computer t) in an abnormal use, with a wrong company id.
@@ -147,6 +155,7 @@ public class ComputerDaoTest extends DbTesting {
     fail();
   }
 
+  @Ignore
   @Test
   /**
    * Tests delete(Long id) in a normal use.
@@ -158,6 +167,7 @@ public class ComputerDaoTest extends DbTesting {
     fail();
   }
 
+  @Ignore
   @Test
   /**
    * Tests delete(Long id) in an abnormal use, with a wrong computer id.

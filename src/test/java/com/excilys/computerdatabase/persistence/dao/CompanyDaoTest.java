@@ -2,7 +2,6 @@ package com.excilys.computerdatabase.persistence.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -53,15 +52,13 @@ public class CompanyDaoTest extends DbTesting {
     assertEquals(cpn.getName(), "Sony");
   }
 
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   /**
    * Tests findAll(), with null, should return null.
    */
   public void testFindNull() {
     CompanyDaoImpl cpnDao = CompanyDaoImpl.getInstance();
-    Company cpn = Company.builder().build();
-    cpn = cpnDao.find(null);
-    assertNull(cpn);
+    cpnDao.find(null);
   }
 
   @Test

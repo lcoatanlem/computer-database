@@ -19,14 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class DAO for Companies, methods findAll, countEntries and find are defined, all others methods
- * from interface DAO (CRUD) will raise DaoIllegalMethodException.
+ * Class DAO for Companies, methods findAll, countEntries and find are defined,
+ * all others methods from interface DAO (CRUD) will raise
+ * DaoIllegalMethodException.
  * 
  * @author lcoatanlem
  */
 public class CompanyDaoImpl implements Dao<Company> {
   private static final CompanyDaoImpl INSTANCE = new CompanyDaoImpl();
-
+  
   private ConnectionJdbc connJdbc;
 
   Logger log = Logger.getLogger(CompanyDaoImpl.class);
@@ -80,6 +81,9 @@ public class CompanyDaoImpl implements Dao<Company> {
   @Override
   public Company find(Long id) {
     Company comp = null;
+    if (id == null) {
+      throw new IllegalArgumentException("Id cannot be null.");
+    }
     try (Connection conn = connJdbc.getConnection()) {
       PreparedStatement stmt = conn.prepareStatement("SELECT * FROM company WHERE id = ?");
       stmt.setLong(1, id);
