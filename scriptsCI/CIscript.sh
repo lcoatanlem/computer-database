@@ -1,5 +1,5 @@
 docker network create dualnet
-docker run lcoatanlem/mysql --net=dualnet -e MYSQL_ROOT_PASSWORD=root --name=mysql -d
-docker run lcoatanlem/java-mvn --net=dualnet --name=java-mvn -d
+docker run --net=dualnet -e MYSQL_ROOT_PASSWORD=root --name=mysql -d lcoatanlem/mysql
+docker run --net=dualnet --name=java-mvn -d lcoatanlem/java-mvn
 docker stop mysql
 docker rm mysql
