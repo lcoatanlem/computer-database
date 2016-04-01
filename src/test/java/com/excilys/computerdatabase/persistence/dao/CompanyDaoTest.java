@@ -21,6 +21,7 @@ public class CompanyDaoTest extends DbTesting {
    * Tests findAll(), normal use.
    */
   public void testFindAll() {
+    fail();
     CompanyDaoImpl cpnDao = CompanyDaoImpl.getInstance();
     Query query = Query.builder().offset(10).limit(20).build();
     List<Company> liste = cpnDao.findAll(query);
