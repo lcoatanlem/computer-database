@@ -1,3 +1,4 @@
+# Check if the dind inner network is running. Need to be created for the following instrs.
 DUALNET=$(docker network inspect --format="{{ .Name }}" "dualnet")
 if [ $? -eq 1 ]; then
   echo "UNKNOWN - /dualnet does not exist."
@@ -6,6 +7,7 @@ else
   echo "OK - /dualnet is running."
 fi
 
+# Check if the mysql container is running (as a daemon or not), and launch it if needed.
 MYSQLRUN=$(docker inspect --format="{{ .State.Running }}" "mysql")
 if [ $? -eq 1 ]; then
   echo "UNKNOWN - /mysql does not exist."
@@ -22,6 +24,7 @@ if [ "$MYSQLRUN" = "true" ]; then
   echo "OK - /mysql is already running."
 fi
 
+# Check if the java-mvn container is running (as a daemon or not), and relaunch it (need the CMD).
 JAVAMVNRUN=$(docker inspect --format="{{ .State.Running }}" "java-mvn")
 if [ $? -eq 1 ]; then
   echo "UNKNOWN - /java-mvn does not exist."
