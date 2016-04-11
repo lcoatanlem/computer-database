@@ -19,6 +19,7 @@ public class ComputerModelTest {
    * Tests Computer(name), should work.
    */
   public void testConstr() {
+    fail();
     Computer.builder("Test").build();
   }
 
