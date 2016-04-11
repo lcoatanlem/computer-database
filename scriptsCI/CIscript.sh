@@ -12,13 +12,13 @@ if [ $? -eq 1 ]; then
   docker run --net=dualnet -e MYSQL_ROOT_PASSWORD=root --name=mysql -d lcoatanlem/mysql
 fi
 
-if [ "$MYSQLRUN" -eq "false" ]; then
+if [ "$MYSQLRUN" = "false" ]; then
   echo "CRITICAL - /mysql is not running."
   docker rm mysql
   docker run --net=dualnet -e MYSQL_ROOT_PASSWORD=root --name=mysql -d lcoatanlem/mysql
 fi
 
-if [ "$MYSQLRUN" -eq "true" ]; then
+if [ "$MYSQLRUN" = "true" ]; then
   echo "OK - /mysql is already running."
 fi
 
@@ -28,13 +28,13 @@ if [ $? -eq 1 ]; then
   docker run --net=dualnet --name=java-mvn -i lcoatanlem/java-mvn
 fi
 
-if [ "$MYSQLRUN" -eq "false" ]; then
+if [ "$MYSQLRUN" = "false" ]; then
   echo "CRITICAL - /java-mvn is not running."
   docker rm java-mvn
   docker run --net=dualnet --name=java-mvn -i lcoatanlem/java-mvn
 fi
 
-if [ "$MYSQLRUN" -eq "true" ]; then
+if [ "$MYSQLRUN" = "true" ]; then
   echo "OK - /java-mvn is already running."
   docker stop java-mvn
   docker rm java-mvn
