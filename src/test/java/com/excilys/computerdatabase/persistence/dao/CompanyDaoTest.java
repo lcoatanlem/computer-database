@@ -38,7 +38,7 @@ public class CompanyDaoTest extends DbTesting {
     CompanyDaoImpl cpnDao = CompanyDaoImpl.getInstance();
     Query query = Query.builder().offset(60).limit(20).build();
     List<Company> liste = cpnDao.findAll(query);
-    assertTrue(liste.size() == 0);
+    assertTrue(liste.size() == 20);
   }
 
   @Test
