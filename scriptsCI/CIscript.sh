@@ -1,4 +1,4 @@
-$DUALNET=$(docker network inspect --format="{{ .Name }}" "dualnet")
+DUALNET=$(docker network inspect --format="{{ .Name }}" "dualnet")
 if [ $? -eq 1 ]; then
   echo "UNKNOWN - /dualnet does not exist."
   docker network create dualnet
