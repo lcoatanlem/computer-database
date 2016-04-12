@@ -28,6 +28,10 @@
 		<mavenVersion>3.5.1</mavenVersion>
 		<javaVersion>1.8</javaVersion>
 		<mavenCSPluginVersion>2.17</mavenCSPluginVersion>
+		<maven-surefire-version>2.18</maven-surefire-version>
+		<maven-failsafe-version>2.19.1</maven-failsafe-version>
+		<cargo-maven2-version>1.4.16</cargo-maven2-version>
+		<maven-war-plugin-version>2.4</maven-war-plugin-version>
 	</properties>
 
 	<dependencies>
@@ -117,11 +121,13 @@
 		</dependency>
 	</dependencies>
 
-	<!-- TODO cargo : plugin failsafe pour faire pre et post, exclure selenium 
-		des tests unitaires -->
-
 	<build>
 		<plugins>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>${maven-war-plugin-version}</version>
+			</plugin>
+
 			<!-- Maven configuration, specifying used JRE -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -142,6 +148,72 @@
 					<configLocation>checkstyle/checkstyle.xml</configLocation>
 				</configuration>
 			</plugin>
+
+			<!-- Exclude integration tests from testing phase -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-surefire-version}</version>
+				<configuration>
+					<excludes>
+						<exclude>**/integration/**</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+
+			<!-- Include integration tests into integration tests phase -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>${maven-failsafe-version}</version>
+				<configuration>
+					<includes>
+						<include>**/integration/**</include>
+					</includes>
+				</configuration>
+				<executions>
+					<execution>
+						<id>integration-tests</id>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Start Tomcat with war during pre-integration tests and shut it down 
+				during post-integration tests -->
+			<plugin>
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-maven2-plugin</artifactId>
+				<version>${cargo-maven2-version}</version>
+				<configuration>
+					<container>
+						<containerId>tomcat8x</containerId>
+						<output>${project.build.directory}/tomcat8x/container.log</output>
+						<append>false</append>
+						<log>${project.build.directory}/tomcat8x/cargo.log</log>
+					</container>
+				</configuration>
+				<executions>
+					<execution>
+						<id>start</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>start</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>stop</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 </project>
