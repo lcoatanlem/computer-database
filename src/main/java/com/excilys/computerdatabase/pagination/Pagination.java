@@ -6,11 +6,10 @@ import com.excilys.computerdatabase.persistence.dto.ComputerDto;
 import java.util.List;
 
 /**
- * The pagination class, this will be a parameter, so it will have computer and company
- * informations. There are all getters and setters and a builder.
+ * The pagination class, this will be a parameter, so it will have computer and
+ * company informations. There are all getters and setters and a builder.
  * 
- * @author lcoatanlem
- *
+ * @author lcoatanlem TODO : read about SOLID
  */
 public class Pagination {
   // Computer attributes
@@ -19,7 +18,7 @@ public class Pagination {
   private int cpuTotalEntries;
   private int cpuNbPages;
   private List<ComputerDto> cpuList;
-  
+
   // Companies attributes
   private int cpnPageNumber;
   private int cpnPageSize;
@@ -111,60 +110,60 @@ public class Pagination {
   public static Builder builder() {
     return new Builder();
   }
-  
+
   public static class Builder {
     private Pagination page = new Pagination();
-    
+
     public Builder cpuPageNumber(int cpuPageNumber) {
       this.page.cpuPageNumber = cpuPageNumber;
       return this;
     }
-    
+
     public Builder cpuPageSize(int cpuPageSize) {
       this.page.cpuPageSize = cpuPageSize;
       return this;
     }
-    
+
     public Builder cpuTotalEntries(int cpuTotalEntries) {
       this.page.cpuTotalEntries = cpuTotalEntries;
       return this;
     }
-    
+
     public Builder cpuNbPages(int cpuNbPages) {
       this.page.cpuNbPages = cpuNbPages;
       return this;
     }
-    
+
     public Builder cpuList(List<ComputerDto> cpuList) {
       this.page.cpuList = cpuList;
       return this;
     }
-    
+
     public Builder cpnPageNumber(int cpnPageNumber) {
       this.page.cpnPageNumber = cpnPageNumber;
       return this;
     }
-    
+
     public Builder cpnPageSize(int cpnPageSize) {
       this.page.cpnPageSize = cpnPageSize;
       return this;
     }
-    
+
     public Builder cpnTotalEntries(int cpnTotalEntries) {
       this.page.cpnTotalEntries = cpnTotalEntries;
       return this;
     }
-    
+
     public Builder cpnNbPages(int cpnNbPages) {
       this.page.cpnNbPages = cpnNbPages;
       return this;
     }
-    
+
     public Builder cpnList(List<Company> cpnList) {
       this.page.cpnList = cpnList;
       return this;
     }
-    
+
     public Pagination build() {
       return this.page;
     }

@@ -6,7 +6,7 @@ package com.excilys.computerdatabase.model;
  * @author lcoatanlem
  */
 public class Company {
-  private Long id;
+  private Long id; // car correspond a bigint mysql, et peut être null.
   private String name;
 
   public Long getId() {
@@ -65,7 +65,7 @@ public class Company {
 
   @Override
   public String toString() {
-    return "Company [id=" + id + ", name=" + name + "]";
+    return "Company [id=" + id + ", name=" + name + "]"; // après java 6, sinon builder
   }
 
   public static Builder builder() {

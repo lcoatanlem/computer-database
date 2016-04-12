@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 public class ComputerRequestMapper {
+
   private static final String PARAM_ID = "id";
   private static final String PARAM_NAME = "name";
   private static final String PARAM_INTRODUCED = "introduced";
@@ -17,6 +18,8 @@ public class ComputerRequestMapper {
    * Mapping a request (post) to a ComputerDto.
    * 
    * @param list
+   * 
+   *          TODO : Séparation du mapping de compagnie et de computer
    * 
    * @return a ComputerDto from the request
    */

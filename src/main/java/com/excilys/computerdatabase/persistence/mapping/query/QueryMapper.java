@@ -4,6 +4,7 @@ public class QueryMapper {
 
   /**
    * Mapping for findAll computers.
+   * TODO : faire une enum pour eviter les injections sql dans les orderby.
    * 
    * @return the sql request as a String
    */

@@ -28,3 +28,5 @@ public class DaoException extends RuntimeException {
   }
 
 }
+
+// TODO : revoir architecture exceptions

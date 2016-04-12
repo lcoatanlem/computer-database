@@ -26,6 +26,7 @@ import java.util.List;
  * @author lcoatanlem
  */
 public class ComputerDaoImpl implements Dao<Computer> {
+  
   private static final ComputerDaoImpl INSTANCE = new ComputerDaoImpl();
 
   private ConnectionJdbc connJdbc;

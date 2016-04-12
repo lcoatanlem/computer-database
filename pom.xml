@@ -6,8 +6,9 @@
 	<artifactId>computer-database</artifactId>
 	<!-- Old used jar, war as soon as we got a webapp -->
 	<packaging>war</packaging>
-	<version>1.3.1-SNAPSHOT</version>
+	<version>1.3.1-SNAPSHOT</version> <!-- SNAPSHOT => build temporaire, cf doc Maven -->
 	<name>Computer Database Archetype</name>
+	<!-- TODO externaliser les dépendances -->
 	<dependencies>
 		<!-- Database accesses -->
 		<!-- Main -->
@@ -15,6 +16,7 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.6</version>
+			<scope>runtime</scope> <!-- si ca ne compile plus, c'est que l'on utilisait des spécifications de cette librairies -->
 		</dependency>
 		<!-- Main pool connection-->
 		<dependency>
@@ -90,6 +92,9 @@
 		</dependency>
 	</dependencies>
 
+	<!-- Phases maven : check, compile, test, (pre-integration test), integration, (post-integration test), install, deploy -->
+	<!-- TODO cargo : plugin failsafe pour faire pre et post, exclure selenium des tests unitaires -->
+	
 	<build>
 		<plugins>
 			<!-- Maven configuration, specifying used JRE -->

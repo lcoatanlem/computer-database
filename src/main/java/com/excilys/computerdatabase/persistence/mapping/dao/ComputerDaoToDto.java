@@ -38,5 +38,4 @@ public class ComputerDaoToDto {
     return ComputerDto.builder().id(id).name(name).introduced(introduced).discontinued(discontinued)
         .idCpn(idCpn).nameCpn(nameCpn).build();
   }
-
 }

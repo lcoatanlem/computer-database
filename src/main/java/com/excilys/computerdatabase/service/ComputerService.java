@@ -8,6 +8,7 @@ import com.excilys.computerdatabase.persistence.mapping.query.Query;
 import java.util.List;
 
 public class ComputerService {
+  
   private ComputerDaoImpl cpuDao;
 
   private static final ComputerService INSTANCE = new ComputerService();

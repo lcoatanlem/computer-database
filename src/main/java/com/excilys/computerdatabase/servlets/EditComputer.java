@@ -79,10 +79,10 @@ public class EditComputer extends HttpServlet {
       .forward(request, response);
       return;
     }
-    // Everything's ok
+    // Everything's ok 
+    // Externalisation de ComputerService.getInstance()
     ComputerService.getInstance().updateComputer(ComputerDtoToDao.getInstance().map(cpuDto));
     log.info("Updated computer : " + cpuDto.getName() + ".");
     response.sendRedirect("/computer-database/dashboard");
   }
-
 }

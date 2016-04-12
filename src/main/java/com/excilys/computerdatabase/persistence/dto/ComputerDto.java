@@ -1,7 +1,11 @@
 package com.excilys.computerdatabase.persistence.dto;
 
-public class ComputerDto {
+import java.io.Serializable;
 
+public class ComputerDto implements Serializable {
+
+  private static final long serialVersionUID = -4943256021887881715L;
+  
   private Long id;
   private String name;
   private String introduced;

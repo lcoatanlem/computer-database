@@ -150,12 +150,8 @@ public class Computer {
      *          not null
      */
     public Builder(String name) {
-      if (name == null) {
-        throw new IllegalArgumentException("The name of a Computer cannot be null.");
-      } else {
-        this.cpu = new Computer();
-        this.cpu.name = name;
-      }
+      cpu = new Computer();
+      cpu.setName(name);
     }
 
     public Builder id(Long id) {

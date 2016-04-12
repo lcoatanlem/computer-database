@@ -74,6 +74,7 @@ public class ComputerValidator {
     if (introducedReq == null || introducedReq.isEmpty()) {
       return null;
     } else {
+      // TODO common apache date pour validation
       // Else must be a parseable local date string
       String pattern = "^(\\d{4})-(\\d{2})-(\\d{2})$";
       Pattern cpattern = Pattern.compile(pattern);

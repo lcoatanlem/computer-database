@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Class DAO for Companies, methods findAll, countEntries and find are defined,
  * all others methods from interface DAO (CRUD) will raise
- * DaoIllegalMethodException.
+ * DaoIllegalMethodException. TODO : cf les differents niveaux de logs
  * 
  * @author lcoatanlem
  */
@@ -30,8 +30,8 @@ public class CompanyDaoImpl implements Dao<Company> {
   
   private ConnectionJdbc connJdbc;
 
-  Logger log = Logger.getLogger(CompanyDaoImpl.class);
-
+  private static final Logger LOGGER = Logger.getLogger(CompanyDaoImpl.class);
+  
   private CompanyDaoImpl() {
     connJdbc = ConnectionJdbc.getInstance();
   }
@@ -53,7 +53,7 @@ public class CompanyDaoImpl implements Dao<Company> {
     } catch (SQLException exn) {
       // Database access error / closed connection / closed statement
       // returning something else than a ResultSet / timeout have been reached
-      log.error("FATAL : " + exn);
+      LOGGER.error("FATAL : " + exn);
       throw new DaoException(exn);
     }
     return size;
@@ -65,14 +65,14 @@ public class CompanyDaoImpl implements Dao<Company> {
     try (Connection conn = connJdbc.getConnection()) {
       PreparedStatement stmt = conn.prepareStatement(QueryMapper.toCpnFindAll(query));
       ResultSet rs = stmt.executeQuery();
-      while (rs.next()) {
+      while (rs.next()) { // iterations dans mapping
         list.add(RsToCpn.map(rs));
       }
       stmt.close();
     } catch (SQLException exn) {
       // Database access error / closed connection / closed statement
       // returning something else than a ResultSet / timeout have been reached
-      log.error("FATAL : " + exn);
+      LOGGER.error("FATAL : " + exn);
       throw new DaoException(exn);
     }
     return list;
@@ -88,14 +88,14 @@ public class CompanyDaoImpl implements Dao<Company> {
       PreparedStatement stmt = conn.prepareStatement("SELECT * FROM company WHERE id = ?");
       stmt.setLong(1, id);
       ResultSet rs = stmt.executeQuery();
-      if (rs.next()) {
+      if (rs.next()) { // iteration dnas mapping
         comp = (RsToCpn.map(rs));
       }
       stmt.close();
     } catch (SQLException exn) {
       // Database access error / closed connection / closed statement
       // returning something else than a ResultSet / timeout have been reached
-      log.error("FATAL : " + exn);
+      LOGGER.error("FATAL : " + exn);
       throw new DaoException(exn);
     }
     return comp;

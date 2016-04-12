@@ -56,7 +56,6 @@ public class ConnectionJdbc {
     Properties properties = new Properties();
     ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
     InputStream propertiesFile = classLoader.getResourceAsStream(PROPERTIES_FILE);
-
     if (propertiesFile == null) {
       throw new RuntimeException("The properties file " + PROPERTIES_FILE + " can't be found.");
     }
@@ -124,14 +123,12 @@ public class ConnectionJdbc {
    * @return the connection to the db.
    */
   public Connection getConnection() {
-    Connection connDb = null;
     try {
-      connDb = connectionPool.getConnection();
+      return connectionPool.getConnection();
     } catch (SQLException exn) {
       log.error("FATAL : connection to the db refused.");
-      throw new SecurityException("Connection to the db refused. " + exn.getMessage());
+      throw new SecurityException("Connection to the db refused. " + exn.getMessage(), exn);
     }
-    return connDb;
   }
 
   protected String getUrl() {
