@@ -3,11 +3,10 @@ package com.excilys.computerdatabase.model;
 import java.time.LocalDate;
 
 /**
- * This class is the model of the computers. Attributes are the id(even if it is auto-incremented in
- * the DB), the name of the computer, the date it was introduced, the date it was discontinued, and
- * the manufacturer (using class Company as soon as there is a foreign key in the DB). The
- * constructors are the one with a name, and the one with no arguments, to make this class
- * serializable.
+ * This class is the model of the companies, contains its builder. We type the
+ * id as a Long, because it corresponds to the mysql BigInt, and can be null
+ * (compared to long). The attribute manufacturer is an instance of Company as
+ * soon as there is a foreign key in the database.
  * 
  * @author lcoatanlem
  */

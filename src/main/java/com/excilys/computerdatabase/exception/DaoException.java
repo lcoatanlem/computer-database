@@ -8,7 +8,7 @@ package com.excilys.computerdatabase.exception;
  */
 public class DaoException extends RuntimeException {
 
-  private static final long serialVersionUID = -1275289109336507002L;
+  private static final long serialVersionUID = -739815065227958489L;
   private static final String MESSAGE = "Error accessing to the database.";
 
   public DaoException() {
@@ -28,5 +28,3 @@ public class DaoException extends RuntimeException {
   }
 
 }
-
-// TODO : revoir architecture exceptions

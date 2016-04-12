@@ -1,12 +1,14 @@
 package com.excilys.computerdatabase.model;
 
 /**
- * This class is the model of the companies, contains its builder.
+ * This class is the model of the companies, contains its builder. We type the
+ * id as a Long, because it corresponds to the mysql BigInt, and can be null
+ * (compared to long).
  * 
  * @author lcoatanlem
  */
 public class Company {
-  private Long id; // car correspond a bigint mysql, et peut être null.
+  private Long id;
   private String name;
 
   public Long getId() {
@@ -65,7 +67,10 @@ public class Company {
 
   @Override
   public String toString() {
-    return "Company [id=" + id + ", name=" + name + "]"; // après java 6, sinon builder
+    // Useless from java 6, but very important before.
+    StringBuilder stringBuilder = new StringBuilder("Company [id=").append(id).append(", name=")
+        .append(name).append("]");
+    return stringBuilder.toString();
   }
 
   public static Builder builder() {
