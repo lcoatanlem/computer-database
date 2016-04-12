@@ -14,8 +14,8 @@ public class ComputerDaoToDto {
   }
 
   /**
-   * Supposing the Dto is valid, will make a Computer from it. TODO
-   * 
+   * Supposing the Dto is valid, will make a Computer from it. 
+   *  
    * @param cpu
    *          valid input
    * @return a new Computer

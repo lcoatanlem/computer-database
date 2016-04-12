@@ -9,7 +9,7 @@ import java.util.List;
  * The pagination class, this will be a parameter, so it will have computer and
  * company informations. There are all getters and setters and a builder.
  * 
- * @author lcoatanlem TODO : read about SOLID
+ * @author lcoatanlem
  */
 public class Pagination {
   // Computer attributes
