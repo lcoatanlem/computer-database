@@ -4,6 +4,7 @@ import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.pagination.Pagination;
 import com.excilys.computerdatabase.persistence.mapping.dao.ComputerDaoToDto;
 import com.excilys.computerdatabase.persistence.mapping.query.Query;
+import com.excilys.computerdatabase.persistence.mapping.query.Query.Order;
 import com.excilys.computerdatabase.service.impl.CompanyServiceImpl;
 import com.excilys.computerdatabase.service.impl.ComputerServiceImpl;
 import com.excilys.computerdatabase.validation.PaginationValidator;
@@ -113,18 +114,14 @@ public class PageRequestMapper {
     int offset = (numPage - 1) * pageSize;
     // Parameters of research and ordering
     String filter = request.getParameter(PARAM_SEARCH);
-    request.setAttribute("search", request.getParameter(PARAM_SEARCH));
-    String orderName = request.getParameter(PARAM_ORDERNAME);
-    String orderIntroduced = request.getParameter(PARAM_ORDERINTRODUCED);
-    String orderDiscontinued = request.getParameter(PARAM_ORDERDISCONTINUED);
-    String orderCompany = request.getParameter(PARAM_ORDERCOMPANY);
+    Order orderName = Order.safeValueOf(request.getParameter(PARAM_ORDERNAME));
+    Order orderIntroduced = Order.safeValueOf(request.getParameter(PARAM_ORDERINTRODUCED));
+    Order orderDiscontinued = Order.safeValueOf(request.getParameter(PARAM_ORDERDISCONTINUED));
+    Order orderCompany = Order.safeValueOf(request.getParameter(PARAM_ORDERCOMPANY));
     // Mapping from cpu to cpuDto for all results from service
-    Query query = Query.builder().filter(filter)
-        // .orderName(orderName)
-        // .orderIntroduced(orderIntroduced)
-        // .orderDiscontinued(orderDiscontinued)
-        // .orderCompany(orderCompany)
-        .offset(offset).limit(pageSize).build();
+    Query query = Query.builder().filter(filter).orderName(orderName)
+        .orderIntroduced(orderIntroduced).orderDiscontinued(orderDiscontinued)
+        .orderCompany(orderCompany).offset(offset).limit(pageSize).build();
     for (Computer cpu : cpuServ.list(query)) {
       page.getCpuList().add(ComputerDaoToDto.getInstance().map(cpu));
     }

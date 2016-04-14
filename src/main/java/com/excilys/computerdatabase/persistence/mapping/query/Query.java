@@ -3,7 +3,28 @@ package com.excilys.computerdatabase.persistence.mapping.query;
 public class Query {
 
   public enum Order {
-    ASC, DESC
+    ASC("ASC"), DESC("DESC");
+
+    private String value;
+
+    private Order(String value) {
+      this.value = value;
+    }
+
+    /**
+     * Validation of the enum.
+     */
+    public static Order safeValueOf(String value) {
+      if (value == null) {
+        return null;
+      }
+      for (Order ord : Order.values()) {
+        if (value.equals(ord.value)) {
+          return ord;
+        }
+      }
+      return null;
+    }
   }
 
   private int offset;
