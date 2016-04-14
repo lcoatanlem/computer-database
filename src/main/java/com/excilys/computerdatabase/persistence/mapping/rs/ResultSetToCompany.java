@@ -13,10 +13,10 @@ import java.sql.SQLException;
  * @author lcoatanlem
  *
  */
-public class RsToCpn {
-  private static RsToCpn INSTANCE = new RsToCpn();
+public class ResultSetToCompany {
+  private static ResultSetToCompany INSTANCE = new ResultSetToCompany();
   
-  private RsToCpn() {}
+  private ResultSetToCompany() {}
   
   /**
    * @param rs
@@ -34,7 +34,7 @@ public class RsToCpn {
     return (cpnB.build());
   }
 
-  public static RsToCpn getInstance() {
+  public static ResultSetToCompany getInstance() {
     return INSTANCE;
   }
 }

@@ -4,84 +4,94 @@ public class QueryMapper {
 
   /**
    * Mapping for findAll computers.
-   * TODO : faire une enum pour eviter les injections sql dans les orderby.
-   * 
-   * @return the sql request as a String
+   *
    */
-  public static String toCpuFindAll(Query query) {
+  public static String toComputerFindAll(Query query) {
     // Basic one
-    String queryStr = "SELECT * FROM computer";
-    // Filter
-    String filter = query.getFilter();
-    if (filter != null || query.getOrderCompany() != null) {
+    StringBuilder queryBuilder = new StringBuilder("SELECT * FROM computer");
+
+    if (query.getFilter() != null || query.getOrderCompany() != null) {
       // We need a join in both cases
-      queryStr += " INNER JOIN company ON computer.company_id = company.id ";
+      queryBuilder.append(" INNER JOIN company ON computer.company_id = company.id ");
       // If there is a filter
-      if (filter != null) {
-        queryStr += "WHERE company.name LIKE '%" + filter + "%' " + "OR computer.name LIKE '%"
-            + filter + "%' " + "OR computer.introduced LIKE '%" + filter + "%' "
-            + "OR computer.discontinued LIKE '%" + filter + "%'";
+      if (query.getFilter() != null) {
+        // 1,2,3,4 arguments of the PreparedStatement for filter
+        queryBuilder.append("WHERE company.name LIKE ? OR computer.name LIKE ? "
+            + "OR computer.introduced LIKE ? OR computer.discontinued LIKE ?");
       }
     }
     // Order
     if (query.getOrderName() != null || query.getOrderIntroduced() != null
         || query.getOrderDiscontinued() != null || query.getOrderCompany() != null) {
-      // base
-      queryStr += " ORDER BY ";
+      // There is at least one order
+      queryBuilder.append(" ORDER BY ");
       // for Computer name ordering
       if (query.getOrderName() != null) {
-        queryStr += " computer.name " + query.getOrderName();
+        queryBuilder.append("computer.name " + query.getOrderName());
       }
       // for introduced date ordering
-      if (query.getOrderIntroduced() != null && queryStr.endsWith(" ")) {
-        queryStr += " computer.introduced " + query.getOrderIntroduced();
+      if (query.getOrderIntroduced() != null
+          && queryBuilder.charAt(queryBuilder.length() - 1) == ' ') {
+        queryBuilder.append("computer.introduced " + query.getOrderIntroduced());
       } else if (query.getOrderIntroduced() != null) {
-        queryStr += ", computer.introduced " + query.getOrderIntroduced();
+        queryBuilder.append(", computer.introduced " + query.getOrderIntroduced());
       }
       // for discontinued date ordering
-      if (query.getOrderDiscontinued() != null && queryStr.endsWith(" ")) {
-        queryStr += " computer.discontinued " + query.getOrderDiscontinued();
+      if (query.getOrderDiscontinued() != null
+          && queryBuilder.charAt(queryBuilder.length() - 1) == ' ') {
+        queryBuilder.append("computer.discontinued " + query.getOrderDiscontinued());
       } else if (query.getOrderDiscontinued() != null) {
-        queryStr += ", computer.discontinued " + query.getOrderDiscontinued();
+        queryBuilder.append(", computer.discontinued " + query.getOrderDiscontinued());
       }
       // for companies name ordering
-      if (query.getOrderCompany() != null && queryStr.endsWith(" ")) {
-        queryStr += " company.name " + query.getOrderCompany();
+      if (query.getOrderCompany() != null
+          && queryBuilder.charAt(queryBuilder.length() - 1) == ' ') {
+        queryBuilder.append("company.name " + query.getOrderCompany());
       } else if (query.getOrderCompany() != null) {
-        queryStr += ", company.name " + query.getOrderCompany();
+        queryBuilder.append(", company.name " + query.getOrderCompany());
       }
     }
     // Limit
     if (query.getLimit() > 0) {
-      queryStr += " LIMIT " + query.getLimit();
+      queryBuilder.append(" LIMIT ?");
+      // Offset can exist iff Limit exists
+      if (query.getOffset() > 0) {
+        queryBuilder.append(" OFFSET ?");
+      }
     }
-    // Offset
-    if (query.getOffset() > 0) {
-      queryStr += " OFFSET " + query.getOffset();
-    }
-    // using LIMIT X OFFSET X because it is compatible MySql and others DBGS
-    System.out.println(queryStr);
-    return queryStr;
+    return queryBuilder.toString();
   }
-  
+
   /**
    * Mapping for findAll companies.
    * 
    * @return the sql request as a String
    */
-  public static String toCpnFindAll(Query query) {
+  public static String toCompanyFindAll(Query query) {
     // Basic one
-    String queryStr = "SELECT * FROM company";
+    StringBuilder queryBuilder = new StringBuilder("SELECT * FROM company");
     // Limit
     if (query.getLimit() > 0) {
-      queryStr += " LIMIT " + query.getLimit();
+      queryBuilder.append(" LIMIT ?");
+      // Offset can exist iff Limit exists
+      if (query.getOffset() > 0) {
+        queryBuilder.append(" OFFSET ?");
+      }
     }
-    // Offset
-    if (query.getOffset() > 0) {
-      queryStr += " OFFSET " + query.getOffset();
-    }
-    // using LIMIT X OFFSET X because it is compatible MySql and others DBGS
-    System.out.println(queryStr);
-    return queryStr;
+    return queryBuilder.toString();
+  }
+
+  /**
+   * Mapping counting companies.
+   */
+  public static String toCompanyCount(Query query) {
+    return "SELECT COUNT(*) FROM (" + toCompanyFindAll(query) + ") AS T";
+  }
+
+  /**
+   * Mapping counting computers.
+   */
+  public static String toComputerCount(Query query) {
+    return "SELECT COUNT(*) FROM (" + toComputerFindAll(query) + ") AS T";
   }
 }

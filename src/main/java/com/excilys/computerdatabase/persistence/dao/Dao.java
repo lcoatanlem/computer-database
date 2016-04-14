@@ -6,8 +6,8 @@ import com.excilys.computerdatabase.persistence.mapping.query.Query;
 import java.util.List;
 
 /**
- * This interface permits to abstract the functions findAll and CRUD for every DAO. When not
- * implemented (default), it raises DaoIllegalMethodException().
+ * This interface permits to abstract the functions findAll and CRUD for every
+ * DAO. When not implemented (default), it raises IllegalMethodException().
  * 
  * @author lcoatanlem
  * @param <T>
@@ -15,33 +15,30 @@ import java.util.List;
  */
 public interface Dao<T> {
   /**
-   * Method to return the elements from offset to (offset+limit) into a List.
+   * Method to return the elements from a Query into a List.
    * 
    * @return List of Companies || List of Computers
    */
-  public List<T> findAll(Query query);
-
-  /**
-   * Method to find a specific T in the DB from an id. Will return a mapped T.
-   * 
-   * @param id
-   *          of the Object
-   * @return T
-   */
-  public T find(Long id);
-
-  /**
-   * Method to count the number of entries in the database.
-   * 
-   * @return the count
-   */
-  public int countEntries();
-
-  default void create(T comp) {
+  default List<T> findAll(Query query) {
     throw new IllegalMethodException();
   }
 
-  default void update(T comp) {
+  /**
+   * Method to count the number of entries in the database.
+   */
+  default int count(Query query) {
+    throw new IllegalMethodException();
+  }
+
+  default T read(Long id) {
+    throw new IllegalMethodException();
+  }
+
+  default void create(T obj) {
+    throw new IllegalMethodException();
+  }
+
+  default void update(T obj) {
     throw new IllegalMethodException();
   }
 

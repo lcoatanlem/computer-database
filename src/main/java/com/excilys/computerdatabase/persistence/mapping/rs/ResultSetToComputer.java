@@ -16,12 +16,12 @@ import java.time.LocalDate;
  * @author lcoatanlem
  *
  */
-public class RsToCpu {
-  private static final RsToCpu INSTANCE = new RsToCpu();
+public class ResultSetToComputer {
+  private static final ResultSetToComputer INSTANCE = new ResultSetToComputer();
 
-  Logger log = Logger.getLogger(RsToCpu.class);
+  Logger log = Logger.getLogger(ResultSetToComputer.class);
 
-  private RsToCpu() {
+  private ResultSetToComputer() {
   }
 
   /**
@@ -52,7 +52,7 @@ public class RsToCpu {
       Company manufacturer = null;
       if (cpnId != null) {
         // We retrieve the company from the db
-        manufacturer = CompanyDaoImpl.getInstance().find(cpnId);
+        manufacturer = CompanyDaoImpl.getInstance().read(cpnId);
       }
       cpuB.manufacturer(manufacturer);
     } catch (SQLException exn) {
@@ -63,7 +63,7 @@ public class RsToCpu {
     return cpuB.build();
   }
 
-  public static RsToCpu getInstance() {
+  public static ResultSetToComputer getInstance() {
     return INSTANCE;
   }
 

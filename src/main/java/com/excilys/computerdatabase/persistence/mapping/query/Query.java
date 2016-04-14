@@ -2,13 +2,17 @@ package com.excilys.computerdatabase.persistence.mapping.query;
 
 public class Query {
 
+  public enum Order {
+    ASC, DESC
+  }
+
   private int offset;
   private int limit;
   private String filter;
-  private String orderName;
-  private String orderIntroduced;
-  private String orderDiscontinued;
-  private String orderCompany;
+  private Order orderName;
+  private Order orderIntroduced;
+  private Order orderDiscontinued;
+  private Order orderCompany;
 
   public int getOffset() {
     return offset;
@@ -30,39 +34,44 @@ public class Query {
     return filter;
   }
 
+  /**
+   * If there is a filter, we add the % to put it in a Prepared Statement.
+   */
   public void setFilter(String filter) {
-    this.filter = filter;
+    if (filter != null && !filter.isEmpty()) {
+      this.filter = "%" + filter + "%";
+    }
   }
 
-  public String getOrderName() {
+  public Order getOrderName() {
     return orderName;
   }
 
-  public void setOrderName(String orderName) {
+  public void setOrderName(Order orderName) {
     this.orderName = orderName;
   }
 
-  public String getOrderIntroduced() {
+  public Order getOrderIntroduced() {
     return orderIntroduced;
   }
 
-  public void setOrderIntroduced(String orderIntroduced) {
+  public void setOrderIntroduced(Order orderIntroduced) {
     this.orderIntroduced = orderIntroduced;
   }
 
-  public String getOrderDiscontinued() {
+  public Order getOrderDiscontinued() {
     return orderDiscontinued;
   }
 
-  public void setOrderDiscontinued(String orderDiscontinued) {
+  public void setOrderDiscontinued(Order orderDiscontinued) {
     this.orderDiscontinued = orderDiscontinued;
   }
 
-  public String getOrderCompany() {
+  public Order getOrderCompany() {
     return orderCompany;
   }
 
-  public void setOrderCompany(String orderCompany) {
+  public void setOrderCompany(Order orderCompany) {
     this.orderCompany = orderCompany;
   }
 
@@ -83,27 +92,32 @@ public class Query {
       return this;
     }
 
+    /**
+     * If there is a filter, we add the % to put it in a Prepared Statement.
+     */
     public Builder filter(String filter) {
-      this.query.filter = filter;
+      if (filter != null && !filter.isEmpty()) {
+        this.query.filter = "%" + filter + "%";
+      }
       return this;
     }
 
-    public Builder orderName(String orderName) {
+    public Builder orderName(Order orderName) {
       this.query.orderName = orderName;
       return this;
     }
 
-    public Builder orderIntroduced(String orderIntroduced) {
+    public Builder orderIntroduced(Order orderIntroduced) {
       this.query.orderIntroduced = orderIntroduced;
       return this;
     }
 
-    public Builder orderDiscontinued(String orderDiscontinued) {
+    public Builder orderDiscontinued(Order orderDiscontinued) {
       this.query.orderDiscontinued = orderDiscontinued;
       return this;
     }
 
-    public Builder orderCompany(String orderCompany) {
+    public Builder orderCompany(Order orderCompany) {
       this.query.orderCompany = orderCompany;
       return this;
     }

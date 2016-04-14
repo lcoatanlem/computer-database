@@ -59,7 +59,7 @@ public class ComputerDaoTest extends DbTesting {
   public void testFind() {
     ComputerDaoImpl cpuDao = ComputerDaoImpl.getInstance();
     Computer comp = Computer.builder("").build();
-    comp = cpuDao.find(12L);
+    comp = cpuDao.read(12L);
     Computer same = Computer.builder("Apple III").build();
     same.setId(12L);
     // same.setIntroduced(LocalDate.parse("1980-05-01")); LES DATES SONT
@@ -77,7 +77,7 @@ public class ComputerDaoTest extends DbTesting {
    */
   public void testFindInvalid() {
     ComputerDaoImpl cpuDao = ComputerDaoImpl.getInstance();
-    cpuDao.find(1000L);
+    cpuDao.read(1000L);
     fail();
   }
 
@@ -95,7 +95,7 @@ public class ComputerDaoTest extends DbTesting {
     ComputerDaoImpl cpuDao = ComputerDaoImpl.getInstance();
     cpuDao.create(comp);
     comp.setId(51L);
-    assertEquals(cpuDao.find(51L), comp);
+    assertEquals(cpuDao.read(51L), comp);
 
   }
 
@@ -110,7 +110,7 @@ public class ComputerDaoTest extends DbTesting {
         .discontinued(LocalDate.parse("2016-03-09")).manufacturer(cpn).build();
     ComputerDaoImpl cpuDao = ComputerDaoImpl.getInstance();
     cpuDao.create(comp);
-    assertEquals(cpuDao.find(52L).getManufacturer(), null);
+    assertEquals(cpuDao.read(52L).getManufacturer(), null);
   }
 
   @Test
@@ -123,7 +123,7 @@ public class ComputerDaoTest extends DbTesting {
         .discontinued(LocalDate.parse("2020-03-09")).manufacturer(cpn).build();
     ComputerDaoImpl cpuDao = ComputerDaoImpl.getInstance();
     cpuDao.update(comp);
-    assertEquals(cpuDao.find(35L), comp);
+    assertEquals(cpuDao.read(35L), comp);
   }
 
   @Ignore
@@ -163,7 +163,7 @@ public class ComputerDaoTest extends DbTesting {
   public void testDelete() {
     ComputerDaoImpl cpuDao = ComputerDaoImpl.getInstance();
     cpuDao.delete(45L);
-    cpuDao.find(45L);
+    cpuDao.read(45L);
     fail();
   }
 

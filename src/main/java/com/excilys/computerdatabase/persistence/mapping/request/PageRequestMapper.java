@@ -4,8 +4,8 @@ import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.pagination.Pagination;
 import com.excilys.computerdatabase.persistence.mapping.dao.ComputerDaoToDto;
 import com.excilys.computerdatabase.persistence.mapping.query.Query;
-import com.excilys.computerdatabase.service.CompanyService;
-import com.excilys.computerdatabase.service.ComputerService;
+import com.excilys.computerdatabase.service.impl.CompanyServiceImpl;
+import com.excilys.computerdatabase.service.impl.ComputerServiceImpl;
 import com.excilys.computerdatabase.validation.PaginationValidator;
 import org.apache.log4j.Logger;
 
@@ -30,8 +30,9 @@ public class PageRequestMapper {
   private static Logger log = Logger.getLogger(PageRequestMapper.class);
 
   /**
-   * Mapper for the request from dashboard. If the parameters are null, initialize the map. Else,
-   * try to validate values, and return a new page with it.
+   * Mapper for the request from dashboard. If the parameters are null,
+   * initialize the map. Else, try to validate values, and return a new page
+   * with it.
    * 
    * @param request
    *          from the jsp
@@ -40,14 +41,14 @@ public class PageRequestMapper {
   public static Pagination fromDashboard(HttpServletRequest request) {
 
     // Get the service instance
-    ComputerService cpuServ = ComputerService.getInstance();
+    ComputerServiceImpl cpuServ = ComputerServiceImpl.getInstance();
 
     // Get the attribute and parameters from the page
     String numPageReq = request.getParameter(PARAM_NUMPAGE);
     String limitReq = request.getParameter(PARAM_LIMIT);
 
     // New Pagination with the empty list and initial parameters
-    int countEntries = cpuServ.countEntries();
+    int countEntries = cpuServ.count(Query.builder().build());
 
     Pagination page = Pagination.builder().cpuPageNumber(INIT_NUMPAGE).cpuPageSize(INIT_LIMIT)
         .cpuTotalEntries(countEntries)
@@ -112,15 +113,19 @@ public class PageRequestMapper {
     int offset = (numPage - 1) * pageSize;
     // Parameters of research and ordering
     String filter = request.getParameter(PARAM_SEARCH);
+    request.setAttribute("search", request.getParameter(PARAM_SEARCH));
     String orderName = request.getParameter(PARAM_ORDERNAME);
     String orderIntroduced = request.getParameter(PARAM_ORDERINTRODUCED);
     String orderDiscontinued = request.getParameter(PARAM_ORDERDISCONTINUED);
     String orderCompany = request.getParameter(PARAM_ORDERCOMPANY);
     // Mapping from cpu to cpuDto for all results from service
-    Query query = Query.builder().filter(filter).orderName(orderName)
-        .orderIntroduced(orderIntroduced).orderDiscontinued(orderDiscontinued)
-        .orderCompany(orderCompany).offset(offset).limit(pageSize).build();
-    for (Computer cpu : cpuServ.listComputers(query)) {
+    Query query = Query.builder().filter(filter)
+        // .orderName(orderName)
+        // .orderIntroduced(orderIntroduced)
+        // .orderDiscontinued(orderDiscontinued)
+        // .orderCompany(orderCompany)
+        .offset(offset).limit(pageSize).build();
+    for (Computer cpu : cpuServ.list(query)) {
       page.getCpuList().add(ComputerDaoToDto.getInstance().map(cpu));
     }
     return page;
@@ -135,12 +140,11 @@ public class PageRequestMapper {
    */
   public static Pagination fromAdd(HttpServletRequest request) {
     // Get the service instance
-    CompanyService cpnServ = CompanyService.getInstance();
+    CompanyServiceImpl cpnServ = CompanyServiceImpl.getInstance();
 
     // Uploading the companies' list
-    int countEntries = cpnServ.countEntries();
-    Query query = Query.builder().offset(0).limit(countEntries).build();
-    Pagination page = Pagination.builder().cpnList(cpnServ.listCompanies(query)).build();
+    Query query = Query.builder().offset(0).build();
+    Pagination page = Pagination.builder().cpnList(cpnServ.list(query)).build();
 
     return page;
   }
@@ -154,11 +158,10 @@ public class PageRequestMapper {
    */
   public static Pagination fromEdit(HttpServletRequest request) {
     // Get the service instance
-    CompanyService cpnServ = CompanyService.getInstance();
+    CompanyServiceImpl cpnServ = CompanyServiceImpl.getInstance();
     // Uploading the companies' list
-    int countEntries = cpnServ.countEntries();
-    Query query = Query.builder().offset(0).limit(countEntries).build();
-    Pagination page = Pagination.builder().cpnList(cpnServ.listCompanies(query)).build();
+    Query query = Query.builder().offset(0).build();
+    Pagination page = Pagination.builder().cpnList(cpnServ.list(query)).build();
 
     return page;
   }
@@ -171,11 +174,11 @@ public class PageRequestMapper {
    */
   public static void delete(HttpServletRequest request) {
     // Get the service instance
-    ComputerService cpuServ = ComputerService.getInstance();
+    ComputerServiceImpl cpuServ = ComputerServiceImpl.getInstance();
     // Getting the list of computers to delete
     String[] deleteIds = request.getParameter(PARAM_DELETE).split(",");
     for (String idReq : deleteIds) {
-      cpuServ.deleteComputer(Long.parseLong(idReq));
+      cpuServ.delete(Long.parseLong(idReq));
     }
   }
 

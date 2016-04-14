@@ -7,7 +7,7 @@ import com.excilys.computerdatabase.persistence.mapping.dao.ComputerDaoToDto;
 import com.excilys.computerdatabase.persistence.mapping.dto.ComputerDtoToDao;
 import com.excilys.computerdatabase.persistence.mapping.request.ComputerRequestMapper;
 import com.excilys.computerdatabase.persistence.mapping.request.PageRequestMapper;
-import com.excilys.computerdatabase.service.ComputerService;
+import com.excilys.computerdatabase.service.impl.ComputerServiceImpl;
 import com.excilys.computerdatabase.validation.ComputerValidator;
 
 import org.apache.log4j.Logger;
@@ -45,7 +45,7 @@ public class EditComputer extends HttpServlet {
     // Get the cpuDto from the request
     ComputerDto cpuDto = ComputerRequestMapper.toDto(request, page.getCpnList());
     // Get the computer from database corresponding to the id
-    Computer cpu = ComputerService.getInstance().find(cpuDto.getId());
+    Computer cpu = ComputerServiceImpl.getInstance().find(cpuDto.getId());
     // And map it to a cpuDto
     cpuDto = ComputerDaoToDto.getInstance().map(cpu);
     // Setting companies and cpuDto as attributes
@@ -81,7 +81,7 @@ public class EditComputer extends HttpServlet {
     }
     // Everything's ok 
     // Externalisation de ComputerService.getInstance()
-    ComputerService.getInstance().updateComputer(ComputerDtoToDao.getInstance().map(cpuDto));
+    ComputerServiceImpl.getInstance().updateComputer(ComputerDtoToDao.getInstance().map(cpuDto));
     log.info("Updated computer : " + cpuDto.getName() + ".");
     response.sendRedirect("/computer-database/dashboard");
   }

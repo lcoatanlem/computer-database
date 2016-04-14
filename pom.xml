@@ -32,6 +32,7 @@
 		<maven-failsafe-version>2.19.1</maven-failsafe-version>
 		<cargo-maven2-version>1.4.16</cargo-maven2-version>
 		<maven-war-plugin-version>2.4</maven-war-plugin-version>
+		<springVersion>4.2.4.RELEASE</springVersion>
 	</properties>
 
 	<dependencies>
@@ -58,6 +59,20 @@
 			<version>${h2Version}</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${springVersion}</version>
+		</dependency>
+		<!-- Usefull? -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${springVersion}</version>
+		</dependency>
+
 
 		<!-- Logging -->
 		<!-- DBunit needs it -->

@@ -1,42 +1,45 @@
-package com.excilys.computerdatabase.service;
+package com.excilys.computerdatabase.service.impl;
 
 import com.excilys.computerdatabase.model.Computer;
+import com.excilys.computerdatabase.persistence.dao.Dao;
 import com.excilys.computerdatabase.persistence.dao.impl.CompanyDaoImpl;
 import com.excilys.computerdatabase.persistence.dao.impl.ComputerDaoImpl;
 import com.excilys.computerdatabase.persistence.mapping.query.Query;
+import com.excilys.computerdatabase.service.Service;
 
 import java.util.List;
 
-public class ComputerService {
+public class ComputerServiceImpl implements Service<Computer> {
   
-  private ComputerDaoImpl cpuDao;
+  private Dao<Computer> dao;
 
-  private static final ComputerService INSTANCE = new ComputerService();
+  private static final ComputerServiceImpl INSTANCE = new ComputerServiceImpl();
 
-  public static ComputerService getInstance() {
+  public static ComputerServiceImpl getInstance() {
     return INSTANCE;
   }
 
   /**
    * Instantiates the DAO and the page.
    */
-  private ComputerService() {
-    cpuDao = ComputerDaoImpl.getInstance();
+  private ComputerServiceImpl() {
+    dao = ComputerDaoImpl.getInstance();
   }
 
   /**
    * Count the number of rows in the database.
    */
-  public int countEntries() {
-    return cpuDao.countEntries();
+  @Override
+  public int count(Query query) {
+    return dao.count(query);
   }
 
   /**
    * Method to list all computers. To paginate, it starts with an index and a
    * number of instances we want.
    */
-  public List<Computer> listComputers(Query query) {
-    return cpuDao.findAll(query);
+  public List<Computer> list(Query query) {
+    return dao.findAll(query);
   }
 
   /**
@@ -47,7 +50,7 @@ public class ComputerService {
    * @return a String containing our pretty printing
    */
   public Computer find(Long id) {
-    return cpuDao.find(id);
+    return dao.read(id);
   }
 
   /**
@@ -69,15 +72,15 @@ public class ComputerService {
 
     // Validating the manufacturer
     if (cpu.getManufacturer() != null && cpu.getManufacturer().getId() != null) {
-      // must be valid
+      // must be valid as soon as we have a list
       CompanyDaoImpl cpnDao = CompanyDaoImpl.getInstance();
-      if (cpnDao.find(cpu.getManufacturer().getId()) == null) {
+      if (cpnDao.read(cpu.getManufacturer().getId()) == null) {
         throw new IllegalArgumentException("This company doesn't exists.");
       }
     }
 
     // If everything's fine...
-    cpuDao.create(cpu);
+    dao.create(cpu);
   }
 
   /**
@@ -89,7 +92,7 @@ public class ComputerService {
    */
   public void updateComputer(Computer cpu) {
     // Validating the id
-    if (cpuDao.find(cpu.getId()) == null) {
+    if (dao.read(cpu.getId()) == null) {
       throw new IllegalArgumentException("This computer doesn't exists.");
     }
 
@@ -104,15 +107,15 @@ public class ComputerService {
 
     // Validating the manufacturer
     if (cpu.getManufacturer() != null || cpu.getManufacturer().getId() != null) {
-      // must be valid
+      // must be valid as soon as we have a list
       CompanyDaoImpl cpnDao = CompanyDaoImpl.getInstance();
-      if (cpnDao.find(cpu.getManufacturer().getId()) == null) {
+      if (cpnDao.read(cpu.getManufacturer().getId()) == null) {
         throw new IllegalArgumentException("This company doesn't exists.");
       }
     }
 
     // If everything's fine...
-    cpuDao.update(cpu);
+    dao.update(cpu);
   }
 
   /**
@@ -121,13 +124,14 @@ public class ComputerService {
    * @param id
    *          the id of the computer to delete
    */
-  public void deleteComputer(Long id) {
+  public void delete(Long id) {
     // Validating the id
-    if (cpuDao.find(id) == null) {
+    if (dao.read(id) == null) {
       throw new IllegalArgumentException("This computer doesn't exists.");
     }
     
     // If everything's fine...
-    cpuDao.delete(id);
+    dao.delete(id);
   }
+  
 }

@@ -6,7 +6,7 @@ import com.excilys.computerdatabase.persistence.ConnectionJdbc;
 import com.excilys.computerdatabase.persistence.dao.Dao;
 import com.excilys.computerdatabase.persistence.mapping.query.Query;
 import com.excilys.computerdatabase.persistence.mapping.query.QueryMapper;
-import com.excilys.computerdatabase.persistence.mapping.rs.RsToCpu;
+import com.excilys.computerdatabase.persistence.mapping.rs.ResultSetToComputer;
 
 import org.apache.log4j.Logger;
 
@@ -15,7 +15,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +25,10 @@ import java.util.List;
  * @author lcoatanlem
  */
 public class ComputerDaoImpl implements Dao<Computer> {
-  
+
   private static final ComputerDaoImpl INSTANCE = new ComputerDaoImpl();
-
   private ConnectionJdbc connJdbc;
-
-  Logger log = Logger.getLogger(ComputerDaoImpl.class);
+  private static final Logger LOGGER = Logger.getLogger(ComputerDaoImpl.class);
 
   private ComputerDaoImpl() {
     connJdbc = ConnectionJdbc.getInstance();
@@ -42,11 +39,36 @@ public class ComputerDaoImpl implements Dao<Computer> {
   }
 
   @Override
-  public int countEntries() {
+  public int count(Query query) {
     int size = 0;
     try (Connection conn = connJdbc.getConnection()) {
-      Statement stmt = conn.createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM computer");
+      PreparedStatement stmt = conn.prepareStatement(QueryMapper.toComputerCount(query));
+      // There is a filter
+      if (query.getFilter() != null) {
+        // 1,2,3,4 arguments of the PreparedStatement for filter
+        stmt.setString(1, query.getFilter());
+        stmt.setString(2, query.getFilter());
+        stmt.setString(3, query.getFilter());
+        stmt.setString(4, query.getFilter());
+        // Limit
+        if (query.getLimit() > 0) {
+          stmt.setInt(5, query.getLimit());
+          // Offset can exist iff Limit exists
+          if (query.getOffset() > 0) {
+            stmt.setInt(6, query.getOffset());
+          }
+        }
+      } else {
+        // Limit
+        if (query.getLimit() > 0) {
+          stmt.setInt(1, query.getLimit());
+          // Offset can exist iff Limit exists
+          if (query.getOffset() > 0) {
+            stmt.setInt(2, query.getOffset());
+          }
+        }
+      }
+      ResultSet rs = stmt.executeQuery();
       if (rs.next()) {
         size = rs.getInt(1);
       }
@@ -54,7 +76,7 @@ public class ComputerDaoImpl implements Dao<Computer> {
     } catch (SQLException exn) {
       // Database access error / closed connection / closed statement
       // returning something else than a ResultSet / timeout have been reached
-      log.error("FATAL : " + exn);
+      LOGGER.debug("DEBUG : " + exn.toString());
       throw new DaoException(exn);
     }
     return size;
@@ -64,37 +86,61 @@ public class ComputerDaoImpl implements Dao<Computer> {
   public List<Computer> findAll(Query query) {
     List<Computer> list = new ArrayList<Computer>();
     try (Connection conn = connJdbc.getConnection()) {
-      Statement stmt = conn.createStatement();
-      ResultSet rs = stmt.executeQuery(QueryMapper.toCpuFindAll(query));
-      System.out.println(QueryMapper.toCpuFindAll(query));
+      PreparedStatement stmt = conn.prepareStatement(QueryMapper.toComputerFindAll(query));
+      // There is a filter
+      if (query.getFilter() != null) {
+        // 1,2,3,4 arguments of the PreparedStatement for filter
+        stmt.setString(1, query.getFilter());
+        stmt.setString(2, query.getFilter());
+        stmt.setString(3, query.getFilter());
+        stmt.setString(4, query.getFilter());
+        // Limit
+        if (query.getLimit() > 0) {
+          stmt.setInt(5, query.getLimit());
+          // Offset can exist iff Limit exists
+          if (query.getOffset() > 0) {
+            stmt.setInt(6, query.getOffset());
+          }
+        }
+      } else {
+        // Limit
+        if (query.getLimit() > 0) {
+          stmt.setInt(1, query.getLimit());
+          // Offset can exist iff Limit exists
+          if (query.getOffset() > 0) {
+            stmt.setInt(2, query.getOffset());
+          }
+        }
+      }
+      ResultSet rs = stmt.executeQuery();
       while (rs.next()) {
-        list.add((RsToCpu.getInstance().map(rs)));
+        list.add((ResultSetToComputer.getInstance().map(rs)));
       }
       stmt.close();
     } catch (SQLException exn) {
       // Database access error / closed connection / closed statement
       // returning something else than a ResultSet / timeout have been reached
-      log.error("FATAL : " + exn);
+      LOGGER.debug("DEBUG : " + exn.toString());
       throw new DaoException(exn);
     }
     return list;
   }
 
   @Override
-  public Computer find(Long id) {
+  public Computer read(Long id) {
     Computer comp = null;
     try (Connection conn = connJdbc.getConnection()) {
       PreparedStatement stmt = conn.prepareStatement("SELECT * FROM computer WHERE id = ?");
       stmt.setLong(1, id);
       ResultSet rs = stmt.executeQuery();
       if (rs.next()) {
-        comp = (RsToCpu.getInstance().map(rs));
+        comp = (ResultSetToComputer.getInstance().map(rs));
       }
       stmt.close();
     } catch (SQLException exn) {
       // Database access error / closed connection / closed statement
       // returning something else than a ResultSet / timeout have been reached
-      log.error("FATAL : " + exn);
+      LOGGER.debug("DEBUG : " + exn.toString());
       throw new DaoException(exn);
     }
     return comp;
@@ -118,7 +164,7 @@ public class ComputerDaoImpl implements Dao<Computer> {
       stmt.executeUpdate();
       stmt.close();
     } catch (SQLException exn) {
-      log.error("FATAL : " + exn);
+      LOGGER.debug("DEBUG : " + exn.toString());
       // Database access error / closed connection / closed statement
       // returning something else than a ResultSet / timeout have been reached
       throw new DaoException(exn);
@@ -147,7 +193,7 @@ public class ComputerDaoImpl implements Dao<Computer> {
     } catch (SQLException exn) {
       // Database access error / closed connection / closed statement
       // returning something else than a ResultSet / timeout have been reached
-      log.error("FATAL : " + exn);
+      LOGGER.debug("DEBUG : " + exn.toString());
       throw new DaoException(exn);
     }
   }
@@ -156,14 +202,14 @@ public class ComputerDaoImpl implements Dao<Computer> {
   public void delete(Long id) {
     try (Connection conn = connJdbc.getConnection()) {
       PreparedStatement stmt = conn.prepareStatement("DELETE FROM computer WHERE id = ?");
-      find(id);
+      read(id);
       stmt.setLong(1, id);
       stmt.executeUpdate();
       stmt.close();
     } catch (SQLException exn) {
       // Database access error / closed connection / closed statement
       // returning something else than a ResultSet / timeout have been reached
-      log.error("FATAL : " + exn);
+      LOGGER.debug("DEBUG : " + exn.toString());
       throw new DaoException(exn);
     }
   }

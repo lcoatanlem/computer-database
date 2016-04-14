@@ -5,7 +5,7 @@ import com.excilys.computerdatabase.persistence.dto.ComputerDto;
 import com.excilys.computerdatabase.persistence.mapping.dto.ComputerDtoToDao;
 import com.excilys.computerdatabase.persistence.mapping.request.ComputerRequestMapper;
 import com.excilys.computerdatabase.persistence.mapping.request.PageRequestMapper;
-import com.excilys.computerdatabase.service.ComputerService;
+import com.excilys.computerdatabase.service.impl.ComputerServiceImpl;
 import com.excilys.computerdatabase.validation.ComputerValidator;
 
 import org.apache.log4j.Logger;
@@ -69,7 +69,7 @@ public class AddComputer extends HttpServlet {
       return;
     }
     // Everything's ok
-    ComputerService.getInstance().createComputer(ComputerDtoToDao.getInstance().map(cpuDto));
+    ComputerServiceImpl.getInstance().createComputer(ComputerDtoToDao.getInstance().map(cpuDto));
     log.info("Added computer : " + cpuDto.getName() + ".");
     response.sendRedirect("/computer-database/dashboard");
   }

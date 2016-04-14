@@ -5,8 +5,8 @@ import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.persistence.dto.ComputerDto;
 import com.excilys.computerdatabase.persistence.mapping.dto.ComputerDtoToDao;
 import com.excilys.computerdatabase.persistence.mapping.query.Query;
-import com.excilys.computerdatabase.service.CompanyService;
-import com.excilys.computerdatabase.service.ComputerService;
+import com.excilys.computerdatabase.service.impl.CompanyServiceImpl;
+import com.excilys.computerdatabase.service.impl.ComputerServiceImpl;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -17,15 +17,15 @@ public class ComputerLineInterface {
   private final int paginationCpu = 50;
   private int iterCpn;
   private final int paginationCpn = 10;
-  private ComputerService cpuController;
-  private CompanyService cpnController;
+  private ComputerServiceImpl cpuController;
+  private CompanyServiceImpl cpnController;
 
   /**
    * TODO : javadoc and total rework.
    */
   public ComputerLineInterface() {
-    cpuController = ComputerService.getInstance();
-    cpnController = CompanyService.getInstance();
+    cpuController = ComputerServiceImpl.getInstance();
+    cpnController = CompanyServiceImpl.getInstance();
     iterCpu = 0;
     iterCpn = 0;
   }
@@ -83,7 +83,7 @@ public class ComputerLineInterface {
     Scanner sc = new Scanner(System.in);
     Query query = Query.builder().offset(iterCpu).limit(paginationCpu).build();
     try {
-      for (Computer cpu : cpuController.listComputers(query)) {
+      for (Computer cpu : cpuController.list(query)) {
         System.out.println(cpu.getName());
       }
     } catch (IndexOutOfBoundsException exn) {
@@ -129,7 +129,7 @@ public class ComputerLineInterface {
     Scanner sc = new Scanner(System.in);
     Query query = Query.builder().offset(iterCpn).limit(paginationCpn).build();
     try {
-      for (Company cpn : cpnController.listCompanies(query)) {
+      for (Company cpn : cpnController.list(query)) {
         System.out.println(cpn.getName());
       }
     } catch (IndexOutOfBoundsException exn) {
@@ -337,7 +337,7 @@ public class ComputerLineInterface {
       if (choix == -1L) {
         menu();
       }
-      cpuController.deleteComputer(choix);
+      cpuController.delete(choix);
       deleteComputer();
     } catch (NumberFormatException exn) {
       System.out.println("Not a good entry, type a number of type Long!");
