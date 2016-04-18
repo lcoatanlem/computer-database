@@ -8,7 +8,8 @@ public class QueryMapper {
    */
   public static String toComputerFindAll(Query query) {
     // Basic one
-    StringBuilder queryBuilder = new StringBuilder("SELECT * FROM computer");
+    StringBuilder queryBuilder = new StringBuilder(
+        "SELECT computer.id, computer.name, introduced, discontinued, company_id FROM computer");
 
     if (query.getFilter() != null || query.getOrderCompany() != null) {
       // We need a join in both cases

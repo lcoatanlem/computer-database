@@ -2,6 +2,8 @@ package com.excilys.computerdatabase.persistence.mapping.request;
 
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.pagination.Pagination;
+import com.excilys.computerdatabase.pagination.Pagination.Builder;
+import com.excilys.computerdatabase.persistence.dto.ComputerDto;
 import com.excilys.computerdatabase.persistence.mapping.dao.ComputerDaoToDto;
 import com.excilys.computerdatabase.persistence.mapping.query.Query;
 import com.excilys.computerdatabase.persistence.mapping.query.Query.Order;
@@ -11,6 +13,7 @@ import com.excilys.computerdatabase.validation.PaginationValidator;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -44,88 +47,68 @@ public class PageRequestMapper {
     // Get the service instance
     ComputerServiceImpl cpuServ = ComputerServiceImpl.getInstance();
 
-    // Get the attribute and parameters from the page
+    // Research
+    String filter = request.getParameter(PARAM_SEARCH);
+    // Query for the count of entries
+    Query queryCount = Query.builder().filter(filter).build();
+    // Getting the result of the request
+    int countEntries = cpuServ.count(queryCount);
+
+    // New page, we need the count of entries
+    Builder pageBuilder = Pagination.builder().cpuTotalEntries(countEntries);
+
+    // Page number and limit
     String numPageReq = request.getParameter(PARAM_NUMPAGE);
     String limitReq = request.getParameter(PARAM_LIMIT);
-
-    // New Pagination with the empty list and initial parameters
-    int countEntries = cpuServ.count(Query.builder().build());
-
-    Pagination page = Pagination.builder().cpuPageNumber(INIT_NUMPAGE).cpuPageSize(INIT_LIMIT)
-        .cpuTotalEntries(countEntries)
-        .cpuNbPages(
-            (int) Math.floor(countEntries / INIT_LIMIT) + (countEntries % INIT_LIMIT == 0 ? 0 : 1))
-        .cpuList(new ArrayList<>()).build();
-
-    // Page number checking
-    String numPageRes = PaginationValidator.getInstance().numPageIsValid(numPageReq,
-        page.getCpuNbPages());
-
-    // Limit of entries checking
+    // Limit of entries checking && computing of the number of pages
     String limitRes = PaginationValidator.getInstance().pageSizeIsValid(limitReq);
-
-    // Actualize numPage and limit, don't forget to actualize NbPages as soon as
-    // limit has changed
+    int limit;
+    if (limitRes == null) {
+      // limit is ok
+      limit = Integer.parseInt(limitReq);
+    } else {
+      // limit is wrong, log the error and put initial value
+      log.info(limitRes);
+      limit = INIT_LIMIT;
+    }
+    // Define limit and number of pages
+    int nbPages = (int) Math.floor(countEntries / limit) + (countEntries % limit == 0 ? 0 : 1);
+    pageBuilder = pageBuilder.cpuPageSize(limit).cpuNbPages(nbPages);
+    // Page number checking
+    int numPage;
+    String numPageRes = PaginationValidator.getInstance().numPageIsValid(numPageReq, nbPages);
     if (numPageRes == null) {
       // numPage is ok
-      page.setCpuPageNumber(Integer.parseInt(numPageReq));
-      if (limitRes == null) {
-        // both are ok
-        int limit = Integer.parseInt(limitReq);
-        page.setCpuPageSize(limit);
-        // actualize nbPages
-        page.setCpuNbPages((int) Math.floor(page.getCpuTotalEntries() / limit)
-            + (page.getCpuTotalEntries() % limit == 0 ? 0 : 1));
-      } else {
-        // limit is wrong
-        page.setCpuPageSize(INIT_LIMIT);
-        // actualize nbPages
-        page.setCpuNbPages((int) Math.floor(page.getCpuTotalEntries() / INIT_LIMIT)
-            + (page.getCpuTotalEntries() % INIT_LIMIT == 0 ? 0 : 1));
-        log.info(limitRes);
-      }
+      numPage = Integer.parseInt(numPageReq);
     } else {
-      // numPage is wrong
-      page.setCpuPageNumber(INIT_NUMPAGE);
-      if (limitRes == null) {
-        // limit is ok
-        int limit = Integer.parseInt(limitReq);
-        page.setCpuPageSize(limit);
-        // actualize nbPages
-        page.setCpuNbPages((int) Math.floor(page.getCpuTotalEntries() / limit)
-            + (page.getCpuTotalEntries() % limit == 0 ? 0 : 1));
-        log.info("Limit has changed, page number has been reset : 1.");
-      } else {
-        // both are wrong
-        page.setCpuPageSize(INIT_LIMIT);
-        // actualize nbPages
-        page.setCpuNbPages((int) Math.floor(page.getCpuTotalEntries() / INIT_LIMIT)
-            + (page.getCpuTotalEntries() % INIT_LIMIT == 0 ? 0 : 1));
-        log.info(numPageRes);
-        log.info(limitRes);
-      }
+      // numPage is wrong, log the error and put initial value
+      log.info(numPageRes);
+      numPage = INIT_NUMPAGE;
     }
+    // Define numPage
+    pageBuilder = pageBuilder.cpuPageNumber(numPage);
 
-    // We now refresh the list
-    // Need the numPage and the size
-    int numPage = page.getCpuPageNumber();
-    int pageSize = page.getCpuPageSize();
-    // Offset
-    int offset = (numPage - 1) * pageSize;
-    // Parameters of research and ordering
-    String filter = request.getParameter(PARAM_SEARCH);
+    // We now make a request with all parameters
     Order orderName = Order.safeValueOf(request.getParameter(PARAM_ORDERNAME));
     Order orderIntroduced = Order.safeValueOf(request.getParameter(PARAM_ORDERINTRODUCED));
     Order orderDiscontinued = Order.safeValueOf(request.getParameter(PARAM_ORDERDISCONTINUED));
     Order orderCompany = Order.safeValueOf(request.getParameter(PARAM_ORDERCOMPANY));
-    // Mapping from cpu to cpuDto for all results from service
+    // Compute the offset
+    int offset = (numPage - 1) * limit;
+    // The Query itself
     Query query = Query.builder().filter(filter).orderName(orderName)
         .orderIntroduced(orderIntroduced).orderDiscontinued(orderDiscontinued)
-        .orderCompany(orderCompany).offset(offset).limit(pageSize).build();
+        .orderCompany(orderCompany).offset(offset).limit(limit).build();
+    // We create a new List
+    List<ComputerDto> list = new ArrayList<>();
+    // In which we map all results to dto
     for (Computer cpu : cpuServ.list(query)) {
-      page.getCpuList().add(ComputerDaoToDto.getInstance().map(cpu));
+      list.add(ComputerDaoToDto.getInstance().map(cpu));
     }
-    return page;
+    // Define list of results into the page
+    pageBuilder = pageBuilder.cpuList(list);
+
+    return pageBuilder.build();
   }
 
   /**

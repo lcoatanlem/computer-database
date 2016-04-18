@@ -43,6 +43,7 @@ public class ComputerDaoImpl implements Dao<Computer> {
     int size = 0;
     try (Connection conn = connJdbc.getConnection()) {
       PreparedStatement stmt = conn.prepareStatement(QueryMapper.toComputerCount(query));
+      System.out.println(QueryMapper.toComputerCount(query));
       // There is a filter
       if (query.getFilter() != null) {
         // 1,2,3,4 arguments of the PreparedStatement for filter
