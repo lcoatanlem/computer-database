@@ -10,7 +10,7 @@ import com.excilys.computerdatabase.service.Service;
 import java.util.List;
 
 public class ComputerServiceImpl implements Service<Computer> {
-  
+
   private Dao<Computer> dao;
 
   private static final ComputerServiceImpl INSTANCE = new ComputerServiceImpl();
@@ -109,7 +109,8 @@ public class ComputerServiceImpl implements Service<Computer> {
     if (cpu.getManufacturer() != null || cpu.getManufacturer().getId() != null) {
       // must be valid as soon as we have a list
       CompanyDaoImpl cpnDao = CompanyDaoImpl.getInstance();
-      if (cpnDao.read(cpu.getManufacturer().getId()) == null) {
+      if (cpu.getManufacturer().getId() != null
+          && cpnDao.read(cpu.getManufacturer().getId()) == null) {
         throw new IllegalArgumentException("This company doesn't exists.");
       }
     }
@@ -129,9 +130,9 @@ public class ComputerServiceImpl implements Service<Computer> {
     if (dao.read(id) == null) {
       throw new IllegalArgumentException("This computer doesn't exists.");
     }
-    
+
     // If everything's fine...
     dao.delete(id);
   }
-  
+
 }

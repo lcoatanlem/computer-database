@@ -30,10 +30,10 @@ public class Query {
   private int offset;
   private int limit;
   private String filter;
-  private Order orderName;
-  private Order orderIntroduced;
-  private Order orderDiscontinued;
-  private Order orderCompany;
+  private Order nameOrder;
+  private Order introducedOrder;
+  private Order discontinuedOrder;
+  private Order companyOrder;
 
   public int getOffset() {
     return offset;
@@ -65,35 +65,35 @@ public class Query {
   }
 
   public Order getOrderName() {
-    return orderName;
+    return nameOrder;
   }
 
-  public void setOrderName(Order orderName) {
-    this.orderName = orderName;
+  public void setOrderName(Order nameOrder) {
+    this.nameOrder = nameOrder;
   }
 
-  public Order getOrderIntroduced() {
-    return orderIntroduced;
+  public Order getIntroducedOrder() {
+    return introducedOrder;
   }
 
-  public void setOrderIntroduced(Order orderIntroduced) {
-    this.orderIntroduced = orderIntroduced;
+  public void setIntroducedOrder(Order introducedOrder) {
+    this.introducedOrder = introducedOrder;
   }
 
-  public Order getOrderDiscontinued() {
-    return orderDiscontinued;
+  public Order getDiscontinuedOrder() {
+    return discontinuedOrder;
   }
 
-  public void setOrderDiscontinued(Order orderDiscontinued) {
-    this.orderDiscontinued = orderDiscontinued;
+  public void setDiscontinuedOrder(Order discontinuedOrder) {
+    this.discontinuedOrder = discontinuedOrder;
   }
 
-  public Order getOrderCompany() {
-    return orderCompany;
+  public Order getCompanyOrder() {
+    return companyOrder;
   }
 
-  public void setOrderCompany(Order orderCompany) {
-    this.orderCompany = orderCompany;
+  public void setCompanyOrder(Order companyOrder) {
+    this.companyOrder = companyOrder;
   }
 
   public static Builder builder() {
@@ -123,23 +123,23 @@ public class Query {
       return this;
     }
 
-    public Builder orderName(Order orderName) {
-      this.query.orderName = orderName;
+    public Builder nameOrder(Order nameOrder) {
+      this.query.nameOrder = nameOrder;
       return this;
     }
 
-    public Builder orderIntroduced(Order orderIntroduced) {
-      this.query.orderIntroduced = orderIntroduced;
+    public Builder introducedOrder(Order introducedOrder) {
+      this.query.introducedOrder = introducedOrder;
       return this;
     }
 
-    public Builder orderDiscontinued(Order orderDiscontinued) {
-      this.query.orderDiscontinued = orderDiscontinued;
+    public Builder discontinuedOrder(Order discontinuedOrder) {
+      this.query.discontinuedOrder = discontinuedOrder;
       return this;
     }
 
-    public Builder orderCompany(Order orderCompany) {
-      this.query.orderCompany = orderCompany;
+    public Builder companyOrder(Order companyOrder) {
+      this.query.companyOrder = companyOrder;
       return this;
     }
 

@@ -26,10 +26,10 @@ public class PageRequestMapper {
   private static final int INIT_LIMIT = 10;
   private static final String PARAM_DELETE = "selection";
   private static final String PARAM_SEARCH = "search";
-  private static final String PARAM_ORDERNAME = "ordName";
-  private static final String PARAM_ORDERINTRODUCED = "ordIntr";
-  private static final String PARAM_ORDERDISCONTINUED = "ordDisc";
-  private static final String PARAM_ORDERCOMPANY = "ordCpn";
+  private static final String PARAM_ORDERNAME = "nameOrder";
+  private static final String PARAM_ORDERINTRODUCED = "introducedOrder";
+  private static final String PARAM_ORDERDISCONTINUED = "discontinuedOrder";
+  private static final String PARAM_ORDERCOMPANY = "companyOrder";
 
   private static Logger log = Logger.getLogger(PageRequestMapper.class);
 
@@ -56,6 +56,9 @@ public class PageRequestMapper {
 
     // New page, we need the count of entries
     Builder pageBuilder = Pagination.builder().cpuTotalEntries(countEntries);
+    if (filter != null) {
+      pageBuilder = pageBuilder.search(filter);
+    }
 
     // Page number and limit
     String numPageReq = request.getParameter(PARAM_NUMPAGE);
@@ -89,16 +92,28 @@ public class PageRequestMapper {
     pageBuilder = pageBuilder.cpuPageNumber(numPage);
 
     // We now make a request with all parameters
-    Order orderName = Order.safeValueOf(request.getParameter(PARAM_ORDERNAME));
-    Order orderIntroduced = Order.safeValueOf(request.getParameter(PARAM_ORDERINTRODUCED));
-    Order orderDiscontinued = Order.safeValueOf(request.getParameter(PARAM_ORDERDISCONTINUED));
-    Order orderCompany = Order.safeValueOf(request.getParameter(PARAM_ORDERCOMPANY));
+    Order nameOrder = Order.safeValueOf(request.getParameter(PARAM_ORDERNAME));
+    if (nameOrder != null) {
+      pageBuilder = pageBuilder.nameOrder(nameOrder.toString());
+    }
+    Order introducedOrder = Order.safeValueOf(request.getParameter(PARAM_ORDERINTRODUCED));
+    if (introducedOrder != null) {
+      pageBuilder = pageBuilder.introducedOrder(introducedOrder.toString());
+    }
+    Order discontinuedOrder = Order.safeValueOf(request.getParameter(PARAM_ORDERDISCONTINUED));
+    if (discontinuedOrder != null) {
+      pageBuilder = pageBuilder.discontinuedOrder(discontinuedOrder.toString());
+    }
+    Order companyOrder = Order.safeValueOf(request.getParameter(PARAM_ORDERCOMPANY));
+    if (companyOrder != null) {
+      pageBuilder = pageBuilder.companyOrder(companyOrder.toString());
+    }
     // Compute the offset
     int offset = (numPage - 1) * limit;
     // The Query itself
-    Query query = Query.builder().filter(filter).orderName(orderName)
-        .orderIntroduced(orderIntroduced).orderDiscontinued(orderDiscontinued)
-        .orderCompany(orderCompany).offset(offset).limit(limit).build();
+    Query query = Query.builder().filter(filter).nameOrder(nameOrder)
+        .introducedOrder(introducedOrder).discontinuedOrder(discontinuedOrder)
+        .companyOrder(companyOrder).offset(offset).limit(limit).build();
     // We create a new List
     List<ComputerDto> list = new ArrayList<>();
     // In which we map all results to dto

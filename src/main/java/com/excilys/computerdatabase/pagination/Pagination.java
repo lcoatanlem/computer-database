@@ -26,6 +26,13 @@ public class Pagination {
   private int cpnNbPages;
   private List<Company> cpnList;
 
+  // Search and orderBy features
+  private String search;
+  private String nameOrder;
+  private String introducedOrder;
+  private String discontinuedOrder;
+  private String companyOrder;
+
   public int getCpuPageNumber() {
     return cpuPageNumber;
   }
@@ -106,6 +113,46 @@ public class Pagination {
     this.cpnList = cpnList;
   }
 
+  public String getSearch() {
+    return search;
+  }
+
+  public void setSearch(String search) {
+    this.search = search;
+  }
+
+  public String getNameOrder() {
+    return nameOrder;
+  }
+
+  public void setNameOrder(String nameOrder) {
+    this.nameOrder = nameOrder;
+  }
+
+  public String getIntroducedOrder() {
+    return introducedOrder;
+  }
+
+  public void setIntroducedOrder(String introducedOrder) {
+    this.introducedOrder = introducedOrder;
+  }
+
+  public String getDiscontinuedOrder() {
+    return discontinuedOrder;
+  }
+
+  public void setDiscontinuedOrder(String discontinuedOrder) {
+    this.discontinuedOrder = discontinuedOrder;
+  }
+
+  public String getCompanyOrder() {
+    return companyOrder;
+  }
+
+  public void setCompanyOrder(String companyOrder) {
+    this.companyOrder = companyOrder;
+  }
+
   // To build a new Page
   public static Builder builder() {
     return new Builder();
@@ -161,6 +208,31 @@ public class Pagination {
 
     public Builder cpnList(List<Company> cpnList) {
       this.page.cpnList = cpnList;
+      return this;
+    }
+
+    public Builder search(String search) {
+      this.page.search = search;
+      return this;
+    }
+
+    public Builder nameOrder(String nameOrder) {
+      this.page.nameOrder = nameOrder;
+      return this;
+    }
+
+    public Builder introducedOrder(String introducedOrder) {
+      this.page.introducedOrder = introducedOrder;
+      return this;
+    }
+
+    public Builder discontinuedOrder(String discontinuedOrder) {
+      this.page.discontinuedOrder = discontinuedOrder;
+      return this;
+    }
+
+    public Builder companyOrder(String companyOrder) {
+      this.page.companyOrder = companyOrder;
       return this;
     }
 

@@ -11,9 +11,9 @@ public class QueryMapper {
     StringBuilder queryBuilder = new StringBuilder(
         "SELECT computer.id, computer.name, introduced, discontinued, company_id FROM computer");
 
-    if (query.getFilter() != null || query.getOrderCompany() != null) {
+    if (query.getFilter() != null || query.getCompanyOrder() != null) {
       // We need a join in both cases
-      queryBuilder.append(" INNER JOIN company ON computer.company_id = company.id ");
+      queryBuilder.append(" LEFT OUTER JOIN company ON computer.company_id = company.id ");
       // If there is a filter
       if (query.getFilter() != null) {
         // 1,2,3,4 arguments of the PreparedStatement for filter
@@ -22,8 +22,8 @@ public class QueryMapper {
       }
     }
     // Order
-    if (query.getOrderName() != null || query.getOrderIntroduced() != null
-        || query.getOrderDiscontinued() != null || query.getOrderCompany() != null) {
+    if (query.getOrderName() != null || query.getIntroducedOrder() != null
+        || query.getDiscontinuedOrder() != null || query.getCompanyOrder() != null) {
       // There is at least one order
       queryBuilder.append(" ORDER BY ");
       // for Computer name ordering
@@ -31,25 +31,25 @@ public class QueryMapper {
         queryBuilder.append("computer.name " + query.getOrderName());
       }
       // for introduced date ordering
-      if (query.getOrderIntroduced() != null
+      if (query.getIntroducedOrder() != null
           && queryBuilder.charAt(queryBuilder.length() - 1) == ' ') {
-        queryBuilder.append("computer.introduced " + query.getOrderIntroduced());
-      } else if (query.getOrderIntroduced() != null) {
-        queryBuilder.append(", computer.introduced " + query.getOrderIntroduced());
+        queryBuilder.append("computer.introduced " + query.getIntroducedOrder());
+      } else if (query.getIntroducedOrder() != null) {
+        queryBuilder.append(", computer.introduced " + query.getIntroducedOrder());
       }
       // for discontinued date ordering
-      if (query.getOrderDiscontinued() != null
+      if (query.getDiscontinuedOrder() != null
           && queryBuilder.charAt(queryBuilder.length() - 1) == ' ') {
-        queryBuilder.append("computer.discontinued " + query.getOrderDiscontinued());
-      } else if (query.getOrderDiscontinued() != null) {
-        queryBuilder.append(", computer.discontinued " + query.getOrderDiscontinued());
+        queryBuilder.append("computer.discontinued " + query.getDiscontinuedOrder());
+      } else if (query.getDiscontinuedOrder() != null) {
+        queryBuilder.append(", computer.discontinued " + query.getDiscontinuedOrder());
       }
       // for companies name ordering
-      if (query.getOrderCompany() != null
+      if (query.getCompanyOrder() != null
           && queryBuilder.charAt(queryBuilder.length() - 1) == ' ') {
-        queryBuilder.append("company.name " + query.getOrderCompany());
-      } else if (query.getOrderCompany() != null) {
-        queryBuilder.append(", company.name " + query.getOrderCompany());
+        queryBuilder.append("company.name " + query.getCompanyOrder());
+      } else if (query.getCompanyOrder() != null) {
+        queryBuilder.append(", company.name " + query.getCompanyOrder());
       }
     }
     // Limit

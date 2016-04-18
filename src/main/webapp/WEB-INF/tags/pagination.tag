@@ -8,33 +8,51 @@
 
 <ul class="pagination">
 	<c:if test="${ page.cpuPageNumber gt 1 }">
-		<li><a
-			href="/computer-database/dashboard?numPage=${ page.cpuPageNumber-1 }&limit=${ page.cpuPageSize }"
-			aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-		</a></li>
+		<li><mylib:link target="/computer-database/dashboard" link="Prev"
+				numPage="${ page.cpuPageNumber-1 }" limit="${ page.cpuPageSize }"
+				search="${ page.search }" nameOrder="${ page.nameOrder }"
+				introducedOrder="${ page.introducedOrder }"
+				discontinuedOrder="${ page.discontinuedOrder }"
+				companyOrder="${ page.companyOrder }"></mylib:link></li>
 	</c:if>
 	<c:if test="${ page.cpuPageNumber gt 1 }">
 		<li><mylib:link link="1" target="/computer-database/dashboard"
-				numPage="1" limit="${ page.cpuPageSize }">
+				numPage="1" limit="${ page.cpuPageSize }" search="${ page.search }"
+				nameOrder="${ page.nameOrder }"
+				introducedOrder="${ page.introducedOrder }"
+				discontinuedOrder="${ page.discontinuedOrder }"
+				companyOrder="${ page.companyOrder }">
 			</mylib:link></li>
 	</c:if>
 
 	<c:if test="${ page.cpuPageNumber gt 6 }">
 		<li><mylib:link link="${ page.cpuPageNumber-5 }"
 				target="/computer-database/dashboard"
-				numPage="${ page.cpuPageNumber-5 }" limit="${ page.cpuPageSize }">
+				numPage="${ page.cpuPageNumber-5 }" limit="${ page.cpuPageSize }"
+				search="${ page.search }" nameOrder="${ page.nameOrder }"
+				introducedOrder="${ page.introducedOrder }"
+				discontinuedOrder="${ page.discontinuedOrder }"
+				companyOrder="${ page.companyOrder }">
 			</mylib:link></li>
 	</c:if>
 	<c:if test="${ page.cpuPageNumber gt 3 }">
 		<li><mylib:link link="${ page.cpuPageNumber-2 }"
 				target="/computer-database/dashboard"
-				numPage="${ page.cpuPageNumber-2 }" limit="${ page.cpuPageSize }">
+				numPage="${ page.cpuPageNumber-2 }" limit="${ page.cpuPageSize }"
+				search="${ page.search }" nameOrder="${ page.nameOrder }"
+				introducedOrder="${ page.introducedOrder }"
+				discontinuedOrder="${ page.discontinuedOrder }"
+				companyOrder="${ page.companyOrder }">
 			</mylib:link></li>
 	</c:if>
 	<c:if test="${ page.cpuPageNumber gt 2 }">
 		<li><mylib:link link="${ page.cpuPageNumber-1 }"
 				target="/computer-database/dashboard"
-				numPage="${ page.cpuPageNumber-1 }" limit="${ page.cpuPageSize }">
+				numPage="${ page.cpuPageNumber-1 }" limit="${ page.cpuPageSize }"
+				search="${ page.search }" nameOrder="${ page.nameOrder }"
+				introducedOrder="${ page.introducedOrder }"
+				discontinuedOrder="${ page.discontinuedOrder }"
+				companyOrder="${ page.companyOrder }">
 			</mylib:link></li>
 	</c:if>
 
@@ -45,33 +63,51 @@
 	<c:if test="${ page.cpuPageNumber lt page.cpuNbPages-2 }">
 		<li><mylib:link link="${ page.cpuPageNumber+1 }"
 				target="/computer-database/dashboard"
-				numPage="${ page.cpuPageNumber+1 }" limit="${ page.cpuPageSize }">
+				numPage="${ page.cpuPageNumber+1 }" limit="${ page.cpuPageSize }"
+				search="${ page.search }" nameOrder="${ page.nameOrder }"
+				introducedOrder="${ page.introducedOrder }"
+				discontinuedOrder="${ page.discontinuedOrder }"
+				companyOrder="${ page.companyOrder }">
 			</mylib:link></li>
 	</c:if>
 	<c:if test="${ page.cpuPageNumber lt page.cpuNbPages-3 }">
 		<li><mylib:link link="${ page.cpuPageNumber+2 }"
 				target="/computer-database/dashboard"
-				numPage="${ page.cpuPageNumber+2 }" limit="${ page.cpuPageSize }">
+				numPage="${ page.cpuPageNumber+2 }" limit="${ page.cpuPageSize }"
+				search="${ page.search }" nameOrder="${ page.nameOrder }"
+				introducedOrder="${ page.introducedOrder }"
+				discontinuedOrder="${ page.discontinuedOrder }"
+				companyOrder="${ page.companyOrder }">
 			</mylib:link></li>
 	</c:if>
 	<c:if test="${ page.cpuPageNumber lt page.cpuNbPages-6 }">
 		<li><mylib:link link="${ page.cpuPageNumber+5 }"
 				target="/computer-database/dashboard"
-				numPage="${ page.cpuPageNumber+5 }" limit="${ page.cpuPageSize }">
+				numPage="${ page.cpuPageNumber+5 }" limit="${ page.cpuPageSize }"
+				search="${ page.search }" nameOrder="${ page.nameOrder }"
+				introducedOrder="${ page.introducedOrder }"
+				discontinuedOrder="${ page.discontinuedOrder }"
+				companyOrder="${ page.companyOrder }">
 			</mylib:link></li>
 	</c:if>
 	<c:if test="${ (page.cpuPageNumber-page.cpuNbPages) lt 0}">
 		<li><mylib:link link="${ page.cpuNbPages }"
 				target="/computer-database/dashboard" numPage="${ page.cpuNbPages }"
-				limit="${ page.cpuPageSize }">
+				limit="${ page.cpuPageSize }" search="${ page.search }"
+				nameOrder="${ page.nameOrder }"
+				introducedOrder="${ page.introducedOrder }"
+				discontinuedOrder="${ page.discontinuedOrder }"
+				companyOrder="${ page.companyOrder }">
 			</mylib:link></li>
 
 	</c:if>
 	<c:if test="${ (page.cpuPageNumber-page.cpuNbPages) lt 0 }">
-		<li><a
-			href="/computer-database/dashboard?numPage=${ page.cpuPageNumber+1 }&limit=${ page.cpuPageSize }"
-			aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-		</a></li>
+		<li><mylib:link target="/computer-database/dashboard" link="Next"
+				numPage="${ page.cpuPageNumber+1 }" limit="${ page.cpuPageSize }"
+				search="${ page.search }" nameOrder="${ page.nameOrder }"
+				introducedOrder="${ page.introducedOrder }"
+				discontinuedOrder="${ page.discontinuedOrder }"
+				companyOrder="${ page.companyOrder }"></mylib:link></li>
 	</c:if>
 </ul>
 
