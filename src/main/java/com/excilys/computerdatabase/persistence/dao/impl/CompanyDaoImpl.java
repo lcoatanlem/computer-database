@@ -2,13 +2,14 @@ package com.excilys.computerdatabase.persistence.dao.impl;
 
 import com.excilys.computerdatabase.exception.DaoException;
 import com.excilys.computerdatabase.model.Company;
-import com.excilys.computerdatabase.persistence.ConnectionJdbc;
 import com.excilys.computerdatabase.persistence.dao.Dao;
 import com.excilys.computerdatabase.persistence.mapping.query.Query;
 import com.excilys.computerdatabase.persistence.mapping.query.QueryMapper;
 import com.excilys.computerdatabase.persistence.mapping.rs.ResultSetToCompany;
+import com.jolbox.bonecp.BoneCPDataSource;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -27,17 +28,15 @@ import java.util.List;
 @Repository ("companyDao")
 public class CompanyDaoImpl implements Dao<Company> {
 
-  private ConnectionJdbc connJdbc;
+  @Autowired
+  private BoneCPDataSource dataSource;
+  
   private static final Logger LOGGER = Logger.getLogger(CompanyDaoImpl.class);
-
-  public CompanyDaoImpl() {
-    connJdbc = ConnectionJdbc.getInstance();
-  }
 
   @Override
   public int count(Query query) {
     int size = 0;
-    try (Connection conn = connJdbc.getConnection()) {
+    try (Connection conn = dataSource.getConnection()) {
       PreparedStatement stmt = conn.prepareStatement(QueryMapper.toCompanyCount(query));
       // Limit is defined
       if (query.getLimit() > 0) {
@@ -64,7 +63,7 @@ public class CompanyDaoImpl implements Dao<Company> {
   @Override
   public List<Company> findAll(Query query) {
     List<Company> list = new ArrayList<Company>();
-    try (Connection conn = connJdbc.getConnection()) {
+    try (Connection conn = dataSource.getConnection()) {
       PreparedStatement stmt = conn.prepareStatement(QueryMapper.toCompanyFindAll(query));
       // Limit is defined
       if (query.getLimit() > 0) {
@@ -94,7 +93,7 @@ public class CompanyDaoImpl implements Dao<Company> {
     if (id == null) {
       throw new IllegalArgumentException("Id cannot be null.");
     }
-    try (Connection conn = connJdbc.getConnection()) {
+    try (Connection conn = dataSource.getConnection()) {
       PreparedStatement stmt = conn.prepareStatement("SELECT * FROM company WHERE id = ?");
       stmt.setLong(1, id);
       ResultSet rs = stmt.executeQuery();

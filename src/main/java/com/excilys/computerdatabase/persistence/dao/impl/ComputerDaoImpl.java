@@ -2,11 +2,11 @@ package com.excilys.computerdatabase.persistence.dao.impl;
 
 import com.excilys.computerdatabase.exception.DaoException;
 import com.excilys.computerdatabase.model.Computer;
-import com.excilys.computerdatabase.persistence.ConnectionJdbc;
 import com.excilys.computerdatabase.persistence.dao.Dao;
 import com.excilys.computerdatabase.persistence.mapping.query.Query;
 import com.excilys.computerdatabase.persistence.mapping.query.QueryMapper;
 import com.excilys.computerdatabase.persistence.mapping.rs.ResultSetToComputer;
+import com.jolbox.bonecp.BoneCPDataSource;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,20 +29,17 @@ import java.util.List;
 @Repository ("computerDao")
 public class ComputerDaoImpl implements Dao<Computer> {
 
-  private ConnectionJdbc connJdbc;
+  @Autowired
+  private BoneCPDataSource dataSource;
   private static final Logger LOGGER = Logger.getLogger(ComputerDaoImpl.class);
   
   @Autowired
   private ResultSetToComputer rsToComputer;
 
-  public ComputerDaoImpl() {
-    connJdbc = ConnectionJdbc.getInstance();
-  }
-
   @Override
   public int count(Query query) {
     int size = 0;
-    try (Connection conn = connJdbc.getConnection()) {
+    try (Connection conn = dataSource.getConnection()) {
       PreparedStatement stmt = conn.prepareStatement(QueryMapper.toComputerCount(query));
       // There is a filter
       if (query.getFilter() != null) {
@@ -86,7 +83,7 @@ public class ComputerDaoImpl implements Dao<Computer> {
   @Override
   public List<Computer> findAll(Query query) {
     List<Computer> list = new ArrayList<Computer>();
-    try (Connection conn = connJdbc.getConnection()) {
+    try (Connection conn = dataSource.getConnection()) {
       PreparedStatement stmt = conn.prepareStatement(QueryMapper.toComputerFindAll(query));
       // There is a filter
       if (query.getFilter() != null) {
@@ -130,7 +127,7 @@ public class ComputerDaoImpl implements Dao<Computer> {
   @Override
   public Computer read(Long id) {
     Computer comp = null;
-    try (Connection conn = connJdbc.getConnection()) {
+    try (Connection conn = dataSource.getConnection()) {
       PreparedStatement stmt = conn.prepareStatement("SELECT * FROM computer WHERE id = ?");
       stmt.setLong(1, id);
       ResultSet rs = stmt.executeQuery();
@@ -149,7 +146,7 @@ public class ComputerDaoImpl implements Dao<Computer> {
 
   @Override
   public void create(Computer cpu) {
-    try (Connection conn = connJdbc.getConnection()) {
+    try (Connection conn = dataSource.getConnection()) {
       PreparedStatement stmt = conn.prepareStatement(
           "INSERT INTO computer(name,introduced,discontinued,company_id) VALUES (?,?,?,?)");
       // Fill the query
@@ -174,7 +171,7 @@ public class ComputerDaoImpl implements Dao<Computer> {
 
   @Override
   public void update(Computer cpu) {
-    try (Connection conn = connJdbc.getConnection()) {
+    try (Connection conn = dataSource.getConnection()) {
       PreparedStatement stmt = conn
           .prepareStatement("UPDATE computer SET name = ?, introduced = ?, "
               + "discontinued = ?, company_id = ? WHERE id = ?");
@@ -201,7 +198,7 @@ public class ComputerDaoImpl implements Dao<Computer> {
 
   @Override
   public void delete(Long id) {
-    try (Connection conn = connJdbc.getConnection()) {
+    try (Connection conn = dataSource.getConnection()) {
       PreparedStatement stmt = conn.prepareStatement("DELETE FROM computer WHERE id = ?");
       read(id);
       stmt.setLong(1, id);

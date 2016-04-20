@@ -7,23 +7,29 @@ import static org.junit.Assert.fail;
 
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.persistence.DbTesting;
-import com.excilys.computerdatabase.persistence.dao.impl.CompanyDaoImpl;
 import com.excilys.computerdatabase.persistence.mapping.query.Query;
 
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class CompanyDaoTest extends DbTesting {
+
+  @Autowired
+  @Qualifier("companyDao")
+  private Dao<Company> companyDao;
 
   @Test
   /**
    * Tests findAll(), normal use.
    */
   public void testFindAll() {
-    CompanyDaoImpl cpnDao = CompanyDaoImpl.getInstance();
     Query query = Query.builder().offset(10).limit(20).build();
-    List<Company> liste = cpnDao.findAll(query);
+    List<Company> liste = companyDao.findAll(query);
     for (Company comp : liste) {
       assertNotNull(comp.getId());
     }
@@ -35,9 +41,8 @@ public class CompanyDaoTest extends DbTesting {
    * Tests findAll(), using wrong values.
    */
   public void testFindAllInvalid() {
-    CompanyDaoImpl cpnDao = CompanyDaoImpl.getInstance();
     Query query = Query.builder().offset(60).limit(20).build();
-    List<Company> liste = cpnDao.findAll(query);
+    List<Company> liste = companyDao.findAll(query);
     assertTrue(liste.size() == 0);
   }
 
@@ -46,9 +51,8 @@ public class CompanyDaoTest extends DbTesting {
    * Tests findAll(), normal use.
    */
   public void testFind() {
-    CompanyDaoImpl cpnDao = CompanyDaoImpl.getInstance();
     Company cpn = Company.builder().build();
-    cpn = cpnDao.read(17L);
+    cpn = companyDao.read(17L);
     assertEquals(cpn.getName(), "Sony");
   }
 
@@ -57,8 +61,7 @@ public class CompanyDaoTest extends DbTesting {
    * Tests findAll(), with null, should return null.
    */
   public void testFindNull() {
-    CompanyDaoImpl cpnDao = CompanyDaoImpl.getInstance();
-    cpnDao.read(null);
+    companyDao.read(null);
   }
 
   @Test
@@ -66,9 +69,8 @@ public class CompanyDaoTest extends DbTesting {
    * Tests findAll(), with an invalid id, should throw an exception.
    */
   public void testFindInvalid() {
-    CompanyDaoImpl cpnDao = CompanyDaoImpl.getInstance();
     Company cpn = Company.builder().build();
-    cpn = cpnDao.read(150L);
+    cpn = companyDao.read(150L);
     if (cpn != null) {
       fail();
     }

@@ -37,13 +37,13 @@
 								<label for="computerName">Computer name</label>
 								<c:choose>
 									<c:when test="${ empty errors }">
-										<input name="name" type="text" class="form-control"
-											id="name" placeholder="Computer name"
+										<input name="name" type="text" class="form-control" id="name"
+											placeholder="Computer name"
 											value="${ fn:escapeXml(cpuDto.name) }">
 									</c:when>
 									<c:otherwise>
-										<input name="name" type="text" class="form-control"
-											id="name" placeholder="Computer name"
+										<input name="name" type="text" class="form-control" id="name"
+											placeholder="Computer name"
 											value="${fn:escapeXml(cpuDto.name)}">
 										<span id="nameError"><b>${ errors['name'] }</b></span>
 									</c:otherwise>

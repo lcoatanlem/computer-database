@@ -34,9 +34,9 @@
 				<div class="pull-left">
 					<form id="searchForm" action="#" method="GET" class="form-inline">
 						<input type="search" id="searchbox" name="search"
-							class="form-control" placeholder="Search name" value="${ page.search }" /> <input
-							type="submit" id="searchsubmit" value="Filter by name"
-							class="btn btn-primary" />
+							class="form-control" placeholder="Search name"
+							value="${ page.search }" /> <input type="submit"
+							id="searchsubmit" value="Filter by name" class="btn btn-primary" />
 					</form>
 				</div>
 				<div class="pull-right">
@@ -80,7 +80,7 @@
 					<c:forEach items="${ page.cpuList }" var="elt">
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
-								class="cb" value="${ elt.id }" ></td>
+								class="cb" value="${ elt.id }"></td>
 							<td><mylib:link link="${ elt.name }"
 									target="/computer-database/editcomputer" id="${ elt.id }"></mylib:link></td>
 							<td><c:out value="${ elt.introduced }"></c:out></td>
