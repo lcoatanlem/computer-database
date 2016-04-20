@@ -3,35 +3,31 @@ package com.excilys.computerdatabase.service.impl;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.persistence.dao.Dao;
 import com.excilys.computerdatabase.persistence.dao.impl.CompanyDaoImpl;
-import com.excilys.computerdatabase.persistence.dao.impl.ComputerDaoImpl;
 import com.excilys.computerdatabase.persistence.mapping.query.Query;
-import com.excilys.computerdatabase.service.Service;
+import com.excilys.computerdatabase.service.IService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public class ComputerServiceImpl implements Service<Computer> {
-
-  private Dao<Computer> dao;
-
-  private static final ComputerServiceImpl INSTANCE = new ComputerServiceImpl();
-
-  public static ComputerServiceImpl getInstance() {
-    return INSTANCE;
-  }
-
-  /**
-   * Instantiates the DAO and the page.
-   */
-  private ComputerServiceImpl() {
-    dao = ComputerDaoImpl.getInstance();
-  }
+@Service ("computerService")
+public class ComputerServiceImpl implements IService<Computer> {
+  
+  @Autowired
+  @Qualifier ("computerDao")
+  private Dao<Computer> computerDao;
+  
+  @Autowired
+  @Qualifier ("companyDao")
+  private CompanyDaoImpl companyDao;
 
   /**
    * Count the number of rows in the database.
    */
   @Override
   public int count(Query query) {
-    return dao.count(query);
+    return computerDao.count(query);
   }
 
   /**
@@ -39,7 +35,7 @@ public class ComputerServiceImpl implements Service<Computer> {
    * number of instances we want.
    */
   public List<Computer> list(Query query) {
-    return dao.findAll(query);
+    return computerDao.findAll(query);
   }
 
   /**
@@ -50,7 +46,7 @@ public class ComputerServiceImpl implements Service<Computer> {
    * @return a String containing our pretty printing
    */
   public Computer find(Long id) {
-    return dao.read(id);
+    return computerDao.read(id);
   }
 
   /**
@@ -73,14 +69,13 @@ public class ComputerServiceImpl implements Service<Computer> {
     // Validating the manufacturer
     if (cpu.getManufacturer() != null && cpu.getManufacturer().getId() != null) {
       // must be valid as soon as we have a list
-      CompanyDaoImpl cpnDao = CompanyDaoImpl.getInstance();
-      if (cpnDao.read(cpu.getManufacturer().getId()) == null) {
+      if (companyDao.read(cpu.getManufacturer().getId()) == null) {
         throw new IllegalArgumentException("This company doesn't exists.");
       }
     }
 
     // If everything's fine...
-    dao.create(cpu);
+    computerDao.create(cpu);
   }
 
   /**
@@ -92,7 +87,7 @@ public class ComputerServiceImpl implements Service<Computer> {
    */
   public void updateComputer(Computer cpu) {
     // Validating the id
-    if (dao.read(cpu.getId()) == null) {
+    if (computerDao.read(cpu.getId()) == null) {
       throw new IllegalArgumentException("This computer doesn't exists.");
     }
 
@@ -108,15 +103,14 @@ public class ComputerServiceImpl implements Service<Computer> {
     // Validating the manufacturer
     if (cpu.getManufacturer() != null || cpu.getManufacturer().getId() != null) {
       // must be valid as soon as we have a list
-      CompanyDaoImpl cpnDao = CompanyDaoImpl.getInstance();
       if (cpu.getManufacturer().getId() != null
-          && cpnDao.read(cpu.getManufacturer().getId()) == null) {
+          && companyDao.read(cpu.getManufacturer().getId()) == null) {
         throw new IllegalArgumentException("This company doesn't exists.");
       }
     }
 
     // If everything's fine...
-    dao.update(cpu);
+    computerDao.update(cpu);
   }
 
   /**
@@ -127,12 +121,12 @@ public class ComputerServiceImpl implements Service<Computer> {
    */
   public void delete(Long id) {
     // Validating the id
-    if (dao.read(id) == null) {
+    if (computerDao.read(id) == null) {
       throw new IllegalArgumentException("This computer doesn't exists.");
     }
 
     // If everything's fine...
-    dao.delete(id);
+    computerDao.delete(id);
   }
 
 }

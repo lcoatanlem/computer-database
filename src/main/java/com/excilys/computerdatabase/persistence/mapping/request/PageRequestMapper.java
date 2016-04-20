@@ -1,5 +1,6 @@
 package com.excilys.computerdatabase.persistence.mapping.request;
 
+import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.pagination.Pagination;
 import com.excilys.computerdatabase.pagination.Pagination.Builder;
@@ -7,8 +8,7 @@ import com.excilys.computerdatabase.persistence.dto.ComputerDto;
 import com.excilys.computerdatabase.persistence.mapping.dao.ComputerDaoToDto;
 import com.excilys.computerdatabase.persistence.mapping.query.Query;
 import com.excilys.computerdatabase.persistence.mapping.query.Query.Order;
-import com.excilys.computerdatabase.service.impl.CompanyServiceImpl;
-import com.excilys.computerdatabase.service.impl.ComputerServiceImpl;
+import com.excilys.computerdatabase.service.IService;
 import com.excilys.computerdatabase.validation.PaginationValidator;
 import org.apache.log4j.Logger;
 
@@ -42,17 +42,15 @@ public class PageRequestMapper {
    *          from the jsp
    * @return a new page to transmit to the jsp
    */
-  public static Pagination fromDashboard(HttpServletRequest request) {
-
-    // Get the service instance
-    ComputerServiceImpl cpuServ = ComputerServiceImpl.getInstance();
+  public static Pagination fromDashboard(HttpServletRequest request,
+      IService<Computer> computerService) {
 
     // Research
     String filter = request.getParameter(PARAM_SEARCH);
     // Query for the count of entries
     Query queryCount = Query.builder().filter(filter).build();
     // Getting the result of the request
-    int countEntries = cpuServ.count(queryCount);
+    int countEntries = computerService.count(queryCount);
 
     // New page, we need the count of entries
     Builder pageBuilder = Pagination.builder().cpuTotalEntries(countEntries);
@@ -117,7 +115,7 @@ public class PageRequestMapper {
     // We create a new List
     List<ComputerDto> list = new ArrayList<>();
     // In which we map all results to dto
-    for (Computer cpu : cpuServ.list(query)) {
+    for (Computer cpu : computerService.list(query)) {
       list.add(ComputerDaoToDto.getInstance().map(cpu));
     }
     // Define list of results into the page
@@ -133,13 +131,10 @@ public class PageRequestMapper {
    *          from the jsp
    * @return a new page to transmit to the jsp
    */
-  public static Pagination fromAdd(HttpServletRequest request) {
-    // Get the service instance
-    CompanyServiceImpl cpnServ = CompanyServiceImpl.getInstance();
-
+  public static Pagination fromAdd(HttpServletRequest request, IService<Company> companyService) {
     // Uploading the companies' list
     Query query = Query.builder().offset(0).build();
-    Pagination page = Pagination.builder().cpnList(cpnServ.list(query)).build();
+    Pagination page = Pagination.builder().cpnList(companyService.list(query)).build();
 
     return page;
   }
@@ -151,12 +146,10 @@ public class PageRequestMapper {
    *          from the jsp
    * @return a new page to transmit to the jsp
    */
-  public static Pagination fromEdit(HttpServletRequest request) {
-    // Get the service instance
-    CompanyServiceImpl cpnServ = CompanyServiceImpl.getInstance();
+  public static Pagination fromEdit(HttpServletRequest request, IService<Company> companyService) {
     // Uploading the companies' list
     Query query = Query.builder().offset(0).build();
-    Pagination page = Pagination.builder().cpnList(cpnServ.list(query)).build();
+    Pagination page = Pagination.builder().cpnList(companyService.list(query)).build();
 
     return page;
   }
@@ -167,13 +160,11 @@ public class PageRequestMapper {
    * @param request
    *          from the jsp
    */
-  public static void delete(HttpServletRequest request) {
-    // Get the service instance
-    ComputerServiceImpl cpuServ = ComputerServiceImpl.getInstance();
+  public static void delete(HttpServletRequest request, IService<Computer> computerService) {
     // Getting the list of computers to delete
     String[] deleteIds = request.getParameter(PARAM_DELETE).split(",");
     for (String idReq : deleteIds) {
-      cpuServ.delete(Long.parseLong(idReq));
+      computerService.delete(Long.parseLong(idReq));
     }
   }
 

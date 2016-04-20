@@ -9,6 +9,8 @@ import com.excilys.computerdatabase.persistence.mapping.query.QueryMapper;
 import com.excilys.computerdatabase.persistence.mapping.rs.ResultSetToComputer;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -24,18 +26,17 @@ import java.util.List;
  * 
  * @author lcoatanlem
  */
+@Repository ("computerDao")
 public class ComputerDaoImpl implements Dao<Computer> {
 
-  private static final ComputerDaoImpl INSTANCE = new ComputerDaoImpl();
   private ConnectionJdbc connJdbc;
   private static final Logger LOGGER = Logger.getLogger(ComputerDaoImpl.class);
+  
+  @Autowired
+  private ResultSetToComputer rsToComputer;
 
-  private ComputerDaoImpl() {
+  public ComputerDaoImpl() {
     connJdbc = ConnectionJdbc.getInstance();
-  }
-
-  public static ComputerDaoImpl getInstance() {
-    return INSTANCE;
   }
 
   @Override
@@ -114,7 +115,7 @@ public class ComputerDaoImpl implements Dao<Computer> {
       }
       ResultSet rs = stmt.executeQuery();
       while (rs.next()) {
-        list.add((ResultSetToComputer.getInstance().map(rs)));
+        list.add(rsToComputer.map(rs));
       }
       stmt.close();
     } catch (SQLException exn) {
@@ -134,7 +135,7 @@ public class ComputerDaoImpl implements Dao<Computer> {
       stmt.setLong(1, id);
       ResultSet rs = stmt.executeQuery();
       if (rs.next()) {
-        comp = (ResultSetToComputer.getInstance().map(rs));
+        comp = (rsToComputer.map(rs));
       }
       stmt.close();
     } catch (SQLException exn) {

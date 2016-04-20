@@ -4,7 +4,7 @@ import com.excilys.computerdatabase.persistence.mapping.query.Query;
 
 import java.util.List;
 
-public interface Service<T> {
+public interface IService<T> {
 
   /**
    * Get all the objects satisfying the query constraints.

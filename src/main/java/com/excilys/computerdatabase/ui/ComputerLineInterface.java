@@ -5,12 +5,16 @@ import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.persistence.dto.ComputerDto;
 import com.excilys.computerdatabase.persistence.mapping.dto.ComputerDtoToDao;
 import com.excilys.computerdatabase.persistence.mapping.query.Query;
+import com.excilys.computerdatabase.service.IService;
 import com.excilys.computerdatabase.service.impl.CompanyServiceImpl;
 import com.excilys.computerdatabase.service.impl.ComputerServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
+
+
 
 public class ComputerLineInterface {
   private int iterCpu;
@@ -20,12 +24,18 @@ public class ComputerLineInterface {
   private ComputerServiceImpl cpuController;
   private CompanyServiceImpl cpnController;
 
+  @Autowired
+  private IService<Computer> computerService;
+  
+  @Autowired
+  private IService<Company> companyService;
+  
   /**
    * TODO : javadoc and total rework.
    */
   public ComputerLineInterface() {
-    cpuController = ComputerServiceImpl.getInstance();
-    cpnController = CompanyServiceImpl.getInstance();
+    cpuController = ((ComputerServiceImpl) computerService);
+    cpnController = ((CompanyServiceImpl) companyService);
     iterCpu = 0;
     iterCpn = 0;
   }

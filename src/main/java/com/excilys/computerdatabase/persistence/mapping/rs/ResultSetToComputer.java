@@ -5,6 +5,9 @@ import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.model.Computer.Builder;
 import com.excilys.computerdatabase.persistence.dao.impl.CompanyDaoImpl;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,13 +19,14 @@ import java.time.LocalDate;
  * @author lcoatanlem
  *
  */
+@Component
 public class ResultSetToComputer {
-  private static final ResultSetToComputer INSTANCE = new ResultSetToComputer();
-
+  
   Logger log = Logger.getLogger(ResultSetToComputer.class);
 
-  private ResultSetToComputer() {
-  }
+  @Autowired
+  @Qualifier ("companyDao")
+  private CompanyDaoImpl companyDao;
 
   /**
    * Method to map a result set with a Computer.
@@ -52,7 +56,7 @@ public class ResultSetToComputer {
       Company manufacturer = null;
       if (cpnId != null) {
         // We retrieve the company from the db
-        manufacturer = CompanyDaoImpl.getInstance().read(cpnId);
+        manufacturer = companyDao.read(cpnId);
       }
       cpuB.manufacturer(manufacturer);
     } catch (SQLException exn) {
@@ -61,10 +65,6 @@ public class ResultSetToComputer {
       throw new RuntimeException(exn);
     }
     return cpuB.build();
-  }
-
-  public static ResultSetToComputer getInstance() {
-    return INSTANCE;
   }
 
 }

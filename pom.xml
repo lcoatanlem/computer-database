@@ -32,7 +32,7 @@
 		<maven-failsafe-version>2.19.1</maven-failsafe-version>
 		<cargo-maven2-version>1.4.16</cargo-maven2-version>
 		<maven-war-plugin-version>2.4</maven-war-plugin-version>
-		<springVersion>4.2.4.RELEASE</springVersion>
+		<springVersion>4.2.5.RELEASE</springVersion>
 	</properties>
 
 	<dependencies>
@@ -61,18 +61,48 @@
 		</dependency>
 
 		<!-- Spring -->
+		<!-- Core -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
 			<version>${springVersion}</version>
 		</dependency>
-		<!-- Usefull? -->
+		<!-- Context -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${springVersion}</version>
 		</dependency>
-
+		<!-- Beans -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${springVersion}</version>
+		</dependency>
+		<!-- AOP -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${springVersion}</version>
+		</dependency>
+		<!-- Web -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${springVersion}</version>
+		</dependency>
+		<!-- Web MVC -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${springVersion}</version>
+		</dependency>
+		<!-- Transactions -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${springVersion}</version>
+		</dependency>
 
 		<!-- Logging -->
 		<!-- DBunit needs it -->

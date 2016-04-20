@@ -9,6 +9,7 @@ import com.excilys.computerdatabase.persistence.mapping.query.QueryMapper;
 import com.excilys.computerdatabase.persistence.mapping.rs.ResultSetToCompany;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,19 +24,14 @@ import java.util.List;
  * 
  * @author lcoatanlem
  */
+@Repository ("companyDao")
 public class CompanyDaoImpl implements Dao<Company> {
 
-  // TODO Spring
-  private static final CompanyDaoImpl INSTANCE = new CompanyDaoImpl();
   private ConnectionJdbc connJdbc;
   private static final Logger LOGGER = Logger.getLogger(CompanyDaoImpl.class);
 
-  private CompanyDaoImpl() {
+  public CompanyDaoImpl() {
     connJdbc = ConnectionJdbc.getInstance();
-  }
-
-  public static CompanyDaoImpl getInstance() {
-    return INSTANCE;
   }
 
   @Override
