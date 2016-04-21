@@ -1,4 +1,4 @@
-package com.excilys.computerdatabase.persistence.mapping.dao;
+package com.excilys.computerdatabase.mapping.dao;
 
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.persistence.dto.ComputerDto;

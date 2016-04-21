@@ -1,4 +1,4 @@
-package com.excilys.computerdatabase.persistence.mapping.request;
+package com.excilys.computerdatabase.mapping.request;
 
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.persistence.dto.ComputerDto;

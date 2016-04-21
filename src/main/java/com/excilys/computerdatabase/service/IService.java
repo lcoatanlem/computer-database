@@ -1,6 +1,6 @@
 package com.excilys.computerdatabase.service;
 
-import com.excilys.computerdatabase.persistence.mapping.query.Query;
+import com.excilys.computerdatabase.mapping.query.Query;
 
 import java.util.List;
 

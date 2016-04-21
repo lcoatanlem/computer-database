@@ -1,4 +1,4 @@
-package com.excilys.computerdatabase.persistence.mapping.rs;
+package com.excilys.computerdatabase.mapping.rs;
 
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Company.Builder;

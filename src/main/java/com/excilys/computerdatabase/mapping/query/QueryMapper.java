@@ -1,4 +1,4 @@
-package com.excilys.computerdatabase.persistence.mapping.query;
+package com.excilys.computerdatabase.mapping.query;
 
 public class QueryMapper {
 

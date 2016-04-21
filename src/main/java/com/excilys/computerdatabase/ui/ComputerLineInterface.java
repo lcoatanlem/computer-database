@@ -1,13 +1,14 @@
 package com.excilys.computerdatabase.ui;
 
+import com.excilys.computerdatabase.mapping.dto.ComputerDtoToDao;
+import com.excilys.computerdatabase.mapping.query.Query;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.persistence.dto.ComputerDto;
-import com.excilys.computerdatabase.persistence.mapping.dto.ComputerDtoToDao;
-import com.excilys.computerdatabase.persistence.mapping.query.Query;
 import com.excilys.computerdatabase.service.IService;
 import com.excilys.computerdatabase.service.impl.CompanyServiceImpl;
 import com.excilys.computerdatabase.service.impl.ComputerServiceImpl;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;

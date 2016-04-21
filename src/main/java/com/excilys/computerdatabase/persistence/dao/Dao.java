@@ -1,7 +1,7 @@
 package com.excilys.computerdatabase.persistence.dao;
 
 import com.excilys.computerdatabase.exception.IllegalMethodException;
-import com.excilys.computerdatabase.persistence.mapping.query.Query;
+import com.excilys.computerdatabase.mapping.query.Query;
 
 import java.util.List;
 

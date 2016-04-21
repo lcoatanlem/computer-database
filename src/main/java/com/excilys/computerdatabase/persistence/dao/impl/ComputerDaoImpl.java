@@ -1,11 +1,11 @@
 package com.excilys.computerdatabase.persistence.dao.impl;
 
 import com.excilys.computerdatabase.exception.DaoException;
+import com.excilys.computerdatabase.mapping.query.Query;
+import com.excilys.computerdatabase.mapping.query.QueryMapper;
+import com.excilys.computerdatabase.mapping.rs.ResultSetToComputer;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.persistence.dao.Dao;
-import com.excilys.computerdatabase.persistence.mapping.query.Query;
-import com.excilys.computerdatabase.persistence.mapping.query.QueryMapper;
-import com.excilys.computerdatabase.persistence.mapping.rs.ResultSetToComputer;
 import com.jolbox.bonecp.BoneCPDataSource;
 
 import org.apache.log4j.Logger;

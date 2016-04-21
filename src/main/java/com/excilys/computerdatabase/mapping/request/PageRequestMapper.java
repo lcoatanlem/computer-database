@@ -1,15 +1,16 @@
-package com.excilys.computerdatabase.persistence.mapping.request;
+package com.excilys.computerdatabase.mapping.request;
 
+import com.excilys.computerdatabase.mapping.dao.ComputerDaoToDto;
+import com.excilys.computerdatabase.mapping.query.Query;
+import com.excilys.computerdatabase.mapping.query.Query.Order;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.pagination.Pagination;
 import com.excilys.computerdatabase.pagination.Pagination.Builder;
 import com.excilys.computerdatabase.persistence.dto.ComputerDto;
-import com.excilys.computerdatabase.persistence.mapping.dao.ComputerDaoToDto;
-import com.excilys.computerdatabase.persistence.mapping.query.Query;
-import com.excilys.computerdatabase.persistence.mapping.query.Query.Order;
 import com.excilys.computerdatabase.service.IService;
 import com.excilys.computerdatabase.validation.PaginationValidator;
+
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;

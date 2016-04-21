@@ -1,10 +1,11 @@
 package com.excilys.computerdatabase.service.impl;
 
+import com.excilys.computerdatabase.mapping.query.Query;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.persistence.dao.Dao;
 import com.excilys.computerdatabase.persistence.dao.impl.CompanyDaoImpl;
-import com.excilys.computerdatabase.persistence.mapping.query.Query;
 import com.excilys.computerdatabase.service.IService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

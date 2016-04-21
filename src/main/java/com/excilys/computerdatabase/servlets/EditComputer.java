@@ -1,13 +1,13 @@
 package com.excilys.computerdatabase.servlets;
 
+import com.excilys.computerdatabase.mapping.dao.ComputerDaoToDto;
+import com.excilys.computerdatabase.mapping.dto.ComputerDtoToDao;
+import com.excilys.computerdatabase.mapping.request.ComputerRequestMapper;
+import com.excilys.computerdatabase.mapping.request.PageRequestMapper;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.pagination.Pagination;
 import com.excilys.computerdatabase.persistence.dto.ComputerDto;
-import com.excilys.computerdatabase.persistence.mapping.dao.ComputerDaoToDto;
-import com.excilys.computerdatabase.persistence.mapping.dto.ComputerDtoToDao;
-import com.excilys.computerdatabase.persistence.mapping.request.ComputerRequestMapper;
-import com.excilys.computerdatabase.persistence.mapping.request.PageRequestMapper;
 import com.excilys.computerdatabase.service.IService;
 import com.excilys.computerdatabase.service.impl.ComputerServiceImpl;
 import com.excilys.computerdatabase.validation.ComputerValidator;
