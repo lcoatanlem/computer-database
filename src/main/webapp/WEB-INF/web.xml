@@ -4,59 +4,19 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
          http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	version="3.1">
-	
-	<!-- Spring context and listener -->
-	<context-param>
-    <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:applicationContext.xml</param-value>
-	</context-param>
-	<listener>
-   		<listener-class>
-        	org.springframework.web.context.ContextLoaderListener
-   	</listener-class>
-	</listener> 
 
-	<!-- Servlets -->
+	<!-- Dispatcher Servlet -->
 	<servlet>
-		<servlet-name>Dashboard</servlet-name>
-		<servlet-class>com.excilys.computerdatabase.servlets.Dashboard</servlet-class>
+		<servlet-name>Dispatcher</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
 	</servlet>
 
-	<servlet>
-		<servlet-name>AddComputer</servlet-name>
-		<servlet-class>com.excilys.computerdatabase.servlets.AddComputer</servlet-class>
-	</servlet>
-
-	<servlet>
-		<servlet-name>EditComputer</servlet-name>
-		<servlet-class>com.excilys.computerdatabase.servlets.EditComputer</servlet-class>
-	</servlet>
-	
-	<servlet>
-		<servlet-name>DeleteComputer</servlet-name>
-		<servlet-class>com.excilys.computerdatabase.servlets.DeleteComputer</servlet-class>
-	</servlet>
-
-	<!-- Servlets mapping -->
+	<!-- Servlet mapping -->
 
 	<servlet-mapping>
-		<servlet-name>Dashboard</servlet-name>
-		<url-pattern>/dashboard</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>AddComputer</servlet-name>
-		<url-pattern>/addcomputer</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>EditComputer</servlet-name>
-		<url-pattern>/editcomputer</url-pattern>
-	</servlet-mapping>
-	
-	<servlet-mapping>
-		<servlet-name>DeleteComputer</servlet-name>
-		<url-pattern>/deletecomputer</url-pattern>
+		<servlet-name>Dispatcher</servlet-name>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
 	<!-- Error pages -->

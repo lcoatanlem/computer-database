@@ -9,7 +9,6 @@ import com.jolbox.bonecp.BoneCPDataSource;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -109,14 +108,12 @@ public class ComputerDaoImpl implements Dao<Computer> {
     }
     List<Object> args = new ArrayList<>();
     args.add(id);
-    try {
-      return jdbcTemplateObject.queryForObject(QueryMapper.toComputerRead(), args.toArray(),
+    List<Computer> list = jdbcTemplateObject.query(QueryMapper.toComputerRead(), args.toArray(),
           computerRowMapper);
-    } catch (EmptyResultDataAccessException exn) {
-      // I think this is pretty hard, but it is still the better way to catch
-      // empty result. Other ways : check if list is empty, make a request
-      // computing the number of entries.
+    if (list.isEmpty()) {
       return null;
+    } else {
+      return list.get(0);
     }
   }
 
