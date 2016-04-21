@@ -15,11 +15,15 @@ import com.excilys.computerdatabase.validation.ComputerValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -45,6 +49,16 @@ public class EditComputer extends HttpServlet {
   @Autowired
   @Qualifier("companyService")
   private IService<Company> companyService;
+  
+  @Override
+  public void init(ServletConfig config) throws ServletException {
+
+    super.init(config);
+    WebApplicationContext springContext = WebApplicationContextUtils
+        .getWebApplicationContext(config.getServletContext());
+    AutowireCapableBeanFactory beanFactory = springContext.getAutowireCapableBeanFactory();
+    beanFactory.autowireBean(this);
+  }
 
   /**
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse.

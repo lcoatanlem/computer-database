@@ -35,6 +35,14 @@ public class Query {
   private Order discontinuedOrder;
   private Order companyOrder;
 
+  public Order getNameOrder() {
+    return nameOrder;
+  }
+
+  public void setNameOrder(Order nameOrder) {
+    this.nameOrder = nameOrder;
+  }
+
   public int getOffset() {
     return offset;
   }
@@ -62,14 +70,6 @@ public class Query {
     if (filter != null && !filter.isEmpty()) {
       this.filter = "%" + filter + "%";
     }
-  }
-
-  public Order getOrderName() {
-    return nameOrder;
-  }
-
-  public void setOrderName(Order nameOrder) {
-    this.nameOrder = nameOrder;
   }
 
   public Order getIntroducedOrder() {

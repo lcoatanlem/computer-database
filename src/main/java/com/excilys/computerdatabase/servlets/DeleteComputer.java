@@ -6,9 +6,13 @@ import com.excilys.computerdatabase.service.IService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import java.io.IOException;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +25,16 @@ public class DeleteComputer extends HttpServlet {
   @Autowired
   @Qualifier("computerService")
   private static IService<Computer> computerService;
+  
+  @Override
+  public void init(ServletConfig config) throws ServletException {
+
+    super.init(config);
+    WebApplicationContext springContext = WebApplicationContextUtils
+        .getWebApplicationContext(config.getServletContext());
+    AutowireCapableBeanFactory beanFactory = springContext.getAutowireCapableBeanFactory();
+    beanFactory.autowireBean(this);
+  }
 
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {

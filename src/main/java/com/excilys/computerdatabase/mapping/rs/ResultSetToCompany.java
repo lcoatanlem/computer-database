@@ -14,10 +14,6 @@ import java.sql.SQLException;
  *
  */
 public class ResultSetToCompany {
-  private static ResultSetToCompany INSTANCE = new ResultSetToCompany();
-  
-  private ResultSetToCompany() {}
-  
   /**
    * @param rs
    *          the iteration of the ResultSet we want to map.
@@ -32,9 +28,5 @@ public class ResultSetToCompany {
       throw new RuntimeException(exn);
     }
     return (cpnB.build());
-  }
-
-  public static ResultSetToCompany getInstance() {
-    return INSTANCE;
   }
 }

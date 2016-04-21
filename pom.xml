@@ -103,6 +103,12 @@
 			<artifactId>spring-tx</artifactId>
 			<version>${springVersion}</version>
 		</dependency>
+		<!-- Jdbc (used for JdbcTemplate) -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${springVersion}</version>
+		</dependency>
 
 		<!-- Logging -->
 		<!-- DBunit needs it -->

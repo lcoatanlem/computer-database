@@ -22,13 +22,13 @@ public class QueryMapper {
       }
     }
     // Order
-    if (query.getOrderName() != null || query.getIntroducedOrder() != null
+    if (query.getNameOrder() != null || query.getIntroducedOrder() != null
         || query.getDiscontinuedOrder() != null || query.getCompanyOrder() != null) {
       // There is at least one order
       queryBuilder.append(" ORDER BY ");
       // for Computer name ordering
-      if (query.getOrderName() != null) {
-        queryBuilder.append("computer.name " + query.getOrderName());
+      if (query.getNameOrder() != null) {
+        queryBuilder.append("computer.name " + query.getNameOrder());
       }
       // for introduced date ordering
       if (query.getIntroducedOrder() != null
@@ -94,5 +94,12 @@ public class QueryMapper {
    */
   public static String toComputerCount(Query query) {
     return "SELECT COUNT(*) FROM (" + toComputerFindAll(query) + ") AS T";
+  }
+  
+  /**
+   * Mapping read a company.
+   */
+  public static String toCompanyRead() {
+    return "SELECT * FROM company WHERE id = ?";
   }
 }

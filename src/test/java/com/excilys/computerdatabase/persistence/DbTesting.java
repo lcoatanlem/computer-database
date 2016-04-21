@@ -1,8 +1,5 @@
 package com.excilys.computerdatabase.persistence;
 
-import com.excilys.computerdatabase.persistence.ConnectionJdbc;
-
-
 /**
  * This class permits to initiate, and populate the database for each test class
  * on persistence.
@@ -11,5 +8,5 @@ import com.excilys.computerdatabase.persistence.ConnectionJdbc;
  *
  */
 public class DbTesting {
-  protected static final ConnectionJdbc CONNJDBCTEST = ConnectionJdbc.getInstance();
+  //protected static final ConnectionJdbc CONNJDBCTEST = ConnectionJdbc.getInstance();
 }
