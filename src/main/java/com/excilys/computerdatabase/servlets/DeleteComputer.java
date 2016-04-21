@@ -7,6 +7,7 @@ import com.excilys.computerdatabase.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -18,14 +19,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Controller
 public class DeleteComputer extends HttpServlet {
 
   private static final long serialVersionUID = 1L;
 
   @Autowired
   @Qualifier("computerService")
-  private static IService<Computer> computerService;
-  
+  private IService<Computer> computerService;
+
   @Override
   public void init(ServletConfig config) throws ServletException {
 
@@ -38,6 +40,7 @@ public class DeleteComputer extends HttpServlet {
 
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
+    System.out.println(computerService);
     // Delete the computers
     PageRequestMapper.delete(request, computerService);
     // Call for dashboard to get the view again

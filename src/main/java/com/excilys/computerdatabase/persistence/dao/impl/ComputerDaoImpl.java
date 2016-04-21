@@ -1,23 +1,19 @@
 package com.excilys.computerdatabase.persistence.dao.impl;
 
-import com.excilys.computerdatabase.exception.DaoException;
+import com.excilys.computerdatabase.mapping.dao.ComputerRowMapper;
 import com.excilys.computerdatabase.mapping.query.Query;
 import com.excilys.computerdatabase.mapping.query.QueryMapper;
-import com.excilys.computerdatabase.mapping.rs.ResultSetToComputer;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.persistence.dao.Dao;
 import com.jolbox.bonecp.BoneCPDataSource;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
 import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,189 +22,146 @@ import java.util.List;
  * 
  * @author lcoatanlem
  */
-@Repository ("computerDao")
+@Repository("computerDao")
 public class ComputerDaoImpl implements Dao<Computer> {
 
+  private JdbcTemplate jdbcTemplateObject;
+
   @Autowired
-  private BoneCPDataSource dataSource;
+  private ComputerRowMapper computerRowMapper;
+
+  @Autowired
+  public void setDataSource(BoneCPDataSource dataSource) {
+    this.jdbcTemplateObject = new JdbcTemplate(dataSource);
+  }
+
   private static final Logger LOGGER = Logger.getLogger(ComputerDaoImpl.class);
-  
-  @Autowired
-  private ResultSetToComputer rsToComputer;
 
   @Override
   public int count(Query query) {
-    int size = 0;
-    try (Connection conn = dataSource.getConnection()) {
-      PreparedStatement stmt = conn.prepareStatement(QueryMapper.toComputerCount(query));
-      // There is a filter
-      if (query.getFilter() != null) {
-        // 1,2,3,4 arguments of the PreparedStatement for filter
-        stmt.setString(1, query.getFilter());
-        stmt.setString(2, query.getFilter());
-        stmt.setString(3, query.getFilter());
-        stmt.setString(4, query.getFilter());
-        // Limit
-        if (query.getLimit() > 0) {
-          stmt.setInt(5, query.getLimit());
-          // Offset can exist iff Limit exists
-          if (query.getOffset() > 0) {
-            stmt.setInt(6, query.getOffset());
-          }
-        }
-      } else {
-        // Limit
-        if (query.getLimit() > 0) {
-          stmt.setInt(1, query.getLimit());
-          // Offset can exist iff Limit exists
-          if (query.getOffset() > 0) {
-            stmt.setInt(2, query.getOffset());
-          }
+    List<Object> args = new ArrayList<>();
+    // There is a filter
+    if (query.getFilter() != null) {
+      // 1,2,3,4 arguments of the PreparedStatement for filter
+      args.add(query.getFilter());
+      args.add(query.getFilter());
+      args.add(query.getFilter());
+      args.add(query.getFilter());
+      // Limit
+      if (query.getLimit() > 0) {
+        args.add(query.getLimit());
+        // Offset can exist iff Limit exists
+        if (query.getOffset() > 0) {
+          args.add(query.getOffset());
         }
       }
-      ResultSet rs = stmt.executeQuery();
-      if (rs.next()) {
-        size = rs.getInt(1);
+    } else {
+      // Limit
+      if (query.getLimit() > 0) {
+        args.add(query.getLimit());
+        // Offset can exist iff Limit exists
+        if (query.getOffset() > 0) {
+          args.add(query.getOffset());
+        }
       }
-      stmt.close();
-    } catch (SQLException exn) {
-      // Database access error / closed connection / closed statement
-      // returning something else than a ResultSet / timeout have been reached
-      LOGGER.debug("DEBUG : " + exn.toString());
-      throw new DaoException(exn);
     }
-    return size;
+    return jdbcTemplateObject.queryForObject(QueryMapper.toComputerCount(query), Integer.class,
+        args.toArray());
   }
 
   @Override
   public List<Computer> findAll(Query query) {
-    List<Computer> list = new ArrayList<Computer>();
-    try (Connection conn = dataSource.getConnection()) {
-      PreparedStatement stmt = conn.prepareStatement(QueryMapper.toComputerFindAll(query));
-      // There is a filter
-      if (query.getFilter() != null) {
-        // 1,2,3,4 arguments of the PreparedStatement for filter
-        stmt.setString(1, query.getFilter());
-        stmt.setString(2, query.getFilter());
-        stmt.setString(3, query.getFilter());
-        stmt.setString(4, query.getFilter());
-        // Limit
-        if (query.getLimit() > 0) {
-          stmt.setInt(5, query.getLimit());
-          // Offset can exist iff Limit exists
-          if (query.getOffset() > 0) {
-            stmt.setInt(6, query.getOffset());
-          }
-        }
-      } else {
-        // Limit
-        if (query.getLimit() > 0) {
-          stmt.setInt(1, query.getLimit());
-          // Offset can exist iff Limit exists
-          if (query.getOffset() > 0) {
-            stmt.setInt(2, query.getOffset());
-          }
+    List<Object> args = new ArrayList<>();
+    // There is a filter
+    if (query.getFilter() != null) {
+      // 1,2,3,4 arguments of the PreparedStatement for filter
+      args.add(query.getFilter());
+      args.add(query.getFilter());
+      args.add(query.getFilter());
+      args.add(query.getFilter());
+      // Limit
+      if (query.getLimit() > 0) {
+        args.add(query.getLimit());
+        // Offset can exist iff Limit exists
+        if (query.getOffset() > 0) {
+          args.add(query.getOffset());
         }
       }
-      ResultSet rs = stmt.executeQuery();
-      while (rs.next()) {
-        list.add(rsToComputer.map(rs));
+    } else {
+      // Limit
+      if (query.getLimit() > 0) {
+        args.add(query.getLimit());
+        // Offset can exist iff Limit exists
+        if (query.getOffset() > 0) {
+          args.add(query.getOffset());
+        }
       }
-      stmt.close();
-    } catch (SQLException exn) {
-      // Database access error / closed connection / closed statement
-      // returning something else than a ResultSet / timeout have been reached
-      LOGGER.debug("DEBUG : " + exn.toString());
-      throw new DaoException(exn);
     }
-    return list;
+    return jdbcTemplateObject.query(QueryMapper.toComputerFindAll(query), args.toArray(),
+        computerRowMapper);
   }
 
   @Override
   public Computer read(Long id) {
-    Computer comp = null;
-    try (Connection conn = dataSource.getConnection()) {
-      PreparedStatement stmt = conn.prepareStatement("SELECT * FROM computer WHERE id = ?");
-      stmt.setLong(1, id);
-      ResultSet rs = stmt.executeQuery();
-      if (rs.next()) {
-        comp = (rsToComputer.map(rs));
-      }
-      stmt.close();
-    } catch (SQLException exn) {
-      // Database access error / closed connection / closed statement
-      // returning something else than a ResultSet / timeout have been reached
-      LOGGER.debug("DEBUG : " + exn.toString());
-      throw new DaoException(exn);
+    if (id == null) {
+      LOGGER.debug("Trying to read a computer with a null id is forbidden.");
+      throw new IllegalArgumentException("Id cannot be null.");
     }
-    return comp;
+    List<Object> args = new ArrayList<>();
+    args.add(id);
+    try {
+      return jdbcTemplateObject.queryForObject(QueryMapper.toComputerRead(), args.toArray(),
+          computerRowMapper);
+    } catch (EmptyResultDataAccessException exn) {
+      // I think this is pretty hard, but it is still the better way to catch
+      // empty result. Other ways : check if list is empty, make a request
+      // computing the number of entries.
+      return null;
+    }
   }
 
   @Override
-  public void create(Computer cpu) {
-    try (Connection conn = dataSource.getConnection()) {
-      PreparedStatement stmt = conn.prepareStatement(
-          "INSERT INTO computer(name,introduced,discontinued,company_id) VALUES (?,?,?,?)");
-      // Fill the query
-      stmt.setString(1, cpu.getName());
-      stmt.setDate(2, (cpu.getIntroduced() == null ? null : Date.valueOf(cpu.getIntroduced())));
-      stmt.setDate(3, (cpu.getDiscontinued() == null ? null : Date.valueOf(cpu.getDiscontinued())));
-      Long idCpn = (cpu.getManufacturer() == null ? null : cpu.getManufacturer().getId());
-      if (idCpn == null) {
-        stmt.setNull(4, Types.NULL);
-      } else {
-        stmt.setLong(4, idCpn);
-      }
-      stmt.executeUpdate();
-      stmt.close();
-    } catch (SQLException exn) {
-      LOGGER.debug("DEBUG : " + exn.toString());
-      // Database access error / closed connection / closed statement
-      // returning something else than a ResultSet / timeout have been reached
-      throw new DaoException(exn);
+  public void create(Computer computer) {
+    List<Object> args = new ArrayList<>();
+    // Fill the query
+    args.add(computer.getName());
+    args.add(computer.getIntroduced() == null ? null : Date.valueOf(computer.getIntroduced()));
+    args.add(computer.getDiscontinued() == null ? null : Date.valueOf(computer.getDiscontinued()));
+    Long idCompany = (computer.getManufacturer() == null ? null
+        : computer.getManufacturer().getId());
+    if (idCompany == null) {
+      args.add("null");
+    } else {
+      args.add(idCompany);
     }
+    jdbcTemplateObject.update(QueryMapper.toComputerCreate(), args.toArray());
   }
 
   @Override
   public void update(Computer cpu) {
-    try (Connection conn = dataSource.getConnection()) {
-      PreparedStatement stmt = conn
-          .prepareStatement("UPDATE computer SET name = ?, introduced = ?, "
-              + "discontinued = ?, company_id = ? WHERE id = ?");
-      // Fill the query
-      stmt.setString(1, cpu.getName());
-      stmt.setDate(2, (cpu.getIntroduced() == null ? null : Date.valueOf(cpu.getIntroduced())));
-      stmt.setDate(3, (cpu.getDiscontinued() == null ? null : Date.valueOf(cpu.getDiscontinued())));
-      Long idCpn = (cpu.getManufacturer() == null ? null : cpu.getManufacturer().getId());
-      if (idCpn == null) {
-        stmt.setNull(4, Types.NULL);
-      } else {
-        stmt.setLong(4, idCpn);
-      }
-      stmt.setLong(5, cpu.getId());
-      stmt.executeUpdate();
-      stmt.close();
-    } catch (SQLException exn) {
-      // Database access error / closed connection / closed statement
-      // returning something else than a ResultSet / timeout have been reached
-      LOGGER.debug("DEBUG : " + exn.toString());
-      throw new DaoException(exn);
+    List<Object> args = new ArrayList<>();
+    // Fill the query
+    args.add(cpu.getName());
+    args.add(cpu.getIntroduced() == null ? null : Date.valueOf(cpu.getIntroduced()));
+    args.add(cpu.getDiscontinued() == null ? null : Date.valueOf(cpu.getDiscontinued()));
+    Long idCpn = (cpu.getManufacturer() == null ? null : cpu.getManufacturer().getId());
+    if (idCpn == null) {
+      args.add("null");
+    } else {
+      args.add(idCpn);
     }
+    args.add(cpu.getId());
+    jdbcTemplateObject.update(QueryMapper.toComputerUpdate(), args.toArray());
   }
 
   @Override
   public void delete(Long id) {
-    try (Connection conn = dataSource.getConnection()) {
-      PreparedStatement stmt = conn.prepareStatement("DELETE FROM computer WHERE id = ?");
-      read(id);
-      stmt.setLong(1, id);
-      stmt.executeUpdate();
-      stmt.close();
-    } catch (SQLException exn) {
-      // Database access error / closed connection / closed statement
-      // returning something else than a ResultSet / timeout have been reached
-      LOGGER.debug("DEBUG : " + exn.toString());
-      throw new DaoException(exn);
+    if (id == null) {
+      LOGGER.debug("Trying to delete a computer with a null id is forbidden.");
+      throw new IllegalArgumentException("Id cannot be null.");
     }
+    List<Object> args = new ArrayList<>();
+    args.add(id);
+    jdbcTemplateObject.update(QueryMapper.toComputerDelete(), args.toArray());
   }
 }

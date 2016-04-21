@@ -1,8 +1,8 @@
 package com.excilys.computerdatabase.persistence.dao.impl;
 
+import com.excilys.computerdatabase.mapping.dao.CompanyRowMapper;
 import com.excilys.computerdatabase.mapping.query.Query;
 import com.excilys.computerdatabase.mapping.query.QueryMapper;
-import com.excilys.computerdatabase.mapping.request.CompanyRowMapper;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.persistence.dao.Dao;
 import com.jolbox.bonecp.BoneCPDataSource;
@@ -26,6 +26,9 @@ import java.util.List;
 public class CompanyDaoImpl implements Dao<Company> {
 
   private JdbcTemplate jdbcTemplateObject;
+
+  @Autowired
+  private CompanyRowMapper companyRowMapper;
 
   @Autowired
   public void setDataSource(BoneCPDataSource dataSource) {
@@ -61,7 +64,7 @@ public class CompanyDaoImpl implements Dao<Company> {
       }
     }
     return jdbcTemplateObject.query(QueryMapper.toCompanyFindAll(query), args.toArray(),
-        new CompanyRowMapper());
+        companyRowMapper);
   }
 
   @Override
@@ -74,13 +77,12 @@ public class CompanyDaoImpl implements Dao<Company> {
     args.add(id);
     try {
       return jdbcTemplateObject.queryForObject(QueryMapper.toCompanyRead(), args.toArray(),
-          new CompanyRowMapper());
+          companyRowMapper);
     } catch (EmptyResultDataAccessException exn) {
       // I think this is pretty hard, but it is still the better way to catch
       // empty result. Other ways : check if list is empty, make a request
       // computing the number of entries.
       return null;
     }
-
   }
 }

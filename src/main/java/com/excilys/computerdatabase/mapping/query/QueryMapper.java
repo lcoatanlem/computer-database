@@ -95,11 +95,40 @@ public class QueryMapper {
   public static String toComputerCount(Query query) {
     return "SELECT COUNT(*) FROM (" + toComputerFindAll(query) + ") AS T";
   }
-  
+
   /**
    * Mapping read a company.
    */
   public static String toCompanyRead() {
     return "SELECT * FROM company WHERE id = ?";
+  }
+
+  /**
+   * Mapping read a computer.
+   */
+  public static String toComputerRead() {
+    return "SELECT * FROM computer WHERE id = ?";
+  }
+
+  /**
+   * Mapping create a computer.
+   */
+  public static String toComputerCreate() {
+    return "INSERT INTO computer(name,introduced,discontinued,company_id) VALUES (?,?,?,?)";
+  }
+
+  /**
+   * Mapping update a computer.
+   */
+  public static String toComputerUpdate() {
+    return "UPDATE computer SET name = ?, introduced = ?, "
+        + "discontinued = ?, company_id = ? WHERE id = ?";
+  }
+  
+  /**
+   * Mapping delete a computer.
+   */
+  public static String toComputerDelete() {
+    return "DELETE FROM computer WHERE id = ?";
   }
 }

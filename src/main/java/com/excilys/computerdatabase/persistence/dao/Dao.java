@@ -2,6 +2,7 @@ package com.excilys.computerdatabase.persistence.dao;
 
 import com.excilys.computerdatabase.exception.IllegalMethodException;
 import com.excilys.computerdatabase.mapping.query.Query;
+import com.jolbox.bonecp.BoneCPDataSource;
 
 import java.util.List;
 
@@ -14,6 +15,14 @@ import java.util.List;
  *          Computer || Company
  */
 public interface Dao<T> {
+
+  /**
+   * Permits to set the DataSource to the Dao (injection).
+   */
+  default void setDataSource(BoneCPDataSource dataSource) {
+    throw new IllegalMethodException();
+  }
+
   /**
    * Method to return the elements from a Query into a List.
    * 

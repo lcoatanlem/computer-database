@@ -1,58 +1,49 @@
-package com.excilys.computerdatabase.mapping.rs;
+package com.excilys.computerdatabase.mapping.dao;
 
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.model.Computer.Builder;
-import com.excilys.computerdatabase.persistence.dao.impl.CompanyDaoImpl;
+import com.excilys.computerdatabase.persistence.dao.Dao;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-/**
- * Class to map a result set with a Computer.
- * 
- * @author lcoatanlem
- *
- */
 @Component
-public class ResultSetToComputer {
-  
-  Logger log = Logger.getLogger(ResultSetToComputer.class);
+public class ComputerRowMapper implements RowMapper<Computer> {
+
+  private static final Logger LOGGER = Logger.getLogger(ComputerRowMapper.class);
 
   @Autowired
   @Qualifier ("companyDao")
-  private CompanyDaoImpl companyDao;
-
+  private Dao<Company> companyDao;
+  
   /**
-   * Method to map a result set with a Computer.
-   * 
-   * @param rs
-   *          the ResultSet to map to a Computer
-   * @return Computer
+   * Mapping a row from a ResultSet to a Computer.
    */
-
-  public Computer map(ResultSet rs) {
+  public Computer mapRow(ResultSet resultSet, int rowNum) throws SQLException {
     Builder cpuB;
     try {
       // The name
-      cpuB = Computer.builder(rs.getString("name"));
+      cpuB = Computer.builder(resultSet.getString("name"));
       // The id
-      cpuB.id(rs.getLong("id"));
+      cpuB.id(resultSet.getLong("id"));
       // The time it was introduced
-      LocalDate introduced = (rs.getDate("introduced") == null) ? null
-          : rs.getDate("introduced").toLocalDate();
+      LocalDate introduced = (resultSet.getDate("introduced") == null) ? null
+          : resultSet.getDate("introduced").toLocalDate();
       cpuB.introduced(introduced);
       // The time it was discontinued
-      LocalDate discontinued = (rs.getDate("discontinued") == null) ? null
-          : rs.getDate("discontinued").toLocalDate();
+      LocalDate discontinued = (resultSet.getDate("discontinued") == null) ? null
+          : resultSet.getDate("discontinued").toLocalDate();
       cpuB.discontinued(discontinued);
       // The manufacturer
-      Long cpnId = rs.getLong("company_id");
+      Long cpnId = resultSet.getLong("company_id");
       Company manufacturer = null;
       if (cpnId != null) {
         // We retrieve the company from the db
@@ -61,7 +52,7 @@ public class ResultSetToComputer {
       cpuB.manufacturer(manufacturer);
     } catch (SQLException exn) {
       // Problem with the ResultSet
-      log.error("FATAL : " + exn);
+      LOGGER.debug("DEBUG : " + exn);
       throw new RuntimeException(exn);
     }
     return cpuB.build();

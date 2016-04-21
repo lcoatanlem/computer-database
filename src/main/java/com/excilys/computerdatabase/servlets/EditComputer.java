@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -32,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class EditComputer.
  */
+@Controller
 public class EditComputer extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
