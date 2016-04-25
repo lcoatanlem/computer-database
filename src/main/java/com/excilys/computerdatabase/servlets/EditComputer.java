@@ -15,27 +15,22 @@ import com.excilys.computerdatabase.validation.ComputerValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Servlet implementation class EditComputer.
  */
 @Controller
-public class EditComputer extends HttpServlet {
-  private static final long serialVersionUID = 1L;
+@RequestMapping("/editcomputer")
+public class EditComputer {
 
   private Logger log = Logger.getLogger(EditComputer.class);
 
@@ -47,27 +42,16 @@ public class EditComputer extends HttpServlet {
   @Autowired
   @Qualifier("computerService")
   private IService<Computer> computerService;
-  
+
   @Autowired
   @Qualifier("companyService")
   private IService<Company> companyService;
-  
-  @Override
-  public void init(ServletConfig config) throws ServletException {
-
-    super.init(config);
-    WebApplicationContext springContext = WebApplicationContextUtils
-        .getWebApplicationContext(config.getServletContext());
-    AutowireCapableBeanFactory beanFactory = springContext.getAutowireCapableBeanFactory();
-    beanFactory.autowireBean(this);
-  }
 
   /**
-   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse.
-   *      response)
+   * doGet method.
    */
-  protected void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  @RequestMapping(method = RequestMethod.GET)
+  public String doGet(Model model, HttpServletRequest request) {
     // Get the page from the request
     Pagination page = PageRequestMapper.fromEdit(request, companyService);
     // Get the cpuDto from the request
@@ -77,19 +61,17 @@ public class EditComputer extends HttpServlet {
     // And map it to a cpuDto
     cpuDto = ComputerDaoToDto.getInstance().map(cpu);
     // Setting companies and cpuDto as attributes
-    request.setAttribute(ATTR_COMPANIES, page.getCpnList());
-    request.setAttribute(ATTR_CPUDTO, cpuDto);
+    model.addAttribute(ATTR_COMPANIES, page.getCpnList());
+    model.addAttribute(ATTR_CPUDTO, cpuDto);
     // Dispatching to the editcomputer's view
-    this.getServletContext().getRequestDispatcher("/WEB-INF/views/editComputer.jsp")
-        .forward(request, response);
+    return "editComputer";
   }
 
   /**
-   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse.
-   *      response)
+   * doPost method.
    */
-  protected void doPost(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  @RequestMapping(method = RequestMethod.POST)
+  public String doPost(Model model, HttpServletRequest request) {
     // We put all parameters into a ComputerDto
     ComputerDto cpuDto = ComputerRequestMapper.toDto(request,
         PageRequestMapper.fromEdit(request, companyService).getCpnList());
@@ -103,15 +85,13 @@ public class EditComputer extends HttpServlet {
       log.debug("There are errors, launched editComputer view again with errors.");
       request.setAttribute(ATTR_ERRORS, errors);
       request.setAttribute(ATTR_CPUDTO, cpuDto);
-      this.getServletContext().getRequestDispatcher("/WEB-INF/views/editComputer.jsp")
-          .forward(request, response);
-      return;
+      return "editComputer";
     }
     // Everything's ok
     // Externalisation de ComputerService.getInstance()
     ((ComputerServiceImpl) computerService)
         .updateComputer(ComputerDtoToDao.getInstance().map(cpuDto));
     log.info("Updated computer : " + cpuDto.getName() + ".");
-    response.sendRedirect("/computer-database/dashboard");
+    return "redirect:dashboard";
   }
 }

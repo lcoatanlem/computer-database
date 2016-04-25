@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Servlet implementation class Dashboard.
+ * Controller implementation class Dashboard.
  */
 @Controller
 @RequestMapping("/dashboard")

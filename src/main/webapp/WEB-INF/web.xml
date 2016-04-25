@@ -18,8 +18,22 @@
 		<servlet-name>Dispatcher</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	
+	<!-- Other Contexts -->
+	<context-param>
+    	<param-name>contextConfigLocation</param-name>
+    	<param-value>
+        	classpath:applicationContext.xml
+    	</param-value>
+	</context-param>
+	<!-- Context Loader Listener --> 
+	<listener>
+    	<listener-class>
+        	org.springframework.web.context.ContextLoaderListener
+    	</listener-class>
+	</listener>
 
-	<!-- Error pages -->
+	<!-- Error pages TODO : add to dispatcher context-->
 	<error-page>
 		<error-code>403</error-code>
 		<location>/WEB-INF/views/403.html</location>
