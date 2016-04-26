@@ -24,9 +24,14 @@
 		<property name="minConnectionsPerPartition" value="${bonecp.min-active}" />
 		<property name="partitionCount" value="${bonecp.partitions}" />
 	</bean>
-	
+
 	<bean id="propertySourcesPlaceholderConfigurer"
 		class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+	</bean>
+
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
 	</bean>
 
 </beans>

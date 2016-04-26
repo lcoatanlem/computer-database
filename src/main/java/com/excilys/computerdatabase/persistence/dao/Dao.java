@@ -54,4 +54,5 @@ public interface Dao<T> {
   default void delete(Long id) {
     throw new IllegalMethodException();
   }
+  
 }

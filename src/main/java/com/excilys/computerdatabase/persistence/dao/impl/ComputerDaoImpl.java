@@ -161,4 +161,14 @@ public class ComputerDaoImpl implements Dao<Computer> {
     args.add(id);
     jdbcTemplateObject.update(QueryMapper.toComputerDelete(), args.toArray());
   }
+  
+  /**
+   * Method to delete computer with their company id.
+   */
+  public void deleteByCompany(Long id) {
+    List<Object> args = new ArrayList<>();
+    // Fill the query
+    args.add(id);
+    jdbcTemplateObject.update(QueryMapper.toComputerDeleteByCompany(), args.toArray());
+  }
 }

@@ -2,6 +2,7 @@ package com.excilys.computerdatabase.service.impl;
 
 import com.excilys.computerdatabase.mapping.query.Query;
 import com.excilys.computerdatabase.model.Company;
+import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.persistence.dao.Dao;
 import com.excilys.computerdatabase.service.IService;
 
@@ -11,13 +12,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service ("companyService")
+@Service("companyService")
 public class CompanyServiceImpl implements IService<Company> {
-  
+
   @Autowired
-  @Qualifier ("companyDao")
+  @Qualifier("companyDao")
   private Dao<Company> companyDao;
 
+  @Autowired
+  @Qualifier("computerService")
+  private IService<Computer> computerService;
+  
   /**
    * Method to list all companies. To paginate, it starts with an index and a
    * number of instances we want.
@@ -33,9 +38,8 @@ public class CompanyServiceImpl implements IService<Company> {
     return companyDao.count(query);
   }
 
-  @Override
   public void delete(Long id) {
-    // TODO Not done yet.
-    throw new RuntimeException("TODO.");
+    ((ComputerServiceImpl) computerService).deleteByCompany(id);
+    companyDao.delete(id);
   }
 }
