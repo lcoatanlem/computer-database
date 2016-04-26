@@ -4,11 +4,14 @@ import com.excilys.computerdatabase.mapping.query.Query;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.persistence.dao.Dao;
+import com.excilys.computerdatabase.persistence.dao.impl.ComputerDaoImpl;
 import com.excilys.computerdatabase.service.IService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,9 +23,9 @@ public class CompanyServiceImpl implements IService<Company> {
   private Dao<Company> companyDao;
 
   @Autowired
-  @Qualifier("computerService")
-  private IService<Computer> computerService;
-  
+  @Qualifier("computerDao")
+  private Dao<Computer> computerDao;
+
   /**
    * Method to list all companies. To paginate, it starts with an index and a
    * number of instances we want.
@@ -38,8 +41,10 @@ public class CompanyServiceImpl implements IService<Company> {
     return companyDao.count(query);
   }
 
+  @Transactional(propagation = Propagation.REQUIRED)
   public void delete(Long id) {
-    ((ComputerServiceImpl) computerService).deleteByCompany(id);
-    companyDao.delete(id);
+    ((ComputerDaoImpl) computerDao).deleteByCompany(id);
+    companyDao.delete(id); // returns Runtime ("Not yet")
   }
+
 }

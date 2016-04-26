@@ -134,9 +134,8 @@ public class PageRequestMapper {
    */
   public static Pagination fromAdd(HttpServletRequest request, IService<Company> companyService) {
     // Uploading the companies' list
-    Query query = Query.builder().offset(0).build();
+    Query query = Query.builder().build();
     Pagination page = Pagination.builder().cpnList(companyService.list(query)).build();
-
     return page;
   }
 
@@ -149,7 +148,7 @@ public class PageRequestMapper {
    */
   public static Pagination fromEdit(HttpServletRequest request, IService<Company> companyService) {
     // Uploading the companies' list
-    Query query = Query.builder().offset(0).build();
+    Query query = Query.builder().build();
     Pagination page = Pagination.builder().cpnList(companyService.list(query)).build();
 
     return page;

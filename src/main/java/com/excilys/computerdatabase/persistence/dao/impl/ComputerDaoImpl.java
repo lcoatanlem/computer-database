@@ -5,7 +5,6 @@ import com.excilys.computerdatabase.mapping.query.Query;
 import com.excilys.computerdatabase.mapping.query.QueryMapper;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.persistence.dao.Dao;
-import com.jolbox.bonecp.BoneCPDataSource;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,15 +23,11 @@ import java.util.List;
 @Repository("computerDao")
 public class ComputerDaoImpl implements Dao<Computer> {
 
-  private JdbcTemplate jdbcTemplateObject;
+  @Autowired
+  private JdbcTemplate jdbcTemplate;
 
   @Autowired
   private ComputerRowMapper computerRowMapper;
-
-  @Autowired
-  public void setDataSource(BoneCPDataSource dataSource) {
-    this.jdbcTemplateObject = new JdbcTemplate(dataSource);
-  }
 
   private static final Logger LOGGER = Logger.getLogger(ComputerDaoImpl.class);
 
@@ -64,7 +59,7 @@ public class ComputerDaoImpl implements Dao<Computer> {
         }
       }
     }
-    return jdbcTemplateObject.queryForObject(QueryMapper.toComputerCount(query), Integer.class,
+    return jdbcTemplate.queryForObject(QueryMapper.toComputerCount(query), Integer.class,
         args.toArray());
   }
 
@@ -96,7 +91,7 @@ public class ComputerDaoImpl implements Dao<Computer> {
         }
       }
     }
-    return jdbcTemplateObject.query(QueryMapper.toComputerFindAll(query), args.toArray(),
+    return jdbcTemplate.query(QueryMapper.toComputerFindAll(query), args.toArray(),
         computerRowMapper);
   }
 
@@ -108,8 +103,8 @@ public class ComputerDaoImpl implements Dao<Computer> {
     }
     List<Object> args = new ArrayList<>();
     args.add(id);
-    List<Computer> list = jdbcTemplateObject.query(QueryMapper.toComputerRead(), args.toArray(),
-          computerRowMapper);
+    List<Computer> list = jdbcTemplate.query(QueryMapper.toComputerRead(), args.toArray(),
+        computerRowMapper);
     if (list.isEmpty()) {
       return null;
     } else {
@@ -124,31 +119,19 @@ public class ComputerDaoImpl implements Dao<Computer> {
     args.add(computer.getName());
     args.add(computer.getIntroduced() == null ? null : Date.valueOf(computer.getIntroduced()));
     args.add(computer.getDiscontinued() == null ? null : Date.valueOf(computer.getDiscontinued()));
-    Long idCompany = (computer.getManufacturer() == null ? null
-        : computer.getManufacturer().getId());
-    if (idCompany == null) {
-      args.add("null");
-    } else {
-      args.add(idCompany);
-    }
-    jdbcTemplateObject.update(QueryMapper.toComputerCreate(), args.toArray());
+    args.add(computer.getManufacturer() == null ? null : computer.getManufacturer().getId());
+    jdbcTemplate.update(QueryMapper.toComputerCreate(), args.toArray());
   }
 
   @Override
-  public void update(Computer cpu) {
+  public void update(Computer computer) {
     List<Object> args = new ArrayList<>();
     // Fill the query
-    args.add(cpu.getName());
-    args.add(cpu.getIntroduced() == null ? null : Date.valueOf(cpu.getIntroduced()));
-    args.add(cpu.getDiscontinued() == null ? null : Date.valueOf(cpu.getDiscontinued()));
-    Long idCpn = (cpu.getManufacturer() == null ? null : cpu.getManufacturer().getId());
-    if (idCpn == null) {
-      args.add("null");
-    } else {
-      args.add(idCpn);
-    }
-    args.add(cpu.getId());
-    jdbcTemplateObject.update(QueryMapper.toComputerUpdate(), args.toArray());
+    args.add(computer.getName());
+    args.add(computer.getIntroduced() == null ? null : Date.valueOf(computer.getIntroduced()));
+    args.add(computer.getDiscontinued() == null ? null : Date.valueOf(computer.getDiscontinued()));
+    args.add(computer.getManufacturer() == null ? null : computer.getManufacturer().getId());
+    jdbcTemplate.update(QueryMapper.toComputerUpdate(), args.toArray());
   }
 
   @Override
@@ -159,9 +142,9 @@ public class ComputerDaoImpl implements Dao<Computer> {
     }
     List<Object> args = new ArrayList<>();
     args.add(id);
-    jdbcTemplateObject.update(QueryMapper.toComputerDelete(), args.toArray());
+    jdbcTemplate.update(QueryMapper.toComputerDelete(), args.toArray());
   }
-  
+
   /**
    * Method to delete computer with their company id.
    */
@@ -169,6 +152,6 @@ public class ComputerDaoImpl implements Dao<Computer> {
     List<Object> args = new ArrayList<>();
     // Fill the query
     args.add(id);
-    jdbcTemplateObject.update(QueryMapper.toComputerDeleteByCompany(), args.toArray());
+    jdbcTemplate.update(QueryMapper.toComputerDeleteByCompany(), args.toArray());
   }
 }

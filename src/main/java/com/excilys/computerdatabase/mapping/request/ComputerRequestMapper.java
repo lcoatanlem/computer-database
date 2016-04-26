@@ -44,7 +44,15 @@ public class ComputerRequestMapper {
     Long idCpn = (idCpnReq == null || idCpnReq.trim().isEmpty() ? null
         : Long.parseLong(idCpnReq.trim()));
     // NameCpn
-    String nameCpn = (idCpn == null ? null : list.get(Integer.parseInt(idCpnReq.trim())).getName());
+    String nameCpn = null;
+    if (idCpn != null) {
+      for (Company company : list) {
+        if (company.getId() == idCpn) {
+          nameCpn = company.getName();
+          break;
+        }
+      }
+    }
 
     // Build a ComputerDto from each parameter
     return ComputerDto.builder().id(id).name(name).introduced(introduced).discontinued(discontinued)

@@ -65,8 +65,11 @@ public class AddComputer {
   @RequestMapping(method = RequestMethod.POST)
   public String doPost(Model model, HttpServletRequest request) {
     // We put all parameters into a ComputerDto
-    ComputerDto cpuDto = ComputerRequestMapper.toDto(request,
-        PageRequestMapper.fromAdd(request, companyService).getCpnList());
+    Pagination page = PageRequestMapper.fromAdd(request, companyService);
+    for (Company company : page.getCpnList()) {
+      System.out.println(company.getId() + " " + company.getName());
+    }
+    ComputerDto cpuDto = ComputerRequestMapper.toDto(request, page.getCpnList());
     // We create a Map of errors, to link errors with their cause
     Map<String, String> errors = new HashMap<>();
     // Validating the dto, if there is errors will be in errors map

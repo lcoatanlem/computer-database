@@ -4,7 +4,6 @@ import com.excilys.computerdatabase.mapping.query.Query;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.persistence.dao.Dao;
 import com.excilys.computerdatabase.persistence.dao.impl.CompanyDaoImpl;
-import com.excilys.computerdatabase.persistence.dao.impl.ComputerDaoImpl;
 import com.excilys.computerdatabase.service.IService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,9 +129,4 @@ public class ComputerServiceImpl implements IService<Computer> {
     // If everything's fine...
     computerDao.delete(id);
   }
-  
-  public void deleteByCompany(Long id) {
-    ((ComputerDaoImpl) computerDao).deleteByCompany(id);
-  }
-
 }

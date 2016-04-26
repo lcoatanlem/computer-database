@@ -11,10 +11,14 @@
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
 	<context:component-scan base-package="com.excilys.computerdatabase" />
+	
+	<import resource="classpath:applicationContext.xml" />
 
-
-	<!-- Ignore the css / fonts / js files -->
+	<!-- Mapping the css / fonts / js files -->
 	<mvc:resources mapping="/resources/**" location="/resources/" />
+	<!-- Mapping other views (will be deleted as soon as we have custom error 
+		pages) -->
+	<mvc:resources mapping="/WEB-INF/views/**" location="/WEB-INF/views/" />
 
 	<!-- Without this, that doesn't work -->
 	<bean

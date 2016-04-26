@@ -5,7 +5,6 @@ import com.excilys.computerdatabase.mapping.query.Query;
 import com.excilys.computerdatabase.mapping.query.QueryMapper;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.persistence.dao.Dao;
-import com.jolbox.bonecp.BoneCPDataSource;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,15 +23,11 @@ import java.util.List;
 @Repository("companyDao")
 public class CompanyDaoImpl implements Dao<Company> {
 
-  private JdbcTemplate jdbcTemplateObject;
+  @Autowired
+  private JdbcTemplate jdbcTemplate;
 
   @Autowired
   private CompanyRowMapper companyRowMapper;
-
-  @Autowired
-  public void setDataSource(BoneCPDataSource dataSource) {
-    this.jdbcTemplateObject = new JdbcTemplate(dataSource);
-  }
 
   private static final Logger LOGGER = Logger.getLogger(CompanyDaoImpl.class);
 
@@ -47,7 +42,7 @@ public class CompanyDaoImpl implements Dao<Company> {
         args.add(query.getOffset());
       }
     }
-    return jdbcTemplateObject.queryForObject(QueryMapper.toCompanyCount(query), Integer.class,
+    return jdbcTemplate.queryForObject(QueryMapper.toCompanyCount(query), Integer.class,
         args.toArray());
   }
 
@@ -62,7 +57,7 @@ public class CompanyDaoImpl implements Dao<Company> {
         args.add(query.getOffset());
       }
     }
-    return jdbcTemplateObject.query(QueryMapper.toCompanyFindAll(query), args.toArray(),
+    return jdbcTemplate.query(QueryMapper.toCompanyFindAll(query), args.toArray(),
         companyRowMapper);
   }
 
@@ -74,13 +69,20 @@ public class CompanyDaoImpl implements Dao<Company> {
     }
     List<Object> args = new ArrayList<>();
     args.add(id);
-    List<Company> list = jdbcTemplateObject.query(QueryMapper.toCompanyRead(), args.toArray(),
+    List<Company> list = jdbcTemplate.query(QueryMapper.toCompanyRead(), args.toArray(),
           companyRowMapper);
     if (list.isEmpty()) {
       return null;
     } else {
       return list.get(0);
     }
-
   }
+  
+  @Override
+  public void delete(Long id) {
+    List<Object> args = new ArrayList<>();
+    args.add(id);
+    jdbcTemplate.update(QueryMapper.toCompanyDelete(), args.toArray());
+  }
+
 }

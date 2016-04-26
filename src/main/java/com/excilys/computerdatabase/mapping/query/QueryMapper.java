@@ -138,4 +138,11 @@ public class QueryMapper {
   public static String toComputerDeleteByCompany() {
     return "DELETE FROM computer WHERE company_id = ?";
   }
+  
+  /**
+   * Mapping to delete a company.
+   */
+  public static String toCompanyDelete() {
+    return "DELETE FROM company WHERE id = ?";
+  }
 }
