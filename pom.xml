@@ -8,8 +8,8 @@
 	<artifactId>computer-database</artifactId>
 	<!-- Old used jar, war as soon as we got a webapp -->
 	<packaging>war</packaging>
-	<!-- version.sprint.bugfix-(SNAPSHOT = temporary build, TODO cf Maven doc) -->
-	<version>1.5.0</version>
+	<!-- version.sprint.bugfix -->
+	<version>1.6.0-SNAPSHOT</version>
 	<name>Computer Database Archetype</name>
 
 	<!-- Externalization of the versions numbers -->
@@ -33,6 +33,7 @@
 		<cargo-maven2-version>1.4.16</cargo-maven2-version>
 		<maven-war-plugin-version>2.4</maven-war-plugin-version>
 		<springVersion>4.2.5.RELEASE</springVersion>
+		<querydslVersion>0.5.4</querydslVersion>
 	</properties>
 
 	<dependencies>
