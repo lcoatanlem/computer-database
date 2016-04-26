@@ -1,4 +1,4 @@
-package com.excilys.computerdatabase.servlets;
+package com.excilys.computerdatabase.controllers;
 
 import com.excilys.computerdatabase.mapping.dto.ComputerDtoToDao;
 import com.excilys.computerdatabase.mapping.request.ComputerRequestMapper;

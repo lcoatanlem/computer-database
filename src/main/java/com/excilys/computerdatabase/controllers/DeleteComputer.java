@@ -1,4 +1,4 @@
-package com.excilys.computerdatabase.servlets;
+package com.excilys.computerdatabase.controllers;
 
 import com.excilys.computerdatabase.mapping.request.PageRequestMapper;
 import com.excilys.computerdatabase.model.Computer;
