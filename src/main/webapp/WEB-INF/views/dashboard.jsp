@@ -11,9 +11,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
 <!-- Bootstrap -->
-<link href="resources/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="resources/css/font-awesome.css" rel="stylesheet" media="screen">
-<link href="resources/css/main.css" rel="stylesheet" media="screen">
+<link href="/computer-database/resources/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="/computer-database/resources/css/font-awesome.css" rel="stylesheet" media="screen">
+<link href="/computer-database/resources/css/main.css" rel="stylesheet" media="screen">
 </head>
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
@@ -99,9 +99,9 @@
 			<mylib:pagination page="${ page }"></mylib:pagination>
 		</div>
 	</footer>
-	<script src="resources/js/jquery.min.js"></script>
-	<script src="resources/js/bootstrap.min.js"></script>
-	<script src="resources/js/dashboard.js"></script>
+	<script src="/computer-database/resources/js/jquery.min.js"></script>
+	<script src="/computer-database/resources/js/bootstrap.min.js"></script>
+	<script src="/computer-database/resources/js/dashboard.js"></script>
 
 </body>
 </html>
