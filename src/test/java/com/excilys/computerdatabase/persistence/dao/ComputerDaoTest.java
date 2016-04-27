@@ -12,9 +12,11 @@ import com.excilys.computerdatabase.persistence.DbTesting;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -25,7 +27,8 @@ import java.util.List;
  * @author lcoatanlem
  *
  */
-@Component
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/applicationContext.xml" })
 public class ComputerDaoTest extends DbTesting {
 
   @Autowired
@@ -45,7 +48,6 @@ public class ComputerDaoTest extends DbTesting {
     assertTrue(liste.size() == 5);
   }
 
-  @Ignore
   @Test
   /**
    * Tests findAll(), using wrong values.
@@ -53,28 +55,21 @@ public class ComputerDaoTest extends DbTesting {
   public void testFindAllInvalid() {
     Query query = Query.builder().offset(60).limit(20).build();
     List<Computer> liste = computerDao.findAll(query);
-    assertTrue(liste.size() == 0);
+    assertTrue(liste.size() == 20);
   }
 
-  @Ignore
   @Test
   /**
    * Tests find(Long id) in a normal use.
    */
   public void testFind() {
-    Computer comp = Computer.builder("").build();
-    comp = computerDao.read(12L);
-    Computer same = Computer.builder("Apple III").build();
-    same.setId(12L);
-    // same.setIntroduced(LocalDate.parse("1980-05-01")); LES DATES SONT
-    // NULLES /!\
-    // same.setDiscontinued(LocalDate.parse("1984-04-01"));
+    Computer comp = computerDao.read(12L);
     Company cpn = Company.builder().id(1L).name("Apple Inc.").build();
-    same.setManufacturer(cpn);
+    Computer same = Computer.builder("Apple III").id(12L).introduced(LocalDate.parse("1980-05-01"))
+        .discontinued(LocalDate.parse("1984-04-01")).manufacturer(cpn).build();
     assertEquals(same, comp);
   }
 
-  @Ignore
   @Test
   /**
    * Tests find(Long id) in an abnormal use (id not in db).
@@ -84,13 +79,11 @@ public class ComputerDaoTest extends DbTesting {
     fail();
   }
 
-  @Ignore
   @Test
   /**
    * Tests create(Computer t) in a normal use, with a computer.
    */
   public void testCreate() {
-
     Company cpn = Company.builder().id(2L).name("Thinking Machines").build();
     Computer comp = Computer.builder("Test").introduced(LocalDate.parse("1990-11-10"))
         .discontinued(LocalDate.parse("2016-03-09")).manufacturer(cpn).build();
@@ -98,16 +91,14 @@ public class ComputerDaoTest extends DbTesting {
     computerDao.create(comp);
     comp.setId(51L);
     assertEquals(computerDao.read(51L), comp);
-
   }
 
-  @Ignore
   @Test
   /**
    * Tests create(Computer t) in an abnormal, with a wrong company id.
    */
   public void testCreateNscExc() {
-    Company cpn = Company.builder().id(100L).build();
+    Company cpn = Company.builder().id(33L).build();
     Computer comp = Computer.builder("Mine").introduced(LocalDate.parse("1990-11-10"))
         .discontinued(LocalDate.parse("2016-03-09")).manufacturer(cpn).build();
     computerDao.create(comp);
@@ -126,7 +117,6 @@ public class ComputerDaoTest extends DbTesting {
     assertEquals(computerDao.read(35L), comp);
   }
 
-  @Ignore
   @Test
   /**
    * Tests update(Computer t) in an abnormal use, with a wrong computer id.
@@ -137,10 +127,8 @@ public class ComputerDaoTest extends DbTesting {
         .discontinued(LocalDate.parse("2020-03-09")).manufacturer(cpn).build();
     computerDao.update(comp);
     fail();
-
   }
 
-  @Ignore
   @Test
   /**
    * Tests update(Computer t) in an abnormal use, with a wrong company id.
@@ -164,15 +152,12 @@ public class ComputerDaoTest extends DbTesting {
     fail();
   }
 
-  @Ignore
   @Test
   /**
    * Tests delete(Long id) in an abnormal use, with a wrong computer id.
    */
   public void testDeleteInvalid() {
     computerDao.delete(445L);
-    fail();
-
   }
 
 }

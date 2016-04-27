@@ -110,6 +110,12 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>${springVersion}</version>
 		</dependency>
+		<!-- Testing -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${springVersion}</version>
+		</dependency>
 
 		<!-- Logging -->
 		<!-- DBunit needs it -->
