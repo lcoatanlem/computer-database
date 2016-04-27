@@ -2,6 +2,14 @@ package com.excilys.computerdatabase.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 /**
  * This class is the model of the companies, contains its builder. We type the
  * id as a Long, because it corresponds to the mysql BigInt, and can be null
@@ -10,11 +18,22 @@ import java.time.LocalDate;
  * 
  * @author lcoatanlem
  */
+@Entity
+@Table(name = "computer")
 public class Computer {
+
+  @Id
+  @GeneratedValue
+  @Column(name = "id")
   private Long id;
+  @Column(name = "name")
   private String name;
+  @Column(name = "introduced")
   private LocalDate introduced;
+  @Column(name = "discontinued")
   private LocalDate discontinued;
+  @ManyToOne
+  @JoinColumn(name = "company_id")
   private Company manufacturer;
 
   public Long getId() {

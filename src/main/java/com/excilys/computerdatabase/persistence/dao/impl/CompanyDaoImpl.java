@@ -7,6 +7,10 @@ import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.persistence.dao.Dao;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -25,9 +29,15 @@ public class CompanyDaoImpl implements Dao<Company> {
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
-
   @Autowired
   private CompanyRowMapper companyRowMapper;
+
+  private SessionFactory factory;
+
+  @Autowired
+  public void setConfiguration() {
+    this.factory = new Configuration().configure().buildSessionFactory();
+  }
 
   private static final Logger LOGGER = Logger.getLogger(CompanyDaoImpl.class);
 
@@ -70,14 +80,14 @@ public class CompanyDaoImpl implements Dao<Company> {
     List<Object> args = new ArrayList<>();
     args.add(id);
     List<Company> list = jdbcTemplate.query(QueryMapper.toCompanyRead(), args.toArray(),
-          companyRowMapper);
+        companyRowMapper);
     if (list.isEmpty()) {
       return null;
     } else {
       return list.get(0);
     }
   }
-  
+
   @Override
   public void delete(Long id) {
     List<Object> args = new ArrayList<>();

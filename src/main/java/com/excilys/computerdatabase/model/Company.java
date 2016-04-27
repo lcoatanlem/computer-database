@@ -1,5 +1,11 @@
 package com.excilys.computerdatabase.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * This class is the model of the companies, contains its builder. We type the
  * id as a Long, because it corresponds to the mysql BigInt, and can be null
@@ -7,8 +13,16 @@ package com.excilys.computerdatabase.model;
  * 
  * @author lcoatanlem
  */
+@Entity
+@Table(name = "company")
 public class Company {
+
+  @Id
+  @GeneratedValue
+  @Column(name = "id")
   private Long id;
+
+  @Column(name = "name")
   private String name;
 
   public Long getId() {
