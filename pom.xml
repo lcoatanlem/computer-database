@@ -32,7 +32,6 @@
   <maven-war-plugin-version>2.4</maven-war-plugin-version>
   <springVersion>4.2.5.RELEASE</springVersion>
   <hibernateVersion>5.1.0.Final</hibernateVersion>
-  <hibernateAnnotationsVersion>3.5.6-Final</hibernateAnnotationsVersion>
  </properties>
  <dependencies>
   <!-- Database accesses -->
@@ -94,6 +93,14 @@
    <artifactId>spring-webmvc</artifactId>
    <version>${springVersion}</version>
   </dependency>
+  <!-- ORM -->
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-orm</artifactId>
+   <version>${springVersion}</version>
+   <type>jar</type>
+   <scope>compile</scope>
+  </dependency>
   <!-- Transactions -->
   <dependency>
    <groupId>org.springframework</groupId>
@@ -124,12 +131,6 @@
    <groupId>org.hibernate</groupId>
    <artifactId>hibernate-java8</artifactId>
    <version>${hibernateVersion}</version>
-  </dependency>
-  <!-- Annotations -->
-  <dependency>
-   <groupId>org.hibernate</groupId>
-   <artifactId>hibernate-annotations</artifactId>
-   <version>${hibernateAnnotationsVersion}</version>
   </dependency>
   <!-- Logging -->
   <!-- DBunit needs it -->

@@ -9,11 +9,16 @@
 <title>Computer Database</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Bootstrap -->
-<link href="/computer-database/resources/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="/computer-database/resources/css/font-awesome.css" rel="stylesheet" media="screen">
-<link href="/computer-database/resources/css/main.css" rel="stylesheet" media="screen">
-<script type="text/javascript" src="/computer-database/resources/js/jquery.min.js"></script>
-<script type="text/javascript" src="/computer-database/resources/js/jquery.validator.js"></script>
+<link href="/computer-database/resources/css/bootstrap.min.css"
+	rel="stylesheet" media="screen">
+<link href="/computer-database/resources/css/font-awesome.css"
+	rel="stylesheet" media="screen">
+<link href="/computer-database/resources/css/main.css" rel="stylesheet"
+	media="screen">
+<script type="text/javascript"
+	src="/computer-database/resources/js/jquery.min.js"></script>
+<script type="text/javascript"
+	src="/computer-database/resources/js/jquery.validator.js"></script>
 
 </head>
 <body>

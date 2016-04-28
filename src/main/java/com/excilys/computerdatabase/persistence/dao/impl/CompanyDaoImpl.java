@@ -9,11 +9,10 @@ import com.excilys.computerdatabase.persistence.dao.Dao;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,18 +24,18 @@ import java.util.List;
  * @author lcoatanlem
  */
 @Repository("companyDao")
+@Transactional
 public class CompanyDaoImpl implements Dao<Company> {
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
   @Autowired
   private CompanyRowMapper companyRowMapper;
-
-  private SessionFactory factory;
-
   @Autowired
-  public void setConfiguration() {
-    this.factory = new Configuration().configure().buildSessionFactory();
+  private SessionFactory sessionFactory;
+
+  public Session getSession() {
+    return sessionFactory.getCurrentSession();
   }
 
   private static final Logger LOGGER = Logger.getLogger(CompanyDaoImpl.class);
