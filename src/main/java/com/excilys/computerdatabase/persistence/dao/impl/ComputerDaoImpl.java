@@ -6,11 +6,11 @@ import com.excilys.computerdatabase.mapping.query.QueryMapper;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.model.QComputer;
 import com.excilys.computerdatabase.persistence.dao.Dao;
+import com.querydsl.jpa.hibernate.HibernateQuery;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -44,38 +44,15 @@ public class ComputerDaoImpl implements Dao<Computer> {
 
   @Override
   public int count(Query query) {
-    // List<Object> args = new ArrayList<>();
-    // // There is a filter
-    // if (query.getFilter() != null) {
-    // // 1,2,3,4 arguments of the PreparedStatement for filter
-    // args.add(query.getFilter());
-    // args.add(query.getFilter());
-    // args.add(query.getFilter());
-    // args.add(query.getFilter());
-    // // Limit
-    // if (query.getLimit() > 0) {
-    // args.add(query.getLimit());
-    // // Offset can exist iff Limit exists
-    // if (query.getOffset() > 0) {
-    // args.add(query.getOffset());
-    // }
-    // }
-    // } else {
-    // // Limit
-    // if (query.getLimit() > 0) {
-    // args.add(query.getLimit());
-    // // Offset can exist iff Limit exists
-    // if (query.getOffset() > 0) {
-    // args.add(query.getOffset());
-    // }
-    // }
-    // }
-    // return jdbcTemplate.queryForObject(QueryMapper.toComputerCount(query),
-    // Integer.class,
-    // args.toArray());
+    // There is a filter
     QComputer computer = QComputer.computer;
-    return (int) (long) sessionFactory.getCurrentSession().createCriteria(Computer.class)
-        .setProjection(Projections.rowCount()).uniqueResult();
+    HibernateQuery<?> querydsl = new HibernateQuery<Void>(getSession());
+    if (query.getFilter() != null) {
+      // 1,2,3,4 arguments of the PreparedStatement for filter
+      querydsl = querydsl.select().where(computer.name.like(query.getFilter())
+          .orAllOf(computer.manufacturer.name.like(query.getFilter())));
+    }
+    return (int) querydsl.from(computer).fetchCount();
   }
 
   @Override
