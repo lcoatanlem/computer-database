@@ -4,6 +4,7 @@ import com.excilys.computerdatabase.mapping.dao.ComputerRowMapper;
 import com.excilys.computerdatabase.mapping.query.Query;
 import com.excilys.computerdatabase.mapping.query.QueryMapper;
 import com.excilys.computerdatabase.model.Computer;
+import com.excilys.computerdatabase.model.QComputer;
 import com.excilys.computerdatabase.persistence.dao.Dao;
 
 import org.apache.log4j.Logger;
@@ -72,6 +73,7 @@ public class ComputerDaoImpl implements Dao<Computer> {
     // return jdbcTemplate.queryForObject(QueryMapper.toComputerCount(query),
     // Integer.class,
     // args.toArray());
+    QComputer computer = QComputer.computer;
     return (int) (long) sessionFactory.getCurrentSession().createCriteria(Computer.class)
         .setProjection(Projections.rowCount()).uniqueResult();
   }
