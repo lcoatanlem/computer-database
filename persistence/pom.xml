@@ -8,12 +8,19 @@
   <version>1.6.0-SNAPSHOT</version>
  </parent>
  <modelVersion>4.0.0</modelVersion>
- <artifactId>computer-database-core</artifactId>
- <name>Computer Database Core</name>
+ <artifactId>computer-database-persistence</artifactId>
+ <name>Computer Database Persistence</name>
  <dependencies>
-  <!-- Spring -->
+  <!-- Module dependencies -->
   <!-- Core -->
   <dependency>
+   <groupId>com.excilys.computerdatabase</groupId>
+   <artifactId>computer-database-core</artifactId>
+   <version>${project.parent.version}</version>
+  </dependency>
+  <dependency>
+   <!-- Spring -->
+   <!-- Core -->
    <groupId>org.springframework</groupId>
    <artifactId>spring-core</artifactId>
   </dependency>
@@ -46,6 +53,7 @@
   <dependency>
    <groupId>org.springframework</groupId>
    <artifactId>spring-orm</artifactId>
+   <scope>compile</scope>
   </dependency>
   <!-- Transactions -->
   <dependency>
@@ -73,12 +81,6 @@
    <groupId>org.hibernate</groupId>
    <artifactId>hibernate-java8</artifactId>
   </dependency>
-  <!-- Tests -->
-  <!-- JUnit -->
-  <dependency>
-   <groupId>junit</groupId>
-   <artifactId>junit</artifactId>
-  </dependency>
   <!-- Query dsl -->
   <!-- Core -->
   <dependency>
@@ -94,6 +96,18 @@
   <dependency>
    <groupId>com.querydsl</groupId>
    <artifactId>querydsl-apt</artifactId>
+  </dependency>
+  <!-- Logging -->
+  <!-- Using Logback implementation -->
+  <dependency>
+   <groupId>org.slf4j</groupId>
+   <artifactId>slf4j-log4j12</artifactId>
+  </dependency>
+  <!-- Tests -->
+  <!-- JUnit -->
+  <dependency>
+   <groupId>junit</groupId>
+   <artifactId>junit</artifactId>
   </dependency>
  </dependencies>
  <!-- Build plugins -->

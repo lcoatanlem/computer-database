@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE project>
+<dataset>
+  <company id="1" name="Apple Inc."/>
+  <company id="2" name="Thinking Machines"/>
+  <company id="3" name="RCA"/>
+  <company id="4" name="Netronics"/>
+  <company id="5" name="Tandy Corporation"/>
+  <company id="6" name="Commodore International"/>
+  <company id="7" name="MOS Technology"/>
+  <company id="8" name="Micro Instrumentation and Telemetry Systems"/>
+  <company id="9" name="IMS Associates, Inc."/>
+  <company id="10" name="Digital Equipment Corporation"/>
+  <company id="11" name="Lincoln Laboratory"/>
+  <company id="12" name="Moore School of Electrical Engineering"/>
+  <company id="13" name="IBM"/>
+  <company id="14" name="Amiga Corporation"/>
+  <company id="15" name="Canon"/>
+  <company id="16" name="Nokia"/>
+  <company id="17" name="Sony"/>
+  <company id="18" name="OQO"/>
+  <company id="19" name="NeXT"/>
+  <company id="20" name="Atari"/>
+  <company id="22" name="Acorn computer"/>
+  <company id="23" name="Timex Sinclair"/>
+  <company id="24" name="Nintendo"/>
+  <company id="25" name="Sinclair Research Ltd"/>
+  <company id="26" name="Xerox"/>
+  <company id="27" name="Hewlett-Packard"/>
+  <company id="28" name="Zemmix"/>
+  <company id="29" name="ACVS"/>
+  <company id="30" name="Sanyo"/>
+  <company id="31" name="Cray"/>
+  <company id="32" name="Evans &amp; Sutherland"/>
+  <company id="33" name="E.S.R. Inc."/>
+  <company id="34" name="OMRON"/>
+  <company id="35" name="BBN Technologies"/>
+  <company id="36" name="Lenovo Group"/>
+  <company id="37" name="ASUS"/>
+  <company id="38" name="Amstrad"/>
+  <company id="39" name="Sun Microsystems"/>
+  <company id="40" name="Texas Instruments"/>
+  <company id="41" name="HTC Corporation"/>
+  <company id="42" name="Research In Motion"/>
+  <company id="43" name="Samsung Electronics"/>
+  <computer id="1" name="MacBook Pro 15.4 inch" company_id="1"/>
+  <computer id="2" name="CM-2a" company_id="2"/>
+  <computer id="3" name="CM-200" company_id="2"/>
+  <computer id="4" name="CM-5e" company_id="2"/>
+  <computer id="5" name="CM-5" introduced="1991-01-01 00:00:00.0" company_id="2"/>
+  <computer id="6" name="MacBook Pro" introduced="2006-01-10 00:00:00.0" company_id="1"/>
+  <computer id="7" name="Apple IIe"/>
+  <computer id="8" name="Apple IIc"/>
+  <computer id="9" name="Apple IIGS"/>
+  <computer id="10" name="Apple IIc Plus"/>
+  <computer id="11" name="Apple II Plus"/>
+  <computer id="12" name="Apple III" introduced="1980-05-01 00:00:00.0" discontinued="1984-04-01 00:00:00.0" company_id="1"/>
+  <computer id="13" name="Apple Lisa" company_id="1"/>
+  <computer id="14" name="CM-2" company_id="2"/>
+  <computer id="15" name="Connection Machine" introduced="1987-01-01 00:00:00.0" company_id="2"/>
+  <computer id="16" name="Apple II" introduced="1977-04-01 00:00:00.0" discontinued="1993-10-01 00:00:00.0" company_id="1"/>
+  <computer id="17" name="Apple III Plus" introduced="1983-12-01 00:00:00.0" discontinued="1984-04-01 00:00:00.0" company_id="1"/>
+  <computer id="18" name="COSMAC ELF" company_id="3"/>
+  <computer id="19" name="COSMAC VIP" introduced="1977-01-01 00:00:00.0" company_id="3"/>
+  <computer id="20" name="ELF II" introduced="1977-01-01 00:00:00.0" company_id="4"/>
+  <computer id="21" name="Macintosh" introduced="1984-01-24 00:00:00.0" company_id="1"/>
+  <computer id="22" name="Macintosh II"/>
+  <computer id="23" name="Macintosh Plus" introduced="1986-01-16 00:00:00.0" discontinued="1990-10-15 00:00:00.0" company_id="1"/>
+  <computer id="24" name="Macintosh IIfx"/>
+  <computer id="25" name="iMac" introduced="1998-01-01 00:00:00.0" company_id="1"/>
+  <computer id="26" name="Mac Mini" introduced="2005-01-22 00:00:00.0" company_id="1"/>
+  <computer id="27" name="Mac Pro" introduced="2006-08-07 00:00:00.0" company_id="1"/>
+  <computer id="28" name="Power Macintosh" introduced="1994-03-01 00:00:00.0" discontinued="2006-08-01 00:00:00.0" company_id="1"/>
+  <computer id="29" name="PowerBook" introduced="1991-01-01 00:00:00.0" discontinued="2006-01-01 00:00:00.0" company_id="1"/>
+  <computer id="30" name="Xserve"/>
+  <computer id="31" name="Powerbook 100"/>
+  <computer id="32" name="Powerbook 140"/>
+  <computer id="33" name="Powerbook 170"/>
+  <computer id="34" name="PowerBook Duo"/>
+  <computer id="35" name="Update" introduced="1995-11-10 00:00:00.0" discontinued="2020-03-09 00:00:00.0" company_id="34"/>
+  <computer id="36" name="Macintosh Quadra" introduced="1991-01-01 00:00:00.0" company_id="1"/>
+  <computer id="37" name="Macintosh Quadra 900"/>
+  <computer id="38" name="Macintosh Quadra 700"/>
+  <computer id="39" name="Macintosh LC" introduced="1990-01-01 00:00:00.0" company_id="1"/>
+  <computer id="40" name="Macintosh LC II" introduced="1990-01-01 00:00:00.0" company_id="1"/>
+  <computer id="41" name="Macintosh LC III" introduced="1993-01-01 00:00:00.0" company_id="1"/>
+  <computer id="42" name="Macintosh LC III+"/>
+  <computer id="43" name="Macintosh Quadra 605" introduced="1993-10-21 00:00:00.0" company_id="1"/>
+  <computer id="44" name="Macintosh LC 500 series"/>
+  <computer id="45" name="TRS-80 Color Computer" introduced="1980-01-01 00:00:00.0" company_id="5"/>
+  <computer id="46" name="Acorn System 2"/>
+  <computer id="47" name="Dragon 32/64"/>
+  <computer id="48" name="MEK6800D2"/>
+  <computer id="49" name="Newbear 77/68"/>
+  <computer id="50" name="Commodore PET" company_id="6"/>
+</dataset>
