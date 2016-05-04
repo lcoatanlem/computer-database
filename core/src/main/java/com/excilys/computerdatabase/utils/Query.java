@@ -7,12 +7,14 @@ public class Query {
 
     private String value;
 
-    private Order(String value) {
+    Order(String value) {
       this.value = value;
     }
 
     /**
      * Validation of the enum.
+     * @param value the value
+     * @return the order, ASC or DESC depending on the value, null for everything else
      */
     public static Order safeValueOf(String value) {
       if (value == null) {
@@ -65,6 +67,7 @@ public class Query {
 
   /**
    * If there is a filter, we add the % to put it in a Prepared Statement.
+   * @param filter the filter
    */
   public void setFilter(String filter) {
     if (filter != null && !filter.isEmpty()) {
@@ -115,6 +118,8 @@ public class Query {
 
     /**
      * If there is a filter, we add the % to put it in a Prepared Statement.
+     * @param filter the filter
+     * @return this (Builder)
      */
     public Builder filter(String filter) {
       if (filter != null && !filter.isEmpty()) {

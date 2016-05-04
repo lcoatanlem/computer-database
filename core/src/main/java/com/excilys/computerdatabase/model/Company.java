@@ -10,7 +10,6 @@ import javax.persistence.Table;
  * This class is the model of the companies, contains its builder. We type the
  * id as a Long, because it corresponds to the mysql BigInt, and can be null
  * (compared to long).
- * 
  * @author lcoatanlem
  */
 @Entity
@@ -106,6 +105,6 @@ public class Company {
 
     public Company build() {
       return this.cpn;
-		}
-	}
+    }
+  }
 }
