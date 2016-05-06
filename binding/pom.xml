@@ -1,0 +1,215 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                     http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ <!-- Describing the project -->
+ <parent>
+  <groupId>com.excilys.computerdatabase</groupId>
+  <artifactId>computer-database</artifactId>
+  <version>1.6.0-SNAPSHOT</version>
+ </parent>
+ <modelVersion>4.0.0</modelVersion>
+ <artifactId>computer-database-binding</artifactId>
+ <name>Computer Database Binding</name>
+ <dependencies>
+  <!-- Module dependencies -->
+  <!-- Core -->
+  <dependency>
+   <groupId>com.excilys.computerdatabase</groupId>
+   <artifactId>computer-database-core</artifactId>
+   <version>${project.parent.version}</version>
+  </dependency>
+  <!-- Dao -->
+  <dependency>
+   <groupId>com.excilys.computerdatabase</groupId>
+   <artifactId>computer-database-persistence</artifactId>
+   <version>${project.parent.version}</version>
+  </dependency>
+  <!-- Service -->
+  <dependency>
+   <groupId>com.excilys.computerdatabase</groupId>
+   <artifactId>computer-database-service</artifactId>
+   <version>${project.parent.version}</version>
+  </dependency>
+  <!-- Spring -->
+  <!-- Core -->
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-core</artifactId>
+  </dependency>
+  <!-- Context -->
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-context</artifactId>
+  </dependency>
+  <!-- Beans -->
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-beans</artifactId>
+  </dependency>
+  <!-- AOP -->
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-aop</artifactId>
+  </dependency>
+  <!-- Web -->
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-web</artifactId>
+  </dependency>
+  <!-- Web MVC -->
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-webmvc</artifactId>
+  </dependency>
+  <!-- ORM -->
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-orm</artifactId>
+   <scope>compile</scope>
+  </dependency>
+  <!-- Transactions -->
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-tx</artifactId>
+  </dependency>
+  <!-- Jdbc (used for JdbcTemplate) -->
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-jdbc</artifactId>
+  </dependency>
+  <!-- Testing -->
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-test</artifactId>
+  </dependency>
+  <!-- Hibernate -->
+  <!-- Core -->
+  <dependency>
+   <groupId>org.hibernate</groupId>
+   <artifactId>hibernate-core</artifactId>
+  </dependency>
+  <!-- Java8 -->
+  <dependency>
+   <groupId>org.hibernate</groupId>
+   <artifactId>hibernate-java8</artifactId>
+  </dependency>
+  <!-- Query dsl -->
+  <!-- Core -->
+  <dependency>
+   <groupId>com.querydsl</groupId>
+   <artifactId>querydsl-core</artifactId>
+  </dependency>
+  <!-- JPA -->
+  <dependency>
+   <groupId>com.querydsl</groupId>
+   <artifactId>querydsl-jpa</artifactId>
+  </dependency>
+  <!-- APT -->
+  <dependency>
+   <groupId>com.querydsl</groupId>
+   <artifactId>querydsl-apt</artifactId>
+  </dependency>
+  <!-- Logging -->
+  <!-- Using Logback implementation -->
+  <dependency>
+   <groupId>org.slf4j</groupId>
+   <artifactId>slf4j-log4j12</artifactId>
+  </dependency>
+  <!-- Tests -->
+  <!-- JUnit -->
+  <dependency>
+   <groupId>junit</groupId>
+   <artifactId>junit</artifactId>
+  </dependency>
+  <!-- HttpServletRequest needs it... To delete as soon as it has been replaced -->
+  <dependency>
+   <groupId>javax.servlet</groupId>
+   <artifactId>javax.servlet-api</artifactId>
+  </dependency>
+ </dependencies>
+ <!-- Build plugins -->
+ <build>
+  <plugins>
+   <!-- War packaging plugin -->
+   <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-war-plugin</artifactId>
+    <configuration>
+     <skip>true</skip>
+    </configuration>
+   </plugin>
+   <!-- Maven configuration, specifying used JRE -->
+   <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <configuration>
+     <skip>true</skip>
+    </configuration>
+   </plugin>
+   <!-- To check the writing conventions -->
+   <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-checkstyle-plugin</artifactId>
+    <configuration>
+     <configLocation>checkstyle/checkstyle.xml</configLocation>
+    </configuration>
+   </plugin>
+   <!-- Exclude integration tests from testing phase -->
+   <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <configuration>
+     <skip>true</skip>
+    </configuration>
+   </plugin>
+   <!-- Include integration tests into integration tests phase -->
+   <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-failsafe-plugin</artifactId>
+   </plugin>
+   <!-- Start Tomcat with war during pre-integration tests and shut it down during post-integration tests -->
+   <plugin>
+    <groupId>org.codehaus.cargo</groupId>
+    <artifactId>cargo-maven2-plugin</artifactId>
+    <configuration>
+     <skip>true</skip>
+    </configuration>
+   </plugin>
+   <!-- Querydsl plugin -->
+   <plugin>
+    <groupId>com.mysema.maven</groupId>
+    <artifactId>apt-maven-plugin</artifactId>
+    <executions>
+     <execution>
+      <goals>
+       <goal>process</goal>
+      </goals>
+      <configuration>
+       <outputDirectory>target/generated-sources/java</outputDirectory>
+       <processor>com.querydsl.apt.hibernate.HibernateAnnotationProcessor</processor>
+      </configuration>
+     </execution>
+    </executions>
+   </plugin>
+  </plugins>
+ </build>
+ <!-- Reporting plugins -->
+ <reporting>
+  <plugins>
+   <!-- Maven versions plugin -->
+   <plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>versions-maven-plugin</artifactId>
+    <reportSets>
+     <reportSet>
+      <reports>
+       <report>dependency-updates-report</report>
+       <report>plugin-updates-report</report>
+       <report>property-updates-report</report>
+      </reports>
+     </reportSet>
+    </reportSets>
+   </plugin>
+  </plugins>
+ </reporting>
+</project>

@@ -6,231 +6,244 @@
  <groupId>com.excilys.computerdatabase</groupId>
  <artifactId>computer-database</artifactId>
  <!-- Old used jar, war as soon as we got a webapp -->
- <packaging>war</packaging>
+ <packaging>pom</packaging>
  <!-- version.sprint.bugfix -->
  <version>1.6.0-SNAPSHOT</version>
- <name>Computer Database Archetype</name>
+ <name>Computer Database Parent</name>
+ <modules>
+  <module>core</module>
+  <module>persistence</module>
+  <module>service</module>
+  <module>binding</module>
+  <module>console</module>
+  <module>webapp</module>
+ </modules>
  <!-- Externalization of the versions numbers -->
  <properties>
-  <mysqlVersion>5.1.6</mysqlVersion>
-  <boneCPVersion>0.8.0.RELEASE</boneCPVersion>
-  <h2Version>1.4.191</h2Version>
-  <log4jVersion>1.2.17</log4jVersion>
-  <sl4jVersion>1.7.12</sl4jVersion>
-  <servletsVersion>3.0.1</servletsVersion>
-  <jstlVersion>1.2</jstlVersion>
-  <junitVersion>4.11</junitVersion>
-  <mockitoVersion>1.9.5</mockitoVersion>
-  <dbunitVersion>2.4.9</dbunitVersion>
-  <seleniumVersion>2.53.0</seleniumVersion>
-  <mavenVersion>3.5.1</mavenVersion>
-  <javaVersion>1.8</javaVersion>
-  <mavenCSPluginVersion>2.17</mavenCSPluginVersion>
-  <maven-surefire-version>2.18</maven-surefire-version>
-  <maven-failsafe-version>2.19.1</maven-failsafe-version>
-  <cargo-maven2-version>1.4.16</cargo-maven2-version>
-  <maven-war-plugin-version>2.4</maven-war-plugin-version>
-  <springVersion>4.2.5.RELEASE</springVersion>
-  <hibernateVersion>5.1.0.Final</hibernateVersion>
-  <querydslVersion>4.1.0</querydslVersion>
+  <!-- Dependencies Versions -->
+  <mysql.version>5.1.6</mysql.version>
+  <boneCP.version>0.8.0.RELEASE</boneCP.version>
+  <h2.version>1.4.191</h2.version>
+  <log4j.version>1.2.17</log4j.version>
+  <sl4j.version>1.7.12</sl4j.version>
+  <servlets.version>3.0.1</servlets.version>
+  <jstl.version>1.2</jstl.version>
+  <junit.version>4.11</junit.version>
+  <mockito.version>1.9.5</mockito.version>
+  <dbunit.version>2.4.9</dbunit.version>
+  <selenium.version>2.53.0</selenium.version>
+  <maven.version>3.5.1</maven.version>
+  <java.version>1.8</java.version>
+  <spring.version>4.2.5.RELEASE</spring.version>
+  <hibernate.version>5.1.0.Final</hibernate.version>
+  <querydsl.version>4.1.0</querydsl.version>
+  <!-- Plugins Versions -->
+  <maven-CS.plugin.version>2.17</maven-CS.plugin.version>
+  <maven-surefire.plugin.version>2.18</maven-surefire.plugin.version>
+  <maven-failsafe.plugin.version>2.19.1</maven-failsafe.plugin.version>
+  <maven2-cargo.plugin.version>1.4.16</maven2-cargo.plugin.version>
+  <maven-war.plugin.version>2.4</maven-war.plugin.version>
+  <maven-apt.plugin.version>1.1.3</maven-apt.plugin.version>
  </properties>
- <dependencies>
-  <!-- Database accesses -->
-  <!-- Main -->
-  <dependency>
-   <groupId>mysql</groupId>
-   <artifactId>mysql-connector-java</artifactId>
-   <version>${mysqlVersion}</version>
-   <scope>runtime</scope>
-   <!-- if it doesn't compile anymore, it is because some libraries from this were used during compilation -->
-  </dependency>
-  <!-- Main pool connection -->
-  <dependency>
-   <groupId>com.jolbox</groupId>
-   <artifactId>bonecp</artifactId>
-   <version>${boneCPVersion}</version>
-  </dependency>
-  <!-- For tests -->
-  <dependency>
-   <groupId>com.h2database</groupId>
-   <artifactId>h2</artifactId>
-   <version>${h2Version}</version>
-   <scope>test</scope>
-  </dependency>
-  <!-- Spring -->
-  <!-- Core -->
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-core</artifactId>
-   <version>${springVersion}</version>
-  </dependency>
-  <!-- Context -->
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-context</artifactId>
-   <version>${springVersion}</version>
-  </dependency>
-  <!-- Beans -->
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-beans</artifactId>
-   <version>${springVersion}</version>
-  </dependency>
-  <!-- AOP -->
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-aop</artifactId>
-   <version>${springVersion}</version>
-  </dependency>
-  <!-- Web -->
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-web</artifactId>
-   <version>${springVersion}</version>
-  </dependency>
-  <!-- Web MVC -->
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-webmvc</artifactId>
-   <version>${springVersion}</version>
-  </dependency>
-  <!-- ORM -->
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-orm</artifactId>
-   <version>${springVersion}</version>
-   <type>jar</type>
-   <scope>compile</scope>
-  </dependency>
-  <!-- Transactions -->
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-tx</artifactId>
-   <version>${springVersion}</version>
-  </dependency>
-  <!-- Jdbc (used for JdbcTemplate) -->
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-jdbc</artifactId>
-   <version>${springVersion}</version>
-  </dependency>
-  <!-- Testing -->
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-test</artifactId>
-   <version>${springVersion}</version>
-  </dependency>
-  <!-- Hibernate -->
-  <!-- Core -->
-  <dependency>
-   <groupId>org.hibernate</groupId>
-   <artifactId>hibernate-core</artifactId>
-   <version>${hibernateVersion}</version>
-  </dependency>
-  <!-- Java8 -->
-  <dependency>
-   <groupId>org.hibernate</groupId>
-   <artifactId>hibernate-java8</artifactId>
-   <version>${hibernateVersion}</version>
-  </dependency>
-  <!-- Query dsl -->
-  <!-- Core -->
-  <dependency>
-   <groupId>com.querydsl</groupId>
-   <artifactId>querydsl-core</artifactId>
-   <version>${querydslVersion}</version>
-  </dependency>
-  <!-- JPA -->
-  <dependency>
-   <groupId>com.querydsl</groupId>
-   <artifactId>querydsl-jpa</artifactId>
-   <version>${querydslVersion}</version>
-  </dependency>
-  <!-- APT -->
-  <dependency>
-   <groupId>com.querydsl</groupId>
-   <artifactId>querydsl-apt</artifactId>
-   <version>${querydslVersion}</version>
-  </dependency>
-  <!-- Logging -->
-  <!-- DBunit needs it -->
-  <dependency>
-   <groupId>log4j</groupId>
-   <artifactId>log4j</artifactId>
-   <version>${log4jVersion}</version>
-  </dependency>
-  <!-- Using Logback implementation -->
-  <dependency>
-   <groupId>org.slf4j</groupId>
-   <artifactId>slf4j-log4j12</artifactId>
-   <version>${sl4jVersion}</version>
-  </dependency>
-  <!-- Webapp -->
-  <!-- Servlets -->
-  <dependency>
-   <groupId>javax.servlet</groupId>
-   <artifactId>javax.servlet-api</artifactId>
-   <version>${servletsVersion}</version>
-   <scope>provided</scope>
-   <!-- Tomcat has his own implementation of servlets -->
-  </dependency>
-  <!-- JSTL -->
-  <dependency>
-   <groupId>javax.servlet</groupId>
-   <artifactId>jstl</artifactId>
-   <version>${jstlVersion}</version>
-  </dependency>
-  <!-- Testing -->
-  <!-- Main -->
-  <dependency>
-   <groupId>junit</groupId>
-   <artifactId>junit</artifactId>
-   <version>${junitVersion}</version>
-   <scope>test</scope>
-  </dependency>
-  <!-- Mocking objects -->
-  <dependency>
-   <groupId>org.mockito</groupId>
-   <artifactId>mockito-all</artifactId>
-   <version>${mockitoVersion}</version>
-   <scope>test</scope>
-  </dependency>
-  <!-- Database -->
-  <dependency>
-   <groupId>org.dbunit</groupId>
-   <artifactId>dbunit</artifactId>
-   <version>${dbunitVersion}</version>
-   <!-- Cannot be test scope because of DBExportToXML, which is a way to persist the DB -->
-  </dependency>
-  <!-- Webapp -->
-  <dependency>
-   <groupId>org.seleniumhq.selenium</groupId>
-   <artifactId>selenium-java</artifactId>
-   <version>${seleniumVersion}</version>
-   <scope>test</scope>
-  </dependency>
- </dependencies>
+ <dependencyManagement>
+  <dependencies>
+   <!-- Database accesses -->
+   <!-- Main -->
+   <dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>${mysql.version}</version>
+    <scope>runtime</scope>
+    <!-- if it doesn't compile anymore, it is because some libraries from this were used during compilation -->
+   </dependency>
+   <!-- Main pool connection -->
+   <dependency>
+    <groupId>com.jolbox</groupId>
+    <artifactId>bonecp</artifactId>
+    <version>${boneCP.version}</version>
+   </dependency>
+   <!-- For tests -->
+   <dependency>
+    <groupId>com.h2database</groupId>
+    <artifactId>h2</artifactId>
+    <version>${h2.version}</version>
+    <scope>test</scope>
+   </dependency>
+   <!-- Spring -->
+   <!-- Core -->
+   <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-core</artifactId>
+    <version>${spring.version}</version>
+   </dependency>
+   <!-- Context -->
+   <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context</artifactId>
+    <version>${spring.version}</version>
+   </dependency>
+   <!-- Beans -->
+   <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-beans</artifactId>
+    <version>${spring.version}</version>
+   </dependency>
+   <!-- AOP -->
+   <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-aop</artifactId>
+    <version>${spring.version}</version>
+   </dependency>
+   <!-- Web -->
+   <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-web</artifactId>
+    <version>${spring.version}</version>
+   </dependency>
+   <!-- Web MVC -->
+   <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-webmvc</artifactId>
+    <version>${spring.version}</version>
+   </dependency>
+   <!-- ORM -->
+   <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-orm</artifactId>
+    <version>${spring.version}</version>
+    <type>jar</type>
+    <scope>compile</scope>
+   </dependency>
+   <!-- Transactions -->
+   <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-tx</artifactId>
+    <version>${spring.version}</version>
+   </dependency>
+   <!-- Jdbc (used for JdbcTemplate) -->
+   <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-jdbc</artifactId>
+    <version>${spring.version}</version>
+   </dependency>
+   <!-- Testing -->
+   <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-test</artifactId>
+    <version>${spring.version}</version>
+   </dependency>
+   <!-- Hibernate -->
+   <!-- Core -->
+   <dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-core</artifactId>
+    <version>${hibernate.version}</version>
+   </dependency>
+   <!-- Java8 -->
+   <dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-java8</artifactId>
+    <version>${hibernate.version}</version>
+   </dependency>
+   <!-- Query dsl -->
+   <!-- Core -->
+   <dependency>
+    <groupId>com.querydsl</groupId>
+    <artifactId>querydsl-core</artifactId>
+    <version>${querydsl.version}</version>
+   </dependency>
+   <!-- JPA -->
+   <dependency>
+    <groupId>com.querydsl</groupId>
+    <artifactId>querydsl-jpa</artifactId>
+    <version>${querydsl.version}</version>
+   </dependency>
+   <!-- APT -->
+   <dependency>
+    <groupId>com.querydsl</groupId>
+    <artifactId>querydsl-apt</artifactId>
+    <version>${querydsl.version}</version>
+   </dependency>
+   <!-- Logging -->
+   <!-- DBunit needs it -->
+   <dependency>
+    <groupId>log4j</groupId>
+    <artifactId>log4j</artifactId>
+    <version>${log4j.version}</version>
+   </dependency>
+   <!-- Using Logback implementation -->
+   <dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-log4j12</artifactId>
+    <version>${sl4j.version}</version>
+   </dependency>
+   <!-- Webapp -->
+   <!-- Servlets -->
+   <dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>javax.servlet-api</artifactId>
+    <version>${servlets.version}</version>
+    <scope>provided</scope>
+    <!-- Tomcat has his own implementation of servlets -->
+   </dependency>
+   <!-- JSTL -->
+   <dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>jstl</artifactId>
+    <version>${jstl.version}</version>
+   </dependency>
+   <!-- Testing -->
+   <!-- Main -->
+   <dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>${junit.version}</version>
+    <scope>test</scope>
+   </dependency>
+   <!-- Mocking objects -->
+   <dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-all</artifactId>
+    <version>${mockito.version}</version>
+    <scope>test</scope>
+   </dependency>
+   <!-- Database -->
+   <dependency>
+    <groupId>org.dbunit</groupId>
+    <artifactId>dbunit</artifactId>
+    <version>${dbunit.version}</version>
+    <!-- Cannot be test scope because of DBExportToXML, which is a way to persist the DB -->
+   </dependency>
+   <!-- Webapp -->
+   <dependency>
+    <groupId>org.seleniumhq.selenium</groupId>
+    <artifactId>selenium-java</artifactId>
+    <version>${selenium.version}</version>
+    <scope>test</scope>
+   </dependency>
+  </dependencies>
+ </dependencyManagement>
  <build>
   <plugins>
    <plugin>
     <artifactId>maven-war-plugin</artifactId>
-    <version>${maven-war-plugin-version}</version>
+    <version>${maven-war.plugin.version}</version>
    </plugin>
    <!-- Maven configuration, specifying used JRE -->
    <plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-compiler-plugin</artifactId>
-    <version>${mavenVersion}</version>
+    <version>${maven.version}</version>
     <configuration>
-     <source>${javaVersion}</source>
-     <target>${javaVersion}</target>
+     <source>${java.version}</source>
+     <target>${java.version}</target>
     </configuration>
    </plugin>
    <!-- To check the writing conventions -->
    <plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-checkstyle-plugin</artifactId>
-    <version>${mavenCSPluginVersion}</version>
+    <version>${maven-CS.plugin.version}</version>
     <configuration>
      <configLocation>checkstyle/checkstyle.xml</configLocation>
     </configuration>
@@ -239,7 +252,7 @@
    <plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-surefire-plugin</artifactId>
-    <version>${maven-surefire-version}</version>
+    <version>${maven-surefire.plugin.version}</version>
     <configuration>
      <excludes>
       <exclude>**/integration/**</exclude>
@@ -250,7 +263,7 @@
    <plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-failsafe-plugin</artifactId>
-    <version>${maven-failsafe-version}</version>
+    <version>${maven-failsafe.plugin.version}</version>
     <configuration>
      <includes>
       <include>**/integration/**</include>
@@ -270,7 +283,7 @@
    <plugin>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-maven2-plugin</artifactId>
-    <version>${cargo-maven2-version}</version>
+    <version>${maven2-cargo.plugin.version}</version>
     <configuration>
      <container>
       <containerId>tomcat8x</containerId>
@@ -300,7 +313,7 @@
    <plugin>
     <groupId>com.mysema.maven</groupId>
     <artifactId>apt-maven-plugin</artifactId>
-    <version>1.1.3</version>
+    <version>${maven-apt.plugin.version}</version>
     <executions>
      <execution>
       <goals>
@@ -315,4 +328,23 @@
    </plugin>
   </plugins>
  </build>
+ <!-- Reporting plugins -->
+ <reporting>
+  <plugins>
+   <!-- Maven versions plugin -->
+   <plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>versions-maven-plugin</artifactId>
+    <reportSets>
+     <reportSet>
+      <reports>
+       <report>dependency-updates-report</report>
+       <report>plugin-updates-report</report>
+       <report>property-updates-report</report>
+      </reports>
+     </reportSet>
+    </reportSets>
+   </plugin>
+  </plugins>
+ </reporting>
 </project>
