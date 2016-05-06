@@ -39,16 +39,6 @@
    <groupId>org.springframework</groupId>
    <artifactId>spring-aop</artifactId>
   </dependency>
-  <!-- Web -->
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-web</artifactId>
-  </dependency>
-  <!-- Web MVC -->
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-webmvc</artifactId>
-  </dependency>
   <!-- ORM -->
   <dependency>
    <groupId>org.springframework</groupId>
