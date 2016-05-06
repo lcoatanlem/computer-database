@@ -12,16 +12,16 @@
  <name>Computer Database Service</name>
  <dependencies>
   <!-- Module dependencies -->
-  <!-- Dao -->
-  <dependency>
-   <groupId>com.excilys.computerdatabase</groupId>
-   <artifactId>computer-database-persistence</artifactId>
-   <version>${project.parent.version}</version>
-  </dependency>
   <!-- Core -->
   <dependency>
    <groupId>com.excilys.computerdatabase</groupId>
    <artifactId>computer-database-core</artifactId>
+   <version>${project.parent.version}</version>
+  </dependency>
+  <!-- Dao -->
+  <dependency>
+   <groupId>com.excilys.computerdatabase</groupId>
+   <artifactId>computer-database-persistence</artifactId>
    <version>${project.parent.version}</version>
   </dependency>
   <!-- Spring -->
