@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -28,7 +30,7 @@ import com.querydsl.jpa.hibernate.HibernateQuery;
 @Transactional
 public class ComputerDaoImpl implements Dao<Computer> {
 
-  @Autowired
+  @Resource(name="jdbcTemplate")
   private JdbcTemplate jdbcTemplate;
   @Autowired
   private ComputerRowMapper computerRowMapper;

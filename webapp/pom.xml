@@ -7,15 +7,34 @@
   <artifactId>computer-database</artifactId>
   <version>1.6.0-SNAPSHOT</version>
  </parent>
+ <packaging>war</packaging>
  <modelVersion>4.0.0</modelVersion>
- <artifactId>computer-database-persistence</artifactId>
- <name>Computer Database Persistence</name>
+ <artifactId>computer-database-webapp</artifactId>
+ <name>Computer Database Webapp</name>
  <dependencies>
   <!-- Module dependencies -->
   <!-- Core -->
   <dependency>
    <groupId>com.excilys.computerdatabase</groupId>
    <artifactId>computer-database-core</artifactId>
+   <version>${project.parent.version}</version>
+  </dependency>
+  <!-- Dao -->
+  <dependency>
+   <groupId>com.excilys.computerdatabase</groupId>
+   <artifactId>computer-database-persistence</artifactId>
+   <version>${project.parent.version}</version>
+  </dependency>
+  <!-- Service -->
+  <dependency>
+   <groupId>com.excilys.computerdatabase</groupId>
+   <artifactId>computer-database-service</artifactId>
+   <version>${project.parent.version}</version>
+  </dependency>
+  <!-- Binding -->
+  <dependency>
+   <groupId>com.excilys.computerdatabase</groupId>
+   <artifactId>computer-database-binding</artifactId>
    <version>${project.parent.version}</version>
   </dependency>
   <!-- Database accesses -->
@@ -51,53 +70,10 @@
    <groupId>org.springframework</groupId>
    <artifactId>spring-aop</artifactId>
   </dependency>
-  <!-- ORM -->
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-orm</artifactId>
-   <scope>compile</scope>
-  </dependency>
-  <!-- Transactions -->
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-tx</artifactId>
-  </dependency>
   <!-- Jdbc (used for JdbcTemplate) -->
   <dependency>
    <groupId>org.springframework</groupId>
    <artifactId>spring-jdbc</artifactId>
-  </dependency>
-  <!-- Testing -->
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-test</artifactId>
-  </dependency>
-  <!-- Hibernate -->
-  <!-- Core -->
-  <dependency>
-   <groupId>org.hibernate</groupId>
-   <artifactId>hibernate-core</artifactId>
-  </dependency>
-  <!-- Java8 -->
-  <dependency>
-   <groupId>org.hibernate</groupId>
-   <artifactId>hibernate-java8</artifactId>
-  </dependency>
-  <!-- Query dsl -->
-  <!-- Core -->
-  <dependency>
-   <groupId>com.querydsl</groupId>
-   <artifactId>querydsl-core</artifactId>
-  </dependency>
-  <!-- JPA -->
-  <dependency>
-   <groupId>com.querydsl</groupId>
-   <artifactId>querydsl-jpa</artifactId>
-  </dependency>
-  <!-- APT -->
-  <dependency>
-   <groupId>com.querydsl</groupId>
-   <artifactId>querydsl-apt</artifactId>
   </dependency>
   <!-- Logging -->
   <!-- Using Logback implementation -->
@@ -111,6 +87,22 @@
    <groupId>junit</groupId>
    <artifactId>junit</artifactId>
   </dependency>
+  <!-- Selenium -->
+  <dependency>
+   <groupId>org.seleniumhq.selenium</groupId>
+   <artifactId>selenium-java</artifactId>
+  </dependency>
+  <!-- Webapp -->
+  <!-- Servlets, used by HttpServletRequest, deleted as soon as we remove it -->
+  <dependency>
+   <groupId>javax.servlet</groupId>
+   <artifactId>javax.servlet-api</artifactId>
+  </dependency>
+  <!-- JSTL -->
+  <dependency>
+   <groupId>javax.servlet</groupId>
+   <artifactId>jstl</artifactId>
+  </dependency>
  </dependencies>
  <!-- Build plugins -->
  <build>
@@ -119,16 +111,14 @@
    <plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-war-plugin</artifactId>
-    <configuration>
-     <skip>true</skip>
-    </configuration>
    </plugin>
    <!-- Maven configuration, specifying used JRE -->
    <plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-compiler-plugin</artifactId>
     <configuration>
-     <skip>true</skip>
+     <source>${java.version}</source>
+     <target>${java.version}</target>
     </configuration>
    </plugin>
    <!-- To check the writing conventions -->
@@ -143,36 +133,60 @@
    <plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-surefire-plugin</artifactId>
+    <version>${maven-surefire.plugin.version}</version>
     <configuration>
-     <skip>true</skip>
+     <excludes>
+      <exclude>**/integration/**</exclude>
+     </excludes>
     </configuration>
    </plugin>
    <!-- Include integration tests into integration tests phase -->
    <plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-failsafe-plugin</artifactId>
+    <version>${maven-failsafe.plugin.version}</version>
+    <configuration>
+     <includes>
+      <include>**/integration/**</include>
+     </includes>
+    </configuration>
+    <executions>
+     <execution>
+      <id>integration-tests</id>
+      <goals>
+       <goal>integration-test</goal>
+       <goal>verify</goal>
+      </goals>
+     </execution>
+    </executions>
    </plugin>
    <!-- Start Tomcat with war during pre-integration tests and shut it down during post-integration tests -->
    <plugin>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-maven2-plugin</artifactId>
+    <version>${maven2-cargo.plugin.version}</version>
     <configuration>
-     <skip>true</skip>
+     <container>
+      <containerId>tomcat8x</containerId>
+      <output>${project.build.directory}/tomcat8x/container.log</output>
+      <append>false</append>
+      <log>${project.build.directory}/tomcat8x/cargo.log</log>
+     </container>
     </configuration>
-   </plugin>
-   <!-- Querydsl plugin -->
-   <plugin>
-    <groupId>com.mysema.maven</groupId>
-    <artifactId>apt-maven-plugin</artifactId>
     <executions>
      <execution>
+      <id>start</id>
+      <phase>pre-integration-test</phase>
       <goals>
-       <goal>process</goal>
+       <goal>start</goal>
       </goals>
-      <configuration>
-       <outputDirectory>target/generated-sources/java</outputDirectory>
-       <processor>com.querydsl.apt.hibernate.HibernateAnnotationProcessor</processor>
-      </configuration>
+     </execution>
+     <execution>
+      <id>stop</id>
+      <phase>post-integration-test</phase>
+      <goals>
+       <goal>stop</goal>
+      </goals>
      </execution>
     </executions>
    </plugin>
