@@ -11,18 +11,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
 <!-- Bootstrap -->
-<link href="/computer-database/resources/css/bootstrap.min.css"
+<link href="/computer-database-webapp/resources/css/bootstrap.min.css"
 	rel="stylesheet" media="screen">
-<link href="/computer-database/resources/css/font-awesome.css"
+<link href="/computer-database-webapp/resources/css/font-awesome.css"
 	rel="stylesheet" media="screen">
-<link href="/computer-database/resources/css/main.css" rel="stylesheet"
+<link href="/computer-database-webapp/resources/css/main.css" rel="stylesheet"
 	media="screen">
 </head>
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
 			<mylib:link link="Application - Computer Database"
-				target="/computer-database/dashboard" className="navbar-brand"
+				target="/computer-database-webapp/dashboard" className="navbar-brand"
 				limit="10" numPage="1"></mylib:link>
 		</div>
 	</header>
@@ -44,7 +44,7 @@
 				</div>
 				<div class="pull-right">
 					<a class="btn btn-success" id="addComputer"
-						href="/computer-database/addcomputer">Add Computer</a> <a
+						href="/computer-database-webapp/addcomputer">Add Computer</a> <a
 						class="btn btn-default" id="editComputer" href="#"
 						onclick="$.fn.toggleEditMode();">Edit</a>
 				</div>
@@ -85,7 +85,7 @@
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="${ elt.id }"></td>
 							<td><mylib:link link="${ elt.name }"
-									target="/computer-database/editcomputer" id="${ elt.id }"></mylib:link></td>
+									target="/computer-database-webapp/editcomputer" id="${ elt.id }"></mylib:link></td>
 							<td><c:out value="${ elt.introduced }"></c:out></td>
 							<td><c:out value="${ elt.discontinued }"></c:out></td>
 							<td><c:out value="${ elt.nameCpn }"></c:out></td>
@@ -102,9 +102,9 @@
 			<mylib:pagination page="${ page }"></mylib:pagination>
 		</div>
 	</footer>
-	<script src="/computer-database/resources/js/jquery.min.js"></script>
-	<script src="/computer-database/resources/js/bootstrap.min.js"></script>
-	<script src="/computer-database/resources/js/dashboard.js"></script>
+	<script src="/computer-database-webapp/resources/js/jquery.min.js"></script>
+	<script src="/computer-database-webapp/resources/js/bootstrap.min.js"></script>
+	<script src="/computer-database-webapp/resources/js/dashboard.js"></script>
 
 </body>
 </html>

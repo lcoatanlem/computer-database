@@ -9,17 +9,17 @@
 <title>Computer Database</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Bootstrap -->
-<link href="/computer-database/resources/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="/computer-database/resources/css/font-awesome.css" rel="stylesheet" media="screen">
-<link href="/computer-database/resources/css/main.css" rel="stylesheet" media="screen">
-<script type="text/javascript" src="/computer-database/resources/js/jquery.min.js"></script>
-<script type="text/javascript" src="/computer-database/resources/js/jquery.validator.js"></script>
+<link href="/computer-database-webapp/resources/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="/computer-database-webapp/resources/css/font-awesome.css" rel="stylesheet" media="screen">
+<link href="/computer-database-webapp/resources/css/main.css" rel="stylesheet" media="screen">
+<script type="text/javascript" src="/computer-database-webapp/resources/js/jquery.min.js"></script>
+<script type="text/javascript" src="/computer-database-webapp/resources/js/jquery.validator.js"></script>
 </head>
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
 			<a class="navbar-brand"
-				href="/computer-database/dashboard?limit=10&numPage=1">
+				href="/computer-database-webapp/dashboard?limit=10&numPage=1">
 				Application - Computer Database </a>
 		</div>
 	</header>
@@ -94,11 +94,11 @@
 						</fieldset>
 						<div class="actions pull-right">
 							<input type="submit" value="Edit" class="btn btn-primary">
-							<a href="/computer-database/dashboard" class="btn btn-default">Cancel</a>
+							<a href="/computer-database-webapp/dashboard" class="btn btn-default">Cancel</a>
 						</div>
 					</form>
 					<!-- Desativate to try back-end validation -->
-					<script src="/computer-database/resources/js/computer.js"></script>
+					<script src="/computer-database-webapp/resources/js/computer.js"></script>
 				</div>
 			</div>
 		</div>
