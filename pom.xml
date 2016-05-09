@@ -35,6 +35,7 @@
   <maven.version>3.5.1</maven.version>
   <java.version>1.8</java.version>
   <spring.version>4.2.5.RELEASE</spring.version>
+  <spring.security.version>4.1.0.RELEASE</spring.security.version>
   <hibernate.version>5.1.0.Final</hibernate.version>
   <querydsl.version>4.1.0</querydsl.version>
   <!-- Plugins Versions -->
@@ -131,6 +132,24 @@
     <groupId>org.springframework</groupId>
     <artifactId>spring-test</artifactId>
     <version>${spring.version}</version>
+   </dependency>
+   <!-- Security core -->
+   <dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-core</artifactId>
+    <version>${spring.security.version}</version>
+   </dependency>
+   <!-- Security web -->
+   <dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-web</artifactId>
+    <version>${spring.security.version}</version>
+   </dependency>
+   <!-- Security config -->
+   <dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-config</artifactId>
+    <version>${spring.security.version}</version>
    </dependency>
    <!-- Hibernate -->
    <!-- Core -->

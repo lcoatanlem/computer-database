@@ -28,7 +28,7 @@ public class AddWithoutDates {
 
   @Test
   public void testAddWithoutDates() throws InterruptedException {
-    driver.get(baseUrl + "/computer-database/dashboard");
+    driver.get(baseUrl + "/computer-database-webapp/dashboard");
     driver.findElement(By.linkText("MacBook Pro 15.4 inch")).click();
     driver.findElement(By.linkText("Cancel")).click();
     driver.findElement(By.linkText("CM-5e")).click();
