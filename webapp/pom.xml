@@ -79,19 +79,16 @@
   <dependency>
    <groupId>org.springframework.security</groupId>
    <artifactId>spring-security-core</artifactId>
-   <version>${spring.security.version}</version>
   </dependency>
   <!-- Security web -->
   <dependency>
    <groupId>org.springframework.security</groupId>
    <artifactId>spring-security-web</artifactId>
-   <version>${spring.security.version}</version>
   </dependency>
   <!-- Security config -->
   <dependency>
    <groupId>org.springframework.security</groupId>
    <artifactId>spring-security-config</artifactId>
-   <version>${spring.security.version}</version>
   </dependency>
   <!-- Logging -->
   <!-- Using Logback implementation -->
