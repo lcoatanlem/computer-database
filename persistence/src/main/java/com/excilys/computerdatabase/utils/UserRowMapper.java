@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import com.excilys.computerdatabase.model.User;
 import com.excilys.computerdatabase.model.User.Builder;
 
-
 @Component
 public class UserRowMapper implements RowMapper<User> {
 
@@ -22,8 +21,6 @@ public class UserRowMapper implements RowMapper<User> {
   public User mapRow(ResultSet resultSet, int rowNum) throws SQLException {
     Builder userBuilder = User.builder();
     try {
-      // The id
-      userBuilder.id(resultSet.getLong("id"));
       // The login
       userBuilder.login(resultSet.getString("login"));
       // The password
