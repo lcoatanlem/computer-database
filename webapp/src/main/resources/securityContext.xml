@@ -7,8 +7,12 @@
 		http://www.springframework.org/schema/security/spring-security.xsd">
  <!-- Security's namespace configuration -->
  <http use-expressions="true" entry-point-ref="digestEntryPoint">
+  <intercept-url pattern="/log*" access="permitAll" />
   <intercept-url pattern="/**" access="isAuthenticated()" />
   <custom-filter ref="digestFilter" after="BASIC_AUTH_FILTER" />
+  <logout logout-success-url="/login" invalidate-session="true" logout-url="/logout" />
+  <form-login login-page="/login" default-target-url="/dashboard"
+   authentication-failure-url="/login?error=1" always-use-default-target="true" />
  </http>
  <!-- Beans for Digest Auth configuration -->
  <beans:bean id="digestFilter"
@@ -23,11 +27,5 @@
   <beans:property name="key" value="keyDAEP" />
   <beans:property name="nonceValiditySeconds" value="10" />
  </beans:bean>
- <authentication-manager>
-  <authentication-provider>
-   <user-service id="userService">
-    <user name="Lucas" password="none" authorities="ROLE_USER" />
-   </user-service>
-  </authentication-provider>
- </authentication-manager>
+ <beans:bean id='userService' class='com.excilys.computerdatabase.service.impl.UserServiceImpl' />
 </beans:beans>
