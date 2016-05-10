@@ -145,4 +145,12 @@ public class QueryMapper {
   public static String toCompanyDelete() {
     return "DELETE FROM company WHERE id = ?";
   }
+  
+  /**
+   * Mapping to get a user by his login.
+   */
+  public static String toUserGetByLogin() {
+    return "SELECT * FROM user WHERE login = ?";
+  }
+  
 }
