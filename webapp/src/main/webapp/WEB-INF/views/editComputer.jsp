@@ -9,11 +9,16 @@
 <title>Computer Database</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Bootstrap -->
-<link href="/computer-database-webapp/resources/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="/computer-database-webapp/resources/css/font-awesome.css" rel="stylesheet" media="screen">
-<link href="/computer-database-webapp/resources/css/main.css" rel="stylesheet" media="screen">
-<script type="text/javascript" src="/computer-database-webapp/resources/js/jquery.min.js"></script>
-<script type="text/javascript" src="/computer-database-webapp/resources/js/jquery.validator.js"></script>
+<link href="/computer-database-webapp/resources/css/bootstrap.min.css"
+	rel="stylesheet" media="screen">
+<link href="/computer-database-webapp/resources/css/font-awesome.css"
+	rel="stylesheet" media="screen">
+<link href="/computer-database-webapp/resources/css/main.css"
+	rel="stylesheet" media="screen">
+<script type="text/javascript"
+	src="/computer-database-webapp/resources/js/jquery.min.js"></script>
+<script type="text/javascript"
+	src="/computer-database-webapp/resources/js/jquery.validator.js"></script>
 </head>
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
@@ -92,9 +97,12 @@
 								</select>
 							</div>
 						</fieldset>
+						<input type="hidden" name="${_csrf.parameterName}"
+							value="${_csrf.token}" />
 						<div class="actions pull-right">
 							<input type="submit" value="Edit" class="btn btn-primary">
-							<a href="/computer-database-webapp/dashboard" class="btn btn-default">Cancel</a>
+							<a href="/computer-database-webapp/dashboard"
+								class="btn btn-default">Cancel</a>
 						</div>
 					</form>
 					<!-- Desativate to try back-end validation -->

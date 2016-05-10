@@ -13,8 +13,8 @@
 	rel="stylesheet" media="screen">
 <link href="/computer-database-webapp/resources/css/font-awesome.css"
 	rel="stylesheet" media="screen">
-<link href="/computer-database-webapp/resources/css/main.css" rel="stylesheet"
-	media="screen">
+<link href="/computer-database-webapp/resources/css/main.css"
+	rel="stylesheet" media="screen">
 <script type="text/javascript"
 	src="/computer-database-webapp/resources/js/jquery.min.js"></script>
 <script type="text/javascript"
@@ -96,9 +96,12 @@
 								</select>
 							</div>
 						</fieldset>
+						<input type="hidden" name="${_csrf.parameterName}"
+							value="${_csrf.token}" />
 						<div class="actions pull-right">
 							<input type="submit" value="Add" class="btn btn-primary">
-							<a href="/computer-database-webapp/dashboard" class="btn btn-default">Cancel</a>
+							<a href="/computer-database-webapp/dashboard"
+								class="btn btn-default">Cancel</a>
 						</div>
 					</form>
 					<!-- Desativate to try back-end validation -->

@@ -9,7 +9,7 @@
  <http use-expressions="true">
   <intercept-url pattern="/log*" access="permitAll" />
   <intercept-url pattern="/resources/**" access="permitAll" />
-  <intercept-url pattern="/**" access="authenticated" />
+  <intercept-url pattern="/*" access="authenticated" />
   <form-login login-page="/login" default-target-url="/dashboard"
    authentication-failure-url="/login?error=1" always-use-default-target="true" />
   <logout logout-success-url="/login" invalidate-session="true" logout-url="/logout" />

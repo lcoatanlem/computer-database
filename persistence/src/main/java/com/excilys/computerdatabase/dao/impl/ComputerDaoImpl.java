@@ -124,6 +124,7 @@ public class ComputerDaoImpl implements Dao<Computer> {
     args.add(computer.getIntroduced() == null ? null : Date.valueOf(computer.getIntroduced()));
     args.add(computer.getDiscontinued() == null ? null : Date.valueOf(computer.getDiscontinued()));
     args.add(computer.getManufacturer() == null ? null : computer.getManufacturer().getId());
+    args.add(computer.getId());
     jdbcTemplate.update(QueryMapper.toComputerUpdate(), args.toArray());
   }
 

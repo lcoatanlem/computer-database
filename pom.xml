@@ -8,7 +8,7 @@
  <!-- Old used jar, war as soon as we got a webapp -->
  <packaging>pom</packaging>
  <!-- version.sprint.bugfix -->
- <version>1.6.0-SNAPSHOT</version>
+ <version>1.7.0-SNAPSHOT</version>
  <name>Computer Database Parent</name>
  <modules>
   <module>core</module>

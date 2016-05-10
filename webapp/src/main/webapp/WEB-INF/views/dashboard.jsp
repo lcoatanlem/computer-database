@@ -15,15 +15,15 @@
 	rel="stylesheet" media="screen">
 <link href="/computer-database-webapp/resources/css/font-awesome.css"
 	rel="stylesheet" media="screen">
-<link href="/computer-database-webapp/resources/css/main.css" rel="stylesheet"
-	media="screen">
+<link href="/computer-database-webapp/resources/css/main.css"
+	rel="stylesheet" media="screen">
 </head>
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
 			<mylib:link link="Application - Computer Database"
-				target="/computer-database-webapp/dashboard" className="navbar-brand"
-				limit="10" numPage="1"></mylib:link>
+				target="/computer-database-webapp/dashboard"
+				className="navbar-brand" limit="10" numPage="1"></mylib:link>
 		</div>
 	</header>
 
@@ -40,6 +40,8 @@
 							class="form-control" placeholder="Search name"
 							value="${ page.search }" /> <input type="submit"
 							id="searchsubmit" value="Filter by name" class="btn btn-primary" />
+						<input type="hidden" name="${_csrf.parameterName}"
+							value="${_csrf.token}" />
 					</form>
 				</div>
 				<div class="pull-right">
@@ -52,7 +54,8 @@
 		</div>
 
 		<form id="deleteForm" action="deletecomputer" method="POST">
-			<input type="hidden" name="selection" value="">
+			<input type="hidden" name="selection" value=""> <input
+				type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		</form>
 
 		<div class="container" style="margin-top: 10px;">
@@ -85,7 +88,8 @@
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="${ elt.id }"></td>
 							<td><mylib:link link="${ elt.name }"
-									target="/computer-database-webapp/editcomputer" id="${ elt.id }"></mylib:link></td>
+									target="/computer-database-webapp/editcomputer"
+									id="${ elt.id }"></mylib:link></td>
 							<td><c:out value="${ elt.introduced }"></c:out></td>
 							<td><c:out value="${ elt.discontinued }"></c:out></td>
 							<td><c:out value="${ elt.nameCpn }"></c:out></td>
