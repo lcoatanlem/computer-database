@@ -4,8 +4,6 @@ import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -15,12 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Table(name = "user")
 public class User implements UserDetails {
 
-  private static final long serialVersionUID = -5007720604206767696L;
-
-  @Id
-  @GeneratedValue
-  @Column(name = "id")
-  private Long id;
+  private static final long serialVersionUID = 6909565270952552929L;
 
   @Column(name = "login")
   private String login;
@@ -29,14 +22,6 @@ public class User implements UserDetails {
   private String password;
 
   public User() {
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
   }
 
   public String getLogin() {
@@ -59,7 +44,6 @@ public class User implements UserDetails {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((id == null) ? 0 : id.hashCode());
     result = prime * result + ((login == null) ? 0 : login.hashCode());
     result = prime * result + ((password == null) ? 0 : password.hashCode());
     return result;
@@ -77,13 +61,6 @@ public class User implements UserDetails {
       return false;
     }
     User other = (User) obj;
-    if (id == null) {
-      if (other.id != null) {
-        return false;
-      }
-    } else if (!id.equals(other.id)) {
-      return false;
-    }
     if (login == null) {
       if (other.login != null) {
         return false;
@@ -103,7 +80,7 @@ public class User implements UserDetails {
 
   @Override
   public String toString() {
-    return "User [id=" + id + ", login=" + login + ", password=" + password + "]";
+    return "User [login=" + login + ", password=" + password + "]";
   }
 
   @Override
@@ -146,11 +123,6 @@ public class User implements UserDetails {
 
   public static class Builder {
     private User user = new User();
-
-    public Builder id(Long id) {
-      this.user.id = id;
-      return this;
-    }
 
     public Builder login(String login) {
       this.user.login = login;
