@@ -20,6 +20,8 @@
 		pages) -->
 	<mvc:resources mapping="/WEB-INF/views/**" location="/WEB-INF/views/" />
 
+    <mvc:view-controller path="/login" view-name="login"/>
+    
 	<!-- Without this, that doesn't work -->
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />

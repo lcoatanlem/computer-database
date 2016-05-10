@@ -6,26 +6,15 @@
 		http://www.springframework.org/schema/security
 		http://www.springframework.org/schema/security/spring-security.xsd">
  <!-- Security's namespace configuration -->
- <http use-expressions="true" entry-point-ref="digestEntryPoint">
+ <http use-expressions="true">
   <intercept-url pattern="/log*" access="permitAll" />
-  <intercept-url pattern="/**" access="isAuthenticated()" />
-  <custom-filter ref="digestFilter" after="BASIC_AUTH_FILTER" />
-  <logout logout-success-url="/login" invalidate-session="true" logout-url="/logout" />
+  <intercept-url pattern="/resources/**" access="permitAll" />
+  <intercept-url pattern="/**" access="authenticated" />
   <form-login login-page="/login" default-target-url="/dashboard"
    authentication-failure-url="/login?error=1" always-use-default-target="true" />
+  <logout logout-success-url="/login" invalidate-session="true" logout-url="/logout" />
  </http>
- <!-- Beans for Digest Auth configuration -->
- <beans:bean id="digestFilter"
-  class="org.springframework.security.web.authentication.www.DigestAuthenticationFilter">
-  <beans:property name="userDetailsService" ref="userService" />
-  <beans:property name="authenticationEntryPoint" ref="digestEntryPoint" />
-  <!-- <beans:property name="passwordAlreadyEncoded" value="true"/> -->
- </beans:bean>
- <beans:bean id="digestEntryPoint"
-  class="org.springframework.security.web.authentication.www.DigestAuthenticationEntryPoint">
-  <beans:property name="realmName" value="Computer Database Authentication" />
-  <beans:property name="key" value="keyDAEP" />
-  <beans:property name="nonceValiditySeconds" value="10" />
- </beans:bean>
- <beans:bean id='userService' class='com.excilys.computerdatabase.service.impl.UserServiceImpl' />
+ <authentication-manager alias="authenticationManager">
+  <authentication-provider user-service-ref="userService" />
+ </authentication-manager>
 </beans:beans>

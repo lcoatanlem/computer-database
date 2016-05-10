@@ -36,10 +36,12 @@ public class UserDaoImpl implements Dao<User> {
     args.add(login);
     List<User> list = jdbcTemplate.query(QueryMapper.toUserGetByLogin(), args.toArray(),
         userRowMapper);
+    System.err.println(list);
     if (list.isEmpty() || list.size() > 1) {
       return null;
     } else {
       return list.get(0);
     }
   }
+  
 }
