@@ -69,6 +69,11 @@
    <groupId>junit</groupId>
    <artifactId>junit</artifactId>
   </dependency>
+  <!-- WS -->
+  <dependency>
+   <groupId>javax.ws.rs</groupId>
+   <artifactId>javax.ws.rs-api</artifactId>
+  </dependency>
  </dependencies>
  <!-- Build plugins -->
  <build>

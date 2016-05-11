@@ -1,6 +1,9 @@
 package com.excilys.computerdatabase.mapping.query;
 
+import java.util.Map;
+
 import com.excilys.computerdatabase.utils.Query;
+import com.excilys.computerdatabase.utils.Query.Order;
 
 public class QueryMapper {
 
@@ -145,4 +148,27 @@ public class QueryMapper {
   public static String toCompanyDelete() {
     return "DELETE FROM company WHERE id = ?";
   }
+
+  /**
+   * Mapping from a map<String,String> to a Query.
+   */
+  public static Query fromMaptoQuery(Map<String, String> params) {
+    String numPage = params.get("numPage");
+    String limit = params.get("limit");
+    String search = params.get("search");
+    Order nameOrder = Order.safeValueOf(params.get("nameOrder"));
+    Order introducedOrder = Order.safeValueOf(params.get("introducedOrder"));
+    Order discontinuedOrder = Order.safeValueOf(params.get("discontinuedOrder"));
+    Order companyOrder = Order.safeValueOf(params.get("companyOrder"));
+    Query query = Query.builder()
+        .offset(numPage == null ? null : Integer.parseInt(numPage))
+        .limit(limit == null ? null : Integer.parseInt(limit))
+        .filter(search == null ? null : search).nameOrder(nameOrder == null ? null : nameOrder)
+        .introducedOrder(introducedOrder == null ? null : introducedOrder)
+        .discontinuedOrder(discontinuedOrder == null ? null : discontinuedOrder)
+        .companyOrder(companyOrder == null ? null : companyOrder)
+        .build();
+    return query;
+  }
+
 }
