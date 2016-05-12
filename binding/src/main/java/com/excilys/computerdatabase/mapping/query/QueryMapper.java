@@ -153,22 +153,30 @@ public class QueryMapper {
    * Mapping from a map<String,String> to a Query.
    */
   public static Query fromMaptoQuery(Map<String, String> params) {
-    String numPage = params.get("numPage");
-    String limit = params.get("limit");
-    String search = params.get("search");
-    Order nameOrder = Order.safeValueOf(params.get("nameOrder"));
-    Order introducedOrder = Order.safeValueOf(params.get("introducedOrder"));
-    Order discontinuedOrder = Order.safeValueOf(params.get("discontinuedOrder"));
-    Order companyOrder = Order.safeValueOf(params.get("companyOrder"));
-    Query query = Query.builder()
-        .offset(numPage == null ? null : Integer.parseInt(numPage))
-        .limit(limit == null ? null : Integer.parseInt(limit))
-        .filter(search == null ? null : search).nameOrder(nameOrder == null ? null : nameOrder)
-        .introducedOrder(introducedOrder == null ? null : introducedOrder)
-        .discontinuedOrder(discontinuedOrder == null ? null : discontinuedOrder)
-        .companyOrder(companyOrder == null ? null : companyOrder)
-        .build();
-    return query;
+    if (params == null) {
+      return Query.builder().build();
+    } else {
+      String numPage = params.get("numPage");
+      String limit = params.get("limit");
+      String search = params.get("search");
+      Order nameOrder = Order.safeValueOf(params.get("nameOrder"));
+      Order introducedOrder = Order.safeValueOf(params.get("introducedOrder"));
+      Order discontinuedOrder = Order.safeValueOf(params.get("discontinuedOrder"));
+      Order companyOrder = Order.safeValueOf(params.get("companyOrder"));
+      Query.Builder queryBuilder = Query.builder();
+      if (numPage != null && !numPage.trim().isEmpty()) {
+        queryBuilder = queryBuilder.offset(Integer.parseInt(numPage));
+      }
+      if (limit != null && !limit.trim().isEmpty()) {
+        queryBuilder = queryBuilder.limit(Integer.parseInt(limit));
+      }
+      Query query = queryBuilder.filter(search == null ? null : search)
+          .nameOrder(nameOrder == null ? null : nameOrder)
+          .introducedOrder(introducedOrder == null ? null : introducedOrder)
+          .discontinuedOrder(discontinuedOrder == null ? null : discontinuedOrder)
+          .companyOrder(companyOrder == null ? null : companyOrder).build();
+      return query;
+    }
   }
 
 }

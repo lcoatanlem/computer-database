@@ -9,26 +9,20 @@
  </parent>
  <packaging>war</packaging>
  <modelVersion>4.0.0</modelVersion>
- <artifactId>computer-database-webapp</artifactId>
- <name>Computer Database Webapp</name>
+ <artifactId>computer-database-webservice</artifactId>
+ <name>Computer Database Webservice</name>
  <dependencies>
   <!-- Module dependencies -->
-  <!-- Core -->
-  <dependency>
-   <groupId>com.excilys.computerdatabase</groupId>
-   <artifactId>computer-database-core</artifactId>
-   <version>${project.parent.version}</version>
-  </dependency>
-  <!-- Dao -->
-  <dependency>
-   <groupId>com.excilys.computerdatabase</groupId>
-   <artifactId>computer-database-persistence</artifactId>
-   <version>${project.parent.version}</version>
-  </dependency>
   <!-- Service -->
   <dependency>
    <groupId>com.excilys.computerdatabase</groupId>
    <artifactId>computer-database-service</artifactId>
+   <version>${project.parent.version}</version>
+  </dependency>
+  <!-- Core -->
+  <dependency>
+   <groupId>com.excilys.computerdatabase</groupId>
+   <artifactId>computer-database-core</artifactId>
    <version>${project.parent.version}</version>
   </dependency>
   <!-- Binding -->
@@ -38,17 +32,6 @@
    <version>${project.parent.version}</version>
   </dependency>
   <!-- Database accesses -->
-  <!-- BoneCP -->
-  <dependency>
-   <groupId>com.jolbox</groupId>
-   <artifactId>bonecp</artifactId>
-  </dependency>
-  <!-- Mysql connector -->
-  <dependency>
-   <groupId>mysql</groupId>
-   <artifactId>mysql-connector-java</artifactId>
-   <!-- if it doesn't compile anymore, it is because some libraries from this were used during compilation -->
-  </dependency>
   <!-- Spring -->
   <!-- Core -->
   <dependency>
@@ -70,25 +53,15 @@
    <groupId>org.springframework</groupId>
    <artifactId>spring-aop</artifactId>
   </dependency>
-  <!-- Jdbc (used for JdbcTemplate) -->
+  <!-- Web -->
   <dependency>
    <groupId>org.springframework</groupId>
-   <artifactId>spring-jdbc</artifactId>
+   <artifactId>spring-web</artifactId>
   </dependency>
-  <!-- Security core -->
+  <!-- Web MVC -->
   <dependency>
-   <groupId>org.springframework.security</groupId>
-   <artifactId>spring-security-core</artifactId>
-  </dependency>
-  <!-- Security web -->
-  <dependency>
-   <groupId>org.springframework.security</groupId>
-   <artifactId>spring-security-web</artifactId>
-  </dependency>
-  <!-- Security config -->
-  <dependency>
-   <groupId>org.springframework.security</groupId>
-   <artifactId>spring-security-config</artifactId>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-webmvc</artifactId>
   </dependency>
   <!-- Logging -->
   <!-- Using Logback implementation -->
@@ -102,21 +75,36 @@
    <groupId>junit</groupId>
    <artifactId>junit</artifactId>
   </dependency>
-  <!-- Selenium -->
+  <!-- Rest and WS -->
+  <!-- For RestController -->
   <dependency>
-   <groupId>org.seleniumhq.selenium</groupId>
-   <artifactId>selenium-java</artifactId>
+   <groupId>javax.ws.rs</groupId>
+   <artifactId>javax.ws.rs-api</artifactId>
   </dependency>
-  <!-- Webapp -->
-  <!-- Servlets, used by HttpServletRequest, deleted as soon as we remove it -->
+  <!-- Jax WS RT -->
+  <dependency>
+   <groupId>com.sun.xml.ws</groupId>
+   <artifactId>jaxws-rt</artifactId>
+  </dependency>
+  <!-- Jackson core -->
+  <dependency>
+   <groupId>com.fasterxml.jackson.core</groupId>
+   <artifactId>jackson-core</artifactId>
+  </dependency>
+  <!-- Jackson databind -->
+  <dependency>
+   <groupId>com.fasterxml.jackson.core</groupId>
+   <artifactId>jackson-databind</artifactId>
+  </dependency>
+  <dependency>
+   <groupId>org.codehaus.jackson</groupId>
+   <artifactId>jackson-mapper-asl</artifactId>
+   <version>1.9.13</version>
+  </dependency>
+  <!-- Servlets -->
   <dependency>
    <groupId>javax.servlet</groupId>
    <artifactId>javax.servlet-api</artifactId>
-  </dependency>
-  <!-- JSTL -->
-  <dependency>
-   <groupId>javax.servlet</groupId>
-   <artifactId>jstl</artifactId>
   </dependency>
  </dependencies>
  <!-- Build plugins -->
@@ -181,7 +169,6 @@
     <artifactId>cargo-maven2-plugin</artifactId>
     <version>${maven2-cargo.plugin.version}</version>
     <configuration>
-<!--      <skip>false</skip> -->
      <container>
       <containerId>tomcat8x</containerId>
       <output>${project.build.directory}/tomcat8x/container.log</output>

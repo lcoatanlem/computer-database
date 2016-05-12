@@ -17,6 +17,7 @@
   <module>binding</module>
   <module>console</module>
   <module>webapp</module>
+  <module>webservice</module>
  </modules>
  <!-- Externalization of the versions numbers -->
  <properties>
@@ -39,6 +40,8 @@
   <hibernate.version>5.1.0.Final</hibernate.version>
   <querydsl.version>4.1.0</querydsl.version>
   <javax.ws.version>2.0.1</javax.ws.version>
+  <jaxws-rt.version>2.2.10</jaxws-rt.version>
+  <jackson.databind.version>2.7.4</jackson.databind.version>
   <!-- Plugins Versions -->
   <maven-CS.plugin.version>2.17</maven-CS.plugin.version>
   <maven-surefire.plugin.version>2.18</maven-surefire.plugin.version>
@@ -242,10 +245,29 @@
     <scope>test</scope>
    </dependency>
    <!-- REST and ws -->
+   <!-- for RestController -->
    <dependency>
     <groupId>javax.ws.rs</groupId>
     <artifactId>javax.ws.rs-api</artifactId>
     <version>${javax.ws.version}</version>
+   </dependency>
+   <!-- Jax-WS RT -->
+   <dependency>
+    <groupId>com.sun.xml.ws</groupId>
+    <artifactId>jaxws-rt</artifactId>
+    <version>${jaxws-rt.version}</version>
+   </dependency>
+   <!-- Jackson core -->
+   <dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-core</artifactId>
+    <version>${jackson.databind.version}</version>
+   </dependency>
+   <!-- Jackson databind -->
+   <dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>${jackson.databind.version}</version>
    </dependency>
   </dependencies>
  </dependencyManagement>
@@ -311,12 +333,7 @@
     <artifactId>cargo-maven2-plugin</artifactId>
     <version>${maven2-cargo.plugin.version}</version>
     <configuration>
-     <container>
-      <containerId>tomcat8x</containerId>
-      <output>${project.build.directory}/tomcat8x/container.log</output>
-      <append>false</append>
-      <log>${project.build.directory}/tomcat8x/cargo.log</log>
-     </container>
+     <skip>true</skip>
     </configuration>
     <executions>
      <execution>

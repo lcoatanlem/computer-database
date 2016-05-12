@@ -1,4 +1,4 @@
-package com.excilys.computerdatabase.webservice;
+package com.excilys.computerdatabase.controllers;
 
 import java.util.List;
 import java.util.Map;
@@ -47,7 +47,7 @@ public class ComputerRestController {
 		return new ResponseEntity<Computer>(computer, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/computer/", method = RequestMethod.POST)
+	@RequestMapping(value = "/computer/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON)
 	public ResponseEntity<Void> createComputer(@RequestBody Computer computer, UriComponentsBuilder ucBuilder) {
 		if (((ComputerServiceImpl) computerService).find(computer.getId()) != null) {
 			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
@@ -59,7 +59,7 @@ public class ComputerRestController {
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/computer/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/computer/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON)
 	public ResponseEntity<Computer> updateComputer(@PathVariable("id") Long id, @RequestBody Computer computer) {
 		Computer currentComputer = ((ComputerServiceImpl) computerService).find(id);
 
@@ -76,7 +76,7 @@ public class ComputerRestController {
 		return new ResponseEntity<Computer>(currentComputer, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/computer/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/computer/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON)
 	public ResponseEntity<Computer> deleteComputer(@PathVariable("id") long id) {
 		Computer computer = ((ComputerServiceImpl) computerService).find(id);
 		if (computer == null) {
