@@ -18,7 +18,7 @@ public class ComputerLineInterface {
 	         
 	        if(usersMap!=null){
 	            for(LinkedHashMap<String, Object> map : usersMap){
-	            	System.err.println("Test");
+	            	System.out.println(map);
 	            }
 	        }else{
 	            System.out.println("No user exist----------");
